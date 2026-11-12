@@ -1,0 +1,52 @@
+# Roomtally — git ignore rules
+# Keeps secrets, dependencies and build/test output out of version control.
+
+# --- Dependencies ---
+node_modules/
+
+# Foreign lockfiles (this project uses pnpm)
+package-lock.json
+yarn.lock
+
+# --- Build output ---
+dist/
+.astro/
+
+# --- Environment files (never commit secrets; .env.example is tracked) ---
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+
+# --- Test output and reports ---
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+*.lcov
+
+# --- Tool caches ---
+.cache/
+.vite/
+.wrangler/
+.pnpm-store/
+*.tsbuildinfo
+
+# --- Logs ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# --- OS and editor files ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+
+# --- Claude Code local settings (contains a machine-local API token) ---
+.claude/settings.local.json
