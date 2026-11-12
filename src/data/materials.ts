@@ -117,6 +117,14 @@ export function defaultWallpaperOptions(system: UnitSystem): WallpaperOptions {
   };
 }
 
+/** Set a lay pattern and its preset waste together. Visitors can still override the waste after. */
+export function withPatternWaste<T extends { layPattern: LayPattern; wastePct: number }>(
+  options: T,
+  layPattern: LayPattern,
+): T {
+  return { ...options, layPattern, wastePct: WASTE_PCT_BY_PATTERN[layPattern] };
+}
+
 const wasteNote = 'PRD Rule 4: typical trade allowance for this lay pattern. Check with your supplier.';
 
 function wastePresets(material: 'flooring' | 'tile'): MaterialPreset[] {

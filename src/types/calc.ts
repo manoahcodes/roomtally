@@ -59,6 +59,7 @@ export interface MaterialNeed {
   exactQuantity: number;
   /** Pack sizes in `unit`. */
   packSizes: number[];
+  /** Unrounded tile count. Rounded up once, after summing rooms. */
   tilesNeeded?: number;
 }
 
