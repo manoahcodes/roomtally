@@ -1,4 +1,4 @@
-import type { MaterialId, PriceKey, Region, UnitSystem } from './project';
+import type { Region, UnitSystem } from './project';
 
 /** Base unit a material is measured in before it is split into packs. */
 export type BaseUnit = 'L' | 'm2' | 'roll';
@@ -95,6 +95,4 @@ export interface ShoppingList {
   assumptions: AssumptionLine[];
   /** Sum of item costs, only when every shown item has a price. */
   totalCost: CostEstimate | null;
-  materials: MaterialId[];
-  priceKeys: PriceKey[];
 }
