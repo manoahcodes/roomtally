@@ -1,0 +1,9 @@
+dist/
+.astro/
+node_modules/
+coverage/
+pnpm-lock.yaml
+agents/
+CLAUDE.md
+AGENTS.md
+README.md
