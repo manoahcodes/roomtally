@@ -3,9 +3,8 @@ export interface NavItem {
   href: string;
 }
 
-const rawUrl =
-  (import.meta.env as unknown as Record<string, string | undefined>).PUBLIC_SITE_URL ??
-  'https://roomtally.example';
+const env = (import.meta.env ?? {}) as unknown as Record<string, string | undefined>;
+const rawUrl = env.PUBLIC_SITE_URL ?? 'https://roomtally.example';
 
 export const SITE = {
   name: 'Roomtally',

@@ -18,5 +18,5 @@ export function readFeatures(env: Record<string, string | undefined>): Features 
 }
 
 export const FEATURES: Features = readFeatures(
-  import.meta.env as unknown as Record<string, string | undefined>,
+  (import.meta.env ?? {}) as unknown as Record<string, string | undefined>,
 );
