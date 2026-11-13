@@ -7,7 +7,6 @@
 import { REGIONS } from '../../data/regions';
 import { SCHEMA_VERSION } from '../../types/project';
 import type { Project, Region } from '../../types/project';
-import type { ErrorCode } from '../calc/errors';
 import { sanitizeProject } from '../calc/validation';
 import { migrate } from './migrations';
 
@@ -15,6 +14,9 @@ export const PROJECT_KEY = 'roomtally:project:v1';
 export const THEME_KEY = 'roomtally:theme';
 /** The document stays under 50 KB in normal use; anything over twice that is rejected unread. */
 export const MAX_STORED_CHARS = 100 * 1024;
+
+/** The only codes storage reports. */
+export type StorageNotice = 'STO_001' | 'STO_002';
 
 export type ThemePreference = 'light' | 'dark';
 
@@ -65,7 +67,7 @@ export interface ReadResult {
    */
   status: 'empty' | 'loaded' | 'reset' | 'unavailable';
   /** STO_001 when saving is not possible, STO_002 when saved data was reset, else null. */
-  notice: ErrorCode | null;
+  notice: StorageNotice | null;
 }
 
 function tryRemove(storage: StorageLike, key: string): void {

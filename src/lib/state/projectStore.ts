@@ -13,15 +13,14 @@ import {
 } from '../../data/materials';
 import type { Project, Room, Settings } from '../../types/project';
 import { CalcValidationError } from '../calc/errors';
-import type { ErrorCode } from '../calc/errors';
 import { LIMITS, sanitizeProject, validateRoom, validateSettings } from '../calc/validation';
 import { clearProject, createEmptyProject, getBrowserStorage, readProject, writeProject } from './storage';
-import type { StorageLike } from './storage';
+import type { StorageLike, StorageNotice } from './storage';
 
 /** A room before the store gives it an id and timestamps. */
 export type RoomInput = Omit<Room, 'id' | 'createdAt' | 'updatedAt'>;
 
-export type StoreNotice = Extract<ErrorCode, 'STO_001' | 'STO_002'>;
+export type StoreNotice = StorageNotice;
 
 export interface StoreOptions {
   /** Defaults to the browser's localStorage. Pass null for no storage. */

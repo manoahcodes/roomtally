@@ -29,13 +29,14 @@ describe('buildShoppingList: sum first, round once', () => {
     ]);
   });
 
-  it('buys fewer cans than rounding each room separately (8 cans, 21.5 L)', () => {
+  it('buys fewer cans than rounding each room separately (11 cans, 22 L)', () => {
     const perRoom = makeMultiRoomProject(PAINT_ONLY).rooms.map(
       (room) => buildShoppingList(makeProject([room], PAINT_ONLY)).items[0]!,
     );
-    expect(perRoom.reduce((sum, r) => sum + r.buyQuantity, 0)).toBe(8);
-    expect(perRoom.reduce((sum, r) => sum + r.coveredQuantity, 0)).toBeCloseTo(21.5, 9);
-    expect(paint.buyQuantity).toBeLessThan(8);
+    // Bedroom 8 L in 4 cans, Hall 7.5 L in 2 cans, Study 6.5 L in 5 cans.
+    expect(perRoom.reduce((sum, r) => sum + r.buyQuantity, 0)).toBe(11);
+    expect(perRoom.reduce((sum, r) => sum + r.coveredQuantity, 0)).toBeCloseTo(22, 9);
+    expect(paint.buyQuantity).toBeLessThan(11);
   });
 
   it('never buys less than the exact need', () => {
