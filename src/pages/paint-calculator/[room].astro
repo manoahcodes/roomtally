@@ -1,0 +1,90 @@
+---
+/**
+ * Room-type paint pages (App_Flow §A.1): /paint-calculator/bedroom/, /living-room/,
+ * /kitchen/ and /bathroom/, generated from src/data/rooms.ts.
+ * Each page fills the form with a typical room so the answer shows at once. The preset
+ * stays in memory; "Add to my project" saves it to the visitor's project on request.
+ */
+import type { GetStaticPaths } from 'astro';
+import CalculatorShell from '../../components/calculators/CalculatorShell.astro';
+import { ROOM_TYPES } from '../../data/rooms';
+import type { RoomTypePreset } from '../../data/rooms';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { roomMeta } from '../../lib/seo/meta';
+import { breadcrumbSchema, webApplicationSchema } from '../../lib/seo/schema';
+
+export const getStaticPaths = (() =>
+  ROOM_TYPES.map((room) => ({
+    params: { room: room.slug },
+    props: { room },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  room: RoomTypePreset;
+}
+const { room } = Astro.props;
+
+const path = `/paint-calculator/${room.slug}/`;
+const meta = roomMeta(room.name, room.intro, path);
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Paint calculator', path: '/paint-calculator/' },
+  { name: room.name, path },
+];
+
+// The form's preset: size plus the room's typical doors and windows (metres).
+const openings = [
+  { id: 'op-1', kind: 'door', widthM: 0.9, heightM: 2, count: room.doors },
+  { id: 'op-2', kind: 'window', widthM: 1.2, heightM: 1.2, count: room.windows },
+].filter((opening) => opening.count > 0);
+
+const preset = {
+  name: room.name,
+  lengthM: room.lengthM,
+  widthM: room.widthM,
+  heightM: room.heightM,
+  openings,
+};
+
+const others = ROOM_TYPES.filter((other) => other.slug !== room.slug);
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogImage={meta.ogImage}
+  jsonLd={[
+    webApplicationSchema(`Roomtally ${room.name.toLowerCase()} paint calculator`, meta.description, path),
+    breadcrumbSchema(crumbs),
+  ]}
+>
+  <CalculatorShell
+    title={`${room.name} paint calculator`}
+    intro={room.intro}
+    material="paint"
+    faq={[...room.faqs]}
+    breadcrumbs={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))}
+    preset={preset}
+  >
+    <section aria-labelledby="other-rooms-heading" class="space-y-3">
+      <h2 id="other-rooms-heading">Paint for other rooms</h2>
+      <ul class="flex flex-wrap gap-3">
+        {
+          others.map((other) => (
+            <li>
+              <a href={`/paint-calculator/${other.slug}/`} class="btn btn-secondary">
+                {other.name} paint
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p>
+        See the full <a href="/paint-calculator/">paint calculator</a>, or add this room to your
+        <a href="/">whole-project list</a> with flooring, tile and wallpaper.
+      </p>
+    </section>
+  </CalculatorShell>
+</BaseLayout>
