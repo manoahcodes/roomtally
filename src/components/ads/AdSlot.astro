@@ -1,0 +1,36 @@
+---
+/**
+ * A labelled, fixed-height ad container (PRD Rule 12, NV6). It is empty until ads.ts fills
+ * it after the visitor accepts advertising. It renders nothing at all when ads are off for
+ * the whole site. Never place it inside the room form or the results, and never on legal
+ * pages. At most 3 are filled per page.
+ *
+ * The dashed border and the "Advertisement" label keep it from looking like part of a result.
+ * Hook: [data-ad-slot="inarticle|bottom"]
+ */
+import { FEATURES } from '../../config/features';
+
+export interface Props {
+  slotKey: 'inarticle' | 'bottom';
+  minHeight?: number;
+}
+
+const { slotKey, minHeight } = Astro.props;
+const height = minHeight ?? (slotKey === 'inarticle' ? 280 : 120);
+---
+
+{
+  FEATURES.ads && (
+    <aside class="no-print my-8" aria-label="Advertisement">
+      <p class="mb-1 text-xs uppercase tracking-wide text-ink-500 dark:text-dark-muted">
+        Advertisement
+      </p>
+      <div
+        data-ad-slot={slotKey}
+        data-ad
+        class="ad-slot overflow-hidden rounded-md border border-dashed border-cream-300 dark:border-dark-border"
+        style={`min-height: ${height}px`}
+      />
+    </aside>
+  )
+}
