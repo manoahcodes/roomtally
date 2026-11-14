@@ -1,0 +1,52 @@
+---
+/**
+ * A sponsored link (PRD Rule 15). The URL is built only from the static partner table in
+ * src/data/affiliates.ts plus a tag from an environment variable, never from a query string
+ * or stored data. It renders nothing unless affiliates are switched on, the partner is
+ * enabled and its tag is set, so no half-built link ever appears.
+ *
+ * Every link carries rel="sponsored nofollow noopener" and a visible "Sponsored" marker.
+ * The page must also carry a disclosure (see Footer and the disclaimer page).
+ * Hooks: [data-affiliate-link] with data-partner-id, data-region and data-category.
+ */
+import { FEATURES } from '../../config/features';
+import { buildAffiliateUrl, getPartner } from '../../data/affiliates';
+import type { MaterialId } from '../../types/project';
+
+export interface Props {
+  partnerId: string;
+  category: string;
+  label: string;
+}
+
+const { partnerId, category, label } = Astro.props;
+const partner = getPartner(partnerId);
+const env = (import.meta.env ?? {}) as Record<string, string | undefined>;
+const tag = partner ? env[partner.tagEnvVar] : undefined;
+const materials: readonly string[] = ['paint', 'flooring', 'tile', 'wallpaper'];
+const url =
+  FEATURES.affiliates && partner && materials.includes(category)
+    ? buildAffiliateUrl(partner, category as MaterialId, tag)
+    : null;
+---
+
+{
+  url && (
+    <a
+      href={url}
+      rel="sponsored nofollow noopener"
+      target="_blank"
+      data-affiliate-link
+      data-partner-id={partner?.id}
+      data-region={partner?.region}
+      data-category={category}
+      class="btn btn-secondary"
+    >
+      {label}
+      <span class="sr-only"> (sponsored link)</span>
+      <span aria-hidden="true" class="text-xs uppercase tracking-wide">
+        Sponsored
+      </span>
+    </a>
+  )
+}
