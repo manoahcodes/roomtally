@@ -1,0 +1,47 @@
+---
+/**
+ * Not-found page (App_Flow §A.1, TDD §G.48 NAV_404). Search-free recovery: links to the
+ * home estimator, the four calculators and the guides. No ads on a page with no content.
+ */
+import { ERRORS } from '../lib/calc/errors';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { legalMeta } from '../lib/seo/meta';
+
+const meta = legalMeta('Page not found', 'This page does not exist. Go back to the home page, a calculator or a guide.', '/404/');
+
+const links = [
+  { href: '/', name: 'Home estimator', text: 'One shopping list for paint, flooring, tile and wallpaper.' },
+  { href: '/paint-calculator/', name: 'Paint calculator', text: 'Cans of paint for a room.' },
+  { href: '/flooring-calculator/', name: 'Flooring calculator', text: 'Boxes of flooring with waste.' },
+  { href: '/tile-calculator/', name: 'Tile calculator', text: 'Tiles and boxes for a floor or wall.' },
+  { href: '/wallpaper-calculator/', name: 'Wallpaper calculator', text: 'Rolls of wallpaper.' },
+  { href: '/guides/', name: 'Guides', text: 'Plain advice on measuring and buying.' },
+];
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogImage={meta.ogImage}
+  noAds
+>
+  <section aria-labelledby="not-found-heading" class="mx-auto max-w-3xl space-y-6">
+    <h1 id="not-found-heading">{ERRORS.NAV_404.userMessage}</h1>
+    <p class="text-lg text-ink-700 dark:text-dark-muted">
+      The link may be old, or the address may have a typo. Try one of these instead.
+    </p>
+    <ul class="grid gap-4 sm:grid-cols-2">
+      {
+        links.map((link) => (
+          <li class="card space-y-1">
+            <h2 class="text-h4">
+              <a href={link.href}>{link.name}</a>
+            </h2>
+            <p class="text-ink-700 dark:text-dark-muted">{link.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
