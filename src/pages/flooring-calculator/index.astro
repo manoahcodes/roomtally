@@ -1,0 +1,75 @@
+---
+/**
+ * Flooring calculator (App_Flow §A.1): lay pattern, waste and box coverage.
+ * Waste figures in the FAQ come from src/data/materials.ts so the copy never drifts from
+ * the presets (PRD Rule 4).
+ */
+import CalculatorShell from '../../components/calculators/CalculatorShell.astro';
+import { WASTE_PCT_BY_PATTERN } from '../../data/materials';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { calculatorMeta } from '../../lib/seo/meta';
+import { breadcrumbSchema, webApplicationSchema } from '../../lib/seo/schema';
+
+const path = '/flooring-calculator/';
+const meta = calculatorMeta(
+  'Flooring',
+  'Work out how many boxes of flooring you need, with waste for your lay pattern included. Rounds up to whole boxes, in metric or imperial.',
+  path,
+);
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Flooring calculator', path },
+];
+
+const waste = WASTE_PCT_BY_PATTERN;
+
+const faq = [
+  {
+    q: 'How much flooring do I need?',
+    a: 'Multiply the room length by the width to get the floor area. Add an allowance for waste, then divide by the area one box covers. Roomtally rounds up to whole boxes.',
+  },
+  {
+    q: 'How much waste should I add?',
+    a: `The estimate starts with ${waste.straight}% for a straight lay, ${waste.diagonal}% for diagonal and ${waste.herringbone}% for herringbone. These are common allowances. Your supplier may suggest a different figure.`,
+  },
+  {
+    q: 'Why does the lay pattern change the amount?',
+    a: 'Diagonal and herringbone lays need more angled cuts. Those cuts leave more offcuts, so you need more flooring.',
+  },
+  {
+    q: 'Do doors and windows change the flooring amount?',
+    a: 'No. Flooring covers the floor only, so doors and windows are not taken off. They matter for wall materials such as paint.',
+  },
+  {
+    q: 'What box size does the estimate use?',
+    a: 'It starts with a typical box and shows the figure in the Assumptions panel. Check the coverage printed on your box, then change it if it differs.',
+  },
+];
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogImage={meta.ogImage}
+  jsonLd={[webApplicationSchema('Roomtally flooring calculator', meta.description, path), breadcrumbSchema(crumbs)]}
+>
+  <CalculatorShell
+    title="Flooring calculator"
+    intro="Enter your room and see how many boxes of flooring to buy. Pick a lay pattern and waste is added for you."
+    material="flooring"
+    faq={faq}
+    breadcrumbs={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))}
+  >
+    <section aria-labelledby="related-heading" class="space-y-3">
+      <h2 id="related-heading">Before you buy</h2>
+      <p>
+        Read <a href="/guides/flooring-waste-factor/">the flooring waste factor</a> and
+        <a href="/guides/how-to-measure-a-room/">how to measure a room</a>. Doing the whole
+        project? Use the <a href="/">whole-project estimator</a> to list flooring with paint, tile
+        and wallpaper.
+      </p>
+    </section>
+  </CalculatorShell>
+</BaseLayout>
