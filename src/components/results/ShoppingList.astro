@@ -1,0 +1,90 @@
+---
+/**
+ * The combined shopping list (PRD Rules 1, 3, 11, 15, 16). Markup and hooks only:
+ * renderResults.ts clones a MaterialCard per line from the template and fills it with text.
+ * Quantities are summed across rooms and rounded up once by shoppingList.ts; this file
+ * never calculates anything.
+ *
+ * Props: mode "project" lists every material, "single" lists one (calculator pages).
+ * Never put an AdSlot inside this section; [data-results] is also what ads.ts avoids.
+ *
+ * Hooks: [data-results] [data-results-empty] [data-results-invalid] [data-results-live]
+ *   [data-card-list] template [data-card-template] [data-result-room-count]
+ *   [data-total] [data-total-value] [data-print] [data-where-to-buy]
+ */
+import AffiliateLink from '../ads/AffiliateLink.astro';
+import { FEATURES } from '../../config/features';
+import { AFFILIATE_PARTNERS } from '../../data/affiliates';
+import DisclaimerNote from '../common/DisclaimerNote.astro';
+import AssumptionsPanel from './AssumptionsPanel.astro';
+import MaterialCard from './MaterialCard.astro';
+
+export interface Props {
+  mode: 'project' | 'single';
+  material?: string;
+}
+
+const { mode, material } = Astro.props;
+const categories =
+  mode === 'single' && material ? [material] : ['paint', 'flooring', 'tile', 'wallpaper'];
+const partners = AFFILIATE_PARTNERS.filter((partner) => partner.enabled);
+const showWhereToBuy = FEATURES.affiliates && partners.length > 0;
+---
+
+<section data-results aria-labelledby="results-heading" class="space-y-4">
+  <h2 id="results-heading" class="text-h3">Your shopping list</h2>
+
+  <div aria-live="polite" class="space-y-4">
+    <p data-results-empty class="card text-ink-700 dark:text-dark-muted">
+      Enter your room and choose Calculate my list. Your list appears here.
+    </p>
+    <p data-results-invalid class="card text-error dark:text-dark-clay" hidden>
+      Fix the highlighted fields to see your list.
+    </p>
+
+    <div data-results-live class="space-y-4" hidden>
+      <p class="text-sm text-ink-700 dark:text-dark-muted">
+        Totals for <span data-result-room-count>1</span> room(s). We add the rooms together first,
+        then round up once to whole packs.
+      </p>
+      <ul data-card-list class="space-y-4"></ul>
+      <p data-total class="card text-lg" hidden>
+        Total cost: <span data-total-value class="font-semibold"></span>
+        <span class="text-sm text-ink-500 dark:text-dark-muted">(estimate)</span>
+      </p>
+    </div>
+  </div>
+
+  <template data-card-template>
+    <li><MaterialCard material="" title="" /></li>
+  </template>
+
+  <AssumptionsPanel material={mode === 'single' ? material : undefined} />
+  <DisclaimerNote variant="full" />
+
+  <div class="no-print flex flex-wrap gap-3">
+    <button type="button" data-print class="btn btn-secondary">Print my list</button>
+  </div>
+
+  {
+    showWhereToBuy && (
+      <section data-where-to-buy class="no-print space-y-2" aria-labelledby="where-to-buy-heading" hidden>
+        <h3 id="where-to-buy-heading" class="text-h4">Where to buy</h3>
+        <p class="text-sm text-ink-700 dark:text-dark-muted">
+          Links marked Sponsored are affiliate links. We may earn a commission at no cost to you.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {partners.flatMap((partner) =>
+            categories.map((category) => (
+              <AffiliateLink
+                partnerId={partner.id}
+                category={category}
+                label={`Shop ${category} at ${partner.name}`}
+              />
+            )),
+          )}
+        </div>
+      </section>
+    )
+  }
+</section>
