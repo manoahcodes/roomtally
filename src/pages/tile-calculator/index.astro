@@ -1,0 +1,74 @@
+---
+/**
+ * Tile calculator (App_Flow §A.1): tile size, grout gap and floor or wall surface.
+ * Waste figures in the FAQ come from src/data/materials.ts (PRD Rule 4).
+ */
+import CalculatorShell from '../../components/calculators/CalculatorShell.astro';
+import { WASTE_PCT_BY_PATTERN } from '../../data/materials';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { calculatorMeta } from '../../lib/seo/meta';
+import { breadcrumbSchema, webApplicationSchema } from '../../lib/seo/schema';
+
+const path = '/tile-calculator/';
+const meta = calculatorMeta(
+  'Tile',
+  'Work out how many tiles and boxes you need for a floor or wall, with grout gap and waste included. Rounds up to whole boxes.',
+  path,
+);
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Tile calculator', path },
+];
+
+const waste = WASTE_PCT_BY_PATTERN;
+
+const faq = [
+  {
+    q: 'How many tiles do I need?',
+    a: 'Divide the surface area by the area of one tile plus its grout gap. Then add waste for cuts and breakages. Roomtally rounds up to whole tiles and boxes.',
+  },
+  {
+    q: 'How does the grout gap change the count?',
+    a: 'Each tile takes up its own size plus one gap. A wider gap means fewer tiles for the same area.',
+  },
+  {
+    q: 'How much waste should I allow for tile?',
+    a: `Waste starts at ${waste.straight}% for a straight lay, ${waste.diagonal}% for diagonal and ${waste.herringbone}% for herringbone. Small tiles and awkward rooms may need more.`,
+  },
+  {
+    q: 'Should I choose floor or wall?',
+    a: 'Floor uses the floor area. Wall uses the wall area after doors and windows are taken off. Pick the surface you are tiling.',
+  },
+  {
+    q: 'What if I am tiling the floor and a wall?',
+    a: 'In the whole-project estimator, add the room twice: once for the floor and once for the wall. It adds the tiles together.',
+  },
+];
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogImage={meta.ogImage}
+  jsonLd={[webApplicationSchema('Roomtally tile calculator', meta.description, path), breadcrumbSchema(crumbs)]}
+>
+  <CalculatorShell
+    title="Tile calculator"
+    intro="Enter your room and see how many tiles and boxes to buy. Choose floor or wall, then set the tile size and grout gap."
+    material="tile"
+    faq={faq}
+    breadcrumbs={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))}
+  >
+    <section aria-labelledby="related-heading" class="space-y-3">
+      <h2 id="related-heading">Before you buy</h2>
+      <p>
+        Read <a href="/guides/tile-layout-and-waste/">tile layout and waste</a> and
+        <a href="/guides/how-to-measure-a-room/">how to measure a room</a>. Doing the whole
+        project? Use the <a href="/">whole-project estimator</a> to list tile with paint, flooring
+        and wallpaper.
+      </p>
+    </section>
+  </CalculatorShell>
+</BaseLayout>
