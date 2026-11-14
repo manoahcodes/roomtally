@@ -1,0 +1,86 @@
+---
+/**
+ * Site header: skip link, logo, navigation, region/unit switch and theme toggle
+ * (App_Flow §A, Design_Brief §B.12). Below 768px the navigation is a native <details>
+ * menu, so it works without JavaScript.
+ */
+import { NAV_ITEMS } from '../../config/site';
+import UnitSwitch from '../common/UnitSwitch.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string): boolean => path === href || path.startsWith(href);
+---
+
+<a
+  href="#main"
+  class="btn btn-primary sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50"
+>
+  Skip to main content
+</a>
+<header class="no-print border-b border-cream-300 bg-cream-50 dark:border-dark-border dark:bg-dark-bg">
+  <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3">
+    <a
+      href="/"
+      class="flex items-center gap-2 text-ink-900 no-underline hover:text-ink-900 dark:text-dark-text dark:hover:text-dark-text"
+      aria-label="Roomtally home"
+    >
+      <svg
+        class="size-6 text-clay-600 dark:text-dark-clay"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M5 4v16M9 4v16M13 4v16M17 4v16M2 17 20 7"></path>
+      </svg>
+      <span class="font-heading text-h4 font-bold">Roomtally</span>
+    </a>
+
+    <nav aria-label="Main" class="hidden md:block">
+      <ul class="flex items-center gap-1">
+        {
+          NAV_ITEMS.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="touch-target inline-flex items-center rounded-md px-3 text-ink-700 no-underline hover:text-clay-700 dark:text-dark-muted dark:hover:text-dark-clay"
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <UnitSwitch />
+      <ThemeToggle />
+    </div>
+
+    <details class="w-full md:hidden">
+      <summary class="btn btn-secondary w-full list-none">Menu</summary>
+      <nav aria-label="Main (menu)" class="mt-2">
+        <ul class="card space-y-1">
+          {
+            NAV_ITEMS.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="touch-target flex items-center rounded-md px-3 text-ink-900 no-underline dark:text-dark-text"
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
