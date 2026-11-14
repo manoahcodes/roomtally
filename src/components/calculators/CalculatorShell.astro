@@ -56,3 +56,11 @@ const { title, intro, material, faq, breadcrumbs, preset } = Astro.props;
   <DisclaimerNote variant="short" />
   <AdSlot slotKey="bottom" />
 </div>
+
+<script>
+  import { bindRoomForm } from '../../lib/ui/bindRoomForm';
+  import { bindPrintButtons } from '../../lib/ui/printList';
+
+  bindRoomForm();
+  bindPrintButtons();
+</script>

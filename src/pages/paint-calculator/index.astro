@@ -1,0 +1,85 @@
+---
+/**
+ * Paint calculator (App_Flow §A.1): one material, the same room form as the home page.
+ * CalculatorShell holds the form, results, FAQ and both ad slots. Breadcrumb and
+ * WebApplication JSON-LD are emitted here; FaqBlock emits the FAQPage markup.
+ */
+import CalculatorShell from '../../components/calculators/CalculatorShell.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ROOM_TYPES } from '../../data/rooms';
+import { calculatorMeta } from '../../lib/seo/meta';
+import { breadcrumbSchema, webApplicationSchema } from '../../lib/seo/schema';
+
+const path = '/paint-calculator/';
+const meta = calculatorMeta(
+  'Paint',
+  'Work out how many cans of paint you need for your walls and ceiling. Rounds up to real can sizes, with a spare amount included.',
+  path,
+);
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Paint calculator', path },
+];
+
+const faq = [
+  {
+    q: 'How much paint do I need for a room?',
+    a: 'Add up the wall area, subtract doors and windows, and multiply by the coats. Divide by the coverage on the can. Roomtally does this for you and rounds up to whole cans.',
+  },
+  {
+    q: 'How many coats should I plan for?',
+    a: 'Two coats is the usual advice for a colour change. A new plaster wall or a dark colour may need more, so you can choose up to four.',
+  },
+  {
+    q: 'Does the estimate include the ceiling and primer?',
+    a: 'Not unless you switch them on. Open the paint options and tick Include the ceiling or Include primer. Each one adds its own line to the list.',
+  },
+  {
+    q: 'What coverage does the estimate use?',
+    a: 'It starts with a common label figure and shows it in the Assumptions panel. Check your own can, then change the coverage if it differs.',
+  },
+  {
+    q: 'Why buy more than the amount shown as needed?',
+    a: 'Paint is sold in set can sizes. The list rounds up so you do not run short, and shows the exact need beside it.',
+  },
+];
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogImage={meta.ogImage}
+  jsonLd={[webApplicationSchema('Roomtally paint calculator', meta.description, path), breadcrumbSchema(crumbs)]}
+>
+  <CalculatorShell
+    title="Paint calculator"
+    intro="Enter your room and see how many cans of paint to buy. Add the ceiling or primer if you need them."
+    material="paint"
+    faq={faq}
+    breadcrumbs={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))}
+  >
+    <section aria-labelledby="by-room-heading" class="space-y-3">
+      <h2 id="by-room-heading">Paint for a typical room</h2>
+      <p class="max-w-prose text-ink-700 dark:text-dark-muted">
+        Start from a typical size and change it to match yours.
+      </p>
+      <ul class="flex flex-wrap gap-3">
+        {
+          ROOM_TYPES.map((room) => (
+            <li>
+              <a href={`/paint-calculator/${room.slug}/`} class="btn btn-secondary">
+                {room.name} paint
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p>
+        Painting more than one room? Use the <a href="/">whole-project estimator</a>, or read
+        <a href="/guides/how-much-paint-for-a-room/">how much paint for a room</a>.
+      </p>
+    </section>
+  </CalculatorShell>
+</BaseLayout>
