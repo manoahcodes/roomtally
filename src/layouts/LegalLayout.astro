@@ -1,0 +1,49 @@
+---
+/**
+ * Plain layout for legal pages: privacy, cookies, terms and disclaimer (PRD Rule 12).
+ * There is no AdSlot anywhere in it, and it sets data-no-ads on <body> through BaseLayout
+ * so ads.ts will not load ads here even if advertising consent was given elsewhere.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/common/Breadcrumbs.astro';
+import { legalMeta } from '../lib/seo/meta';
+import { breadcrumbSchema } from '../lib/seo/schema';
+
+export interface Props {
+  /** Page name, used as the h1 and in the title, for example "Privacy notice". */
+  title: string;
+  description: string;
+  /** Path starting and ending with a slash, for example /privacy/. */
+  path: string;
+  /** Last updated date shown under the heading, ISO 8601. */
+  updated: string;
+}
+
+const { title, description, path, updated } = Astro.props;
+
+const meta = legalMeta(title, description, path);
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: title, path },
+];
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogImage={meta.ogImage}
+  jsonLd={[breadcrumbSchema(crumbs)]}
+  noAds
+>
+  <Breadcrumbs items={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))} />
+  <article class="mx-auto max-w-3xl space-y-4">
+    <header class="space-y-2">
+      <h1>{title}</h1>
+      <p class="text-sm text-ink-500 dark:text-dark-muted">
+        Last updated <time datetime={updated}>{updated}</time>
+      </p>
+    </header>
+    <slot />
+  </article>
+</BaseLayout>
