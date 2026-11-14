@@ -1,0 +1,312 @@
+---
+/**
+ * The one room input form (PRD Rule 1: enter a room once, feed every material).
+ * Markup only. bindRoomForm.ts reads it, validates through validation.ts and saves to the
+ * store. Values are typed in the visitor's units and converted to metres by the script.
+ *
+ * Props: mode "project" shows every material's options (home page); mode "single" shows
+ * one material's options (calculator pages). `preset` fills the form on first load, for
+ * the room-type pages.
+ *
+ * Hooks:
+ *   form [data-room-form] with data-mode, data-material and data-preset (JSON)
+ *   core fields [data-field="name|length|width|height"]
+ *   options [data-option="<group>.<key>"], settings [data-option="setting.<key>"]
+ *   unit text [data-unit-label="length|small-length|roll-width|area|coverage|volume|percent"]
+ *   errors [data-error-for="<field or option key>"], one element per field
+ *   buttons [data-add-room] [data-cancel-edit], hidden [data-room-id], status [data-form-status]
+ *   notice [data-store-notice] for STO_001 and STO_002
+ */
+import { LAY_PATTERNS, WALLPAPER_REPEAT_CHOICES_CM } from '../../data/materials';
+import OpeningsFieldset from './OpeningsFieldset.astro';
+
+export interface Props {
+  mode: 'project' | 'single';
+  material?: string;
+  preset?: object;
+}
+
+const { mode, material, preset } = Astro.props;
+
+type GroupKey = 'paint' | 'flooring' | 'tile' | 'wallpaper';
+type Choice = { value: string; label: string };
+type Field = {
+  key: string;
+  label: string;
+  kind: 'number' | 'select' | 'checkbox' | 'text';
+  unit?: string;
+  hint?: string;
+  choices?: Choice[];
+};
+type Group = { title: string; fields: Field[] };
+
+const titleCase = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
+const patterns: Choice[] = LAY_PATTERNS.map((p) => ({ value: p, label: `${titleCase(p)} lay` }));
+const percentHint = 'From 0 to 30%.';
+
+const groups: Record<GroupKey, Group> = {
+  paint: {
+    title: 'Paint options',
+    fields: [
+      {
+        key: 'paint.coats',
+        label: 'Coats',
+        kind: 'select',
+        choices: [1, 2, 3, 4].map((n) => ({ value: String(n), label: String(n) })),
+      },
+      { key: 'paint.coverage', label: 'Coverage per coat', kind: 'number', unit: 'coverage' },
+      { key: 'paint.spare', label: 'Spare paint', kind: 'number', unit: 'percent', hint: percentHint },
+      {
+        key: 'paint.packs',
+        label: 'Can sizes',
+        kind: 'text',
+        unit: 'volume',
+        hint: 'Separate with commas. For example 1, 2.5, 5, 10.',
+      },
+      { key: 'setting.includeCeiling', label: 'Include the ceiling', kind: 'checkbox' },
+      { key: 'setting.includePrimer', label: 'Include primer', kind: 'checkbox' },
+    ],
+  },
+  flooring: {
+    title: 'Flooring options',
+    fields: [
+      { key: 'flooring.pattern', label: 'Lay pattern', kind: 'select', choices: patterns },
+      { key: 'flooring.waste', label: 'Waste', kind: 'number', unit: 'percent', hint: percentHint },
+      { key: 'flooring.box', label: 'Box coverage', kind: 'number', unit: 'area' },
+    ],
+  },
+  tile: {
+    title: 'Tile options',
+    fields: [
+      {
+        key: 'tile.surface',
+        label: 'Surface',
+        kind: 'select',
+        choices: [
+          { value: 'floor', label: 'Floor' },
+          { value: 'wall', label: 'Wall' },
+        ],
+      },
+      { key: 'tile.width', label: 'Tile width', kind: 'number', unit: 'small-length' },
+      { key: 'tile.height', label: 'Tile height', kind: 'number', unit: 'small-length' },
+      { key: 'tile.grout', label: 'Grout gap', kind: 'number', unit: 'small-length' },
+      { key: 'tile.pattern', label: 'Lay pattern', kind: 'select', choices: patterns },
+      { key: 'tile.waste', label: 'Waste', kind: 'number', unit: 'percent', hint: percentHint },
+      { key: 'tile.box', label: 'Box coverage', kind: 'number', unit: 'area' },
+    ],
+  },
+  wallpaper: {
+    title: 'Wallpaper options',
+    fields: [
+      { key: 'wallpaper.rollWidth', label: 'Roll width', kind: 'number', unit: 'roll-width' },
+      { key: 'wallpaper.rollLength', label: 'Roll length', kind: 'number', unit: 'length' },
+      {
+        key: 'wallpaper.repeat',
+        label: 'Pattern repeat',
+        kind: 'select',
+        choices: WALLPAPER_REPEAT_CHOICES_CM.map((cm) => ({
+          value: String(cm),
+          label: cm === 0 ? 'Plain (no repeat)' : `${cm} cm`,
+        })),
+      },
+      { key: 'wallpaper.spare', label: 'Spare', kind: 'number', unit: 'percent', hint: percentHint },
+    ],
+  },
+};
+
+const order: GroupKey[] = ['paint', 'flooring', 'tile', 'wallpaper'];
+const visible: GroupKey[] = mode === 'project' ? order : order.filter((key) => key === material);
+
+const idFor = (key: string): string => `opt-${key.replace(/\./g, '-')}`;
+const describedBy = (id: string, hint?: string): string =>
+  hint ? `${id}-hint ${id}-error` : `${id}-error`;
+---
+
+<section aria-labelledby="room-form-heading" class="space-y-3">
+  <h2 id="room-form-heading" class="text-h3">Your room</h2>
+
+  <noscript>
+    <p class="card">
+      This calculator needs JavaScript. Turn it on to work out your list. Nothing you type leaves
+      your browser.
+    </p>
+    <style is:inline>
+      [data-room-form] {
+        display: none;
+      }
+    </style>
+  </noscript>
+
+  <p data-store-notice role="status" class="card text-sm" hidden></p>
+
+  <form
+    id="room-form"
+    data-room-form
+    data-mode={mode}
+    data-material={material}
+    data-preset={preset ? JSON.stringify(preset) : undefined}
+    novalidate
+    aria-labelledby="room-form-heading"
+    class="card space-y-5"
+  >
+    <input type="hidden" data-room-id />
+
+    <div>
+      <label for="room-name" class="field-label">Room name</label>
+      <input
+        id="room-name"
+        name="name"
+        data-field="name"
+        type="text"
+        maxlength="40"
+        autocomplete="off"
+        class="field-input"
+        aria-describedby="room-name-error"
+      />
+      <p id="room-name-error" data-error-for="name" class="field-error" hidden></p>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-3">
+      <div>
+        <label for="room-length" class="field-label">
+          Length (<span data-unit-label="length">m</span>)
+        </label>
+        <input
+          id="room-length"
+          name="length"
+          data-field="length"
+          type="text"
+          inputmode="decimal"
+          autocomplete="off"
+          class="field-input"
+          aria-describedby="room-length-hint room-length-error"
+        />
+        <p id="room-length-hint" class="field-hint">Measure wall to wall.</p>
+        <p id="room-length-error" data-error-for="length" class="field-error" hidden></p>
+      </div>
+      <div>
+        <label for="room-width" class="field-label">
+          Width (<span data-unit-label="length">m</span>)
+        </label>
+        <input
+          id="room-width"
+          name="width"
+          data-field="width"
+          type="text"
+          inputmode="decimal"
+          autocomplete="off"
+          class="field-input"
+          aria-describedby="room-width-hint room-width-error"
+        />
+        <p id="room-width-hint" class="field-hint">Measure wall to wall.</p>
+        <p id="room-width-error" data-error-for="width" class="field-error" hidden></p>
+      </div>
+      <div>
+        <label for="room-height" class="field-label">
+          Ceiling height (<span data-unit-label="length">m</span>)
+        </label>
+        <input
+          id="room-height"
+          name="height"
+          data-field="height"
+          type="text"
+          inputmode="decimal"
+          autocomplete="off"
+          class="field-input"
+          aria-describedby="room-height-hint room-height-error"
+        />
+        <p id="room-height-hint" class="field-hint">Floor to ceiling.</p>
+        <p id="room-height-error" data-error-for="height" class="field-error" hidden></p>
+      </div>
+    </div>
+
+    <OpeningsFieldset />
+
+    {
+      visible.map((key) => (
+        <details class="card" open={mode === 'single'}>
+          <summary class="touch-target flex cursor-pointer list-none items-center font-medium">
+            {groups[key].title}
+          </summary>
+          <div class="mt-3 grid gap-4 sm:grid-cols-2">
+            {groups[key].fields.map((field) => {
+              const id = idFor(field.key);
+              return (
+                <div class={field.kind === 'checkbox' ? 'sm:col-span-2' : undefined}>
+                  {field.kind === 'checkbox' ? (
+                    <label class="touch-target flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id={id}
+                        data-option={field.key}
+                        class="size-5 accent-clay-600 dark:accent-dark-clay"
+                        aria-describedby={`${id}-error`}
+                      />
+                      <span>{field.label}</span>
+                    </label>
+                  ) : (
+                    <>
+                      <label for={id} class="field-label">
+                        {field.label}
+                        {field.unit && (
+                          <>
+                            {' '}
+                            (<span data-unit-label={field.unit} />)
+                          </>
+                        )}
+                      </label>
+                      {field.kind === 'select' ? (
+                        <select
+                          id={id}
+                          data-option={field.key}
+                          class="field-input"
+                          aria-describedby={describedBy(id, field.hint)}
+                        >
+                          {(field.choices ?? []).map((choice) => (
+                            <option value={choice.value}>{choice.label}</option>
+                          ))}
+                        </select>
+                      ) : (
+                        <input
+                          id={id}
+                          data-option={field.key}
+                          type="text"
+                          inputmode={field.kind === 'number' ? 'decimal' : 'text'}
+                          autocomplete="off"
+                          class="field-input"
+                          aria-describedby={describedBy(id, field.hint)}
+                        />
+                      )}
+                      {field.hint && (
+                        <p id={`${id}-hint`} class="field-hint">
+                          {field.hint}
+                        </p>
+                      )}
+                    </>
+                  )}
+                  <p id={`${id}-error`} data-error-for={field.key} class="field-error" hidden />
+                </div>
+              );
+            })}
+          </div>
+        </details>
+      ))
+    }
+
+    <p data-form-status role="status" class="text-sm text-ink-700 dark:text-dark-muted"></p>
+
+    <div class="flex flex-wrap gap-3">
+      <button type="submit" class="btn btn-primary">Calculate my list</button>
+      {
+        mode === 'project' && (
+          <button type="button" data-add-room class="btn btn-secondary">
+            Add another room
+          </button>
+        )
+      }
+      <button type="button" data-cancel-edit class="btn btn-ghost underline" hidden>
+        Cancel edit
+      </button>
+    </div>
+  </form>
+</section>
