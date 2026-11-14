@@ -1,0 +1,71 @@
+---
+/**
+ * Wallpaper calculator (App_Flow §A.1): roll size and pattern repeat.
+ * The spare percentage in the FAQ comes from src/data/materials.ts (PRD Rule 4).
+ */
+import CalculatorShell from '../../components/calculators/CalculatorShell.astro';
+import { WALLPAPER_SPARE_PCT } from '../../data/materials';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { calculatorMeta } from '../../lib/seo/meta';
+import { breadcrumbSchema, webApplicationSchema } from '../../lib/seo/schema';
+
+const path = '/wallpaper-calculator/';
+const meta = calculatorMeta(
+  'Wallpaper',
+  'Work out how many rolls of wallpaper you need, with pattern repeat and spare included. Doors and windows come off the walls. Rounds up to whole rolls.',
+  path,
+);
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Wallpaper calculator', path },
+];
+
+const faq = [
+  {
+    q: 'How many rolls of wallpaper do I need?',
+    a: 'Roomtally counts how many strips the walls need, then how many strips fit on a roll. It adds a spare amount and rounds up to whole rolls.',
+  },
+  {
+    q: 'What is a pattern repeat?',
+    a: 'It is the distance before the pattern starts again. Matching it uses extra paper, so each strip is cut a little longer.',
+  },
+  {
+    q: 'How much spare does it add?',
+    a: `It adds ${WALLPAPER_SPARE_PCT}% for pattern matching and mistakes. You can change this in the wallpaper options.`,
+  },
+  {
+    q: 'Do doors and windows reduce the amount?',
+    a: 'Yes. Their area comes off the walls, so you may need fewer strips. Add each one in the Doors and windows section.',
+  },
+  {
+    q: 'What roll size does the estimate use?',
+    a: "It starts with a common roll size and shows it in the Assumptions panel. Check your wallpaper's label and change the size if it differs.",
+  },
+];
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogImage={meta.ogImage}
+  jsonLd={[webApplicationSchema('Roomtally wallpaper calculator', meta.description, path), breadcrumbSchema(crumbs)]}
+>
+  <CalculatorShell
+    title="Wallpaper calculator"
+    intro="Enter your room and see how many rolls of wallpaper to buy. Set the roll size and the pattern repeat."
+    material="wallpaper"
+    faq={faq}
+    breadcrumbs={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))}
+  >
+    <section aria-labelledby="related-heading" class="space-y-3">
+      <h2 id="related-heading">Before you buy</h2>
+      <p>
+        Read <a href="/guides/how-to-measure-a-room/">how to measure a room</a>. Doing the whole
+        project? Use the <a href="/">whole-project estimator</a> to list wallpaper with paint,
+        flooring and tile.
+      </p>
+    </section>
+  </CalculatorShell>
+</BaseLayout>

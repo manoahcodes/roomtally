@@ -790,6 +790,8 @@ export function bindRoomForm(options: BindOptions = {}): (() => void) | null {
     } catch (error) {
       if (error instanceof CalcValidationError) {
         console.warn(describeForLog(error.code, error.field));
+        // For example a wallpaper roll shorter than the room: no field is flagged, so say why.
+        setText(statusEl, message(error.code, error.params));
         return null;
       }
       throw error;
