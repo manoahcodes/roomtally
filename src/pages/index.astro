@@ -1,0 +1,159 @@
+---
+/**
+ * Home page: the whole-project estimator (App_Flow §A.1).
+ * Hero (PRD §12), room form and room list, shopping list, how it works, the four
+ * single-material calculators, FAQ and two ad slots. The ad slots sit outside the form and
+ * results (PRD Rule 12). FaqBlock emits the page's FAQPage JSON-LD, so the questions are
+ * not passed to BaseLayout as well. Copy follows PRD §13: short sentences, "estimate",
+ * never a promise of accuracy.
+ */
+import AdSlot from '../components/ads/AdSlot.astro';
+import FaqBlock from '../components/common/FaqBlock.astro';
+import RoomForm from '../components/room/RoomForm.astro';
+import RoomList from '../components/room/RoomList.astro';
+import ShoppingList from '../components/results/ShoppingList.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { homeMeta } from '../lib/seo/meta';
+import { webApplicationSchema, websiteSchema } from '../lib/seo/schema';
+
+const meta = homeMeta();
+
+const proofPoints = [
+  'One measurement powers all four calculators.',
+  'Rounds up to real cans, boxes and rolls.',
+  'Private: nothing leaves your browser, no sign-up.',
+];
+
+const steps = [
+  {
+    title: 'Enter your room once',
+    text: 'Type the length, width and height. Add doors and windows so they come off the walls.',
+  },
+  {
+    title: 'See one shopping list',
+    text: 'Paint, flooring, tile and wallpaper appear together. The number to buy comes first.',
+  },
+  {
+    title: 'Add rooms and print',
+    text: 'Add up to 10 rooms. We add them together before rounding up, then you can print the list.',
+  },
+];
+
+const calculators = [
+  { href: '/paint-calculator/', name: 'Paint calculator', text: 'Cans of paint for walls, ceiling and primer.' },
+  { href: '/flooring-calculator/', name: 'Flooring calculator', text: 'Boxes of flooring with waste included.' },
+  { href: '/tile-calculator/', name: 'Tile calculator', text: 'Tiles and boxes for a floor or a wall.' },
+  { href: '/wallpaper-calculator/', name: 'Wallpaper calculator', text: 'Rolls of wallpaper, with pattern repeat.' },
+];
+
+const faq = [
+  {
+    q: 'How does Roomtally work out how much paint I need?',
+    a: "It finds the wall area, subtracts doors and windows, then multiplies by the number of coats. It divides by the paint's coverage and adds a small spare amount. Then it rounds up to whole cans.",
+  },
+  {
+    q: 'Why does the list say to buy more than I need?',
+    a: 'You can only buy whole cans, boxes and rolls. Roomtally adds your rooms together first, then rounds up once. That often means fewer packs than rounding each room on its own.',
+  },
+  {
+    q: 'Are the results an estimate?',
+    a: 'Yes. They are estimates based on typical coverage and waste. Check the coverage on your product label, and buy everything from one batch.',
+  },
+  {
+    q: 'Is my room data sent anywhere?',
+    a: 'No. Your rooms stay in this browser. We never see your measurements, and there is no sign-up. You can remove them any time with Clear my data.',
+  },
+  {
+    q: 'Can I change the waste, coverage or pack sizes?',
+    a: 'Yes. Open the options for each material in the room form. Changed values are marked in the Assumptions panel.',
+  },
+  {
+    q: 'Does it work in feet and gallons?',
+    a: 'Yes. Pick your region or units at the top of the page. Your rooms are kept as they are and shown in the units you choose.',
+  },
+];
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogImage={meta.ogImage}
+  jsonLd={[websiteSchema(meta.description), webApplicationSchema('Roomtally', meta.description, '/')]}
+>
+  <div class="space-y-12">
+    <section aria-labelledby="hero-heading" class="space-y-5">
+      <h1 id="hero-heading" class="max-w-3xl">
+        Enter your room once and get everything you need to buy.
+      </h1>
+      <p class="max-w-prose text-lg text-ink-700 dark:text-dark-muted">
+        Paint, flooring, tile and wallpaper in one shopping list, with pack sizes and waste built in.
+      </p>
+      <ul class="grid gap-2 sm:grid-cols-3">
+        {
+          proofPoints.map((point) => (
+            <li class="card text-sm">{point}</li>
+          ))
+        }
+      </ul>
+      <a href="#room-form-heading" class="btn btn-primary">Calculate my list</a>
+    </section>
+
+    <div class="grid items-start gap-8 lg:grid-cols-2">
+      <div class="space-y-8">
+        <RoomForm mode="project" />
+        <RoomList />
+      </div>
+      <ShoppingList mode="project" />
+    </div>
+
+    <section aria-labelledby="how-heading" class="space-y-4">
+      <h2 id="how-heading">How it works</h2>
+      <ol class="grid gap-4 md:grid-cols-3">
+        {
+          steps.map((step, index) => (
+            <li class="card space-y-1">
+              <p class="text-sm font-medium text-ink-500 dark:text-dark-muted">Step {index + 1}</p>
+              <h3 class="text-h4">{step.title}</h3>
+              <p class="text-ink-700 dark:text-dark-muted">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <AdSlot slotKey="inarticle" />
+
+    <section aria-labelledby="calculators-heading" class="space-y-4">
+      <h2 id="calculators-heading">Need just one material?</h2>
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {
+          calculators.map((calculator) => (
+            <li class="card space-y-1">
+              <h3 class="text-h4">
+                <a href={calculator.href}>{calculator.name}</a>
+              </h3>
+              <p class="text-ink-700 dark:text-dark-muted">{calculator.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p>
+        New to measuring? Read <a href="/guides/how-to-measure-a-room/">how to measure a room</a>,
+        or browse <a href="/guides/">all guides</a>.
+      </p>
+    </section>
+
+    <FaqBlock items={faq} />
+
+    <AdSlot slotKey="bottom" />
+  </div>
+</BaseLayout>
+
+<script>
+  import { bindRoomForm } from '../lib/ui/bindRoomForm';
+  import { bindPrintButtons } from '../lib/ui/printList';
+
+  bindRoomForm();
+  bindPrintButtons();
+</script>
