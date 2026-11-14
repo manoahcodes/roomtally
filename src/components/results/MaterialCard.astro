@@ -1,0 +1,56 @@
+---
+/**
+ * One material's result (PRD Rules 3 and 6, NV3). The buy quantity comes first and is the
+ * largest text; the exact need comes second. The price field is optional and a cost only
+ * appears once a price is entered, labelled as an estimate.
+ *
+ * renderResults.ts clones this card from a <template> in ShoppingList and fills it with
+ * text only. Props are the defaults for a card that is not cloned.
+ *
+ * Hooks: [data-material-card] [data-card-title] [data-buy-value] [data-buy-unit]
+ *   [data-pack-line] [data-exact] [data-tiles] [data-price-label] [data-price-input]
+ *   [data-price-error] [data-cost] [data-cost-value]
+ */
+export interface Props {
+  material: string;
+  title: string;
+}
+
+const { material, title } = Astro.props;
+---
+
+<article data-material-card={material} class="card space-y-3">
+  <h3 data-card-title class="text-h4">{title}</h3>
+
+  <div>
+    <p class="text-sm font-medium uppercase tracking-wide text-ink-500 dark:text-dark-muted">Buy</p>
+    <p class="font-heading text-h2 font-bold">
+      <span data-buy-value></span>
+      <span data-buy-unit class="text-h4 font-semibold"></span>
+    </p>
+    <p data-pack-line class="text-sm text-ink-700 dark:text-dark-muted"></p>
+  </div>
+
+  <p class="text-ink-700 dark:text-dark-muted">
+    Exact need: <span data-exact class="font-medium text-ink-900 dark:text-dark-text"></span>
+  </p>
+  <p data-tiles class="text-sm text-ink-700 dark:text-dark-muted" hidden></p>
+
+  <div class="space-y-2 border-t border-cream-300 pt-3 dark:border-dark-border">
+    <label class="block">
+      <span data-price-label class="field-label">Price per unit (optional)</span>
+      <input
+        data-price-input={material}
+        type="text"
+        inputmode="decimal"
+        autocomplete="off"
+        class="field-input"
+      />
+    </label>
+    <p data-price-error class="field-error" hidden></p>
+    <p data-cost hidden>
+      Cost: <span data-cost-value class="font-medium"></span>
+      <span class="text-sm text-ink-500 dark:text-dark-muted">(estimate)</span>
+    </p>
+  </div>
+</article>
