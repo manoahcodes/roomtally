@@ -1,0 +1,37 @@
+---
+/**
+ * Footer: legal links, the ad and affiliate disclosure line, and the cookie preferences
+ * button, on every page (PRD Rules 14-15).
+ */
+import { LEGAL_LINKS, SITE } from '../../config/site';
+import ConsentButton from '../common/ConsentButton.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="no-print mt-16 border-t border-cream-300 bg-cream-100 dark:border-dark-border dark:bg-dark-surface">
+  <div class="mx-auto max-w-6xl space-y-4 px-4 py-8">
+    <nav aria-label="Legal">
+      <ul class="flex flex-wrap items-center gap-x-6 gap-y-1">
+        {
+          LEGAL_LINKS.map((link) => (
+            <li>
+              <a href={link.href} class="touch-target inline-flex items-center">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li><ConsentButton /></li>
+      </ul>
+    </nav>
+    <p class="max-w-prose text-sm text-ink-700 dark:text-dark-muted">
+      {SITE.name} is free and private. Your rooms stay in your browser. We may earn money from
+      ads and from links marked as sponsored. <a href="/disclaimer/">Read the disclosure</a>.
+    </p>
+    <p class="text-sm text-ink-500 dark:text-dark-muted">
+      © {year}
+      {SITE.name}. Results are estimates only.
+    </p>
+  </div>
+</footer>
