@@ -1,0 +1,66 @@
+---
+/**
+ * Article layout for guides (App_Flow §A.1): breadcrumbs, a heading with its dates,
+ * the article body, then two in-article ad slots. Emits Article and BreadcrumbList
+ * JSON-LD through BaseLayout. Guide pages that add a FAQ do it with FaqBlock, which
+ * emits its own FAQPage JSON-LD, so do not pass FAQ data here.
+ *
+ * Ads: two slots here, so a guide page stays under the limit of 3 per page (PRD Rule 12).
+ * The first sits after the article body, the second at the end, after the optional
+ * "after" slot (a FAQ, say). Neither is ever placed inside a form or a result.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/common/Breadcrumbs.astro';
+import AdSlot from '../components/ads/AdSlot.astro';
+import { guideMeta } from '../lib/seo/meta';
+import { articleSchema, breadcrumbSchema } from '../lib/seo/schema';
+
+export interface Props {
+  /** Article headline, used as the h1. */
+  title: string;
+  description: string;
+  /** Path starting and ending with a slash, for example /guides/flooring-waste-factor/. */
+  path: string;
+  /** ISO 8601 dates, for example 2026-11-14. */
+  datePublished: string;
+  dateModified?: string;
+}
+
+const { title, description, path, datePublished, dateModified } = Astro.props;
+
+const meta = guideMeta(title, description, path);
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Guides', path: '/guides/' },
+  { name: title, path },
+];
+const jsonLd = [
+  articleSchema({ headline: title, description, path, datePublished, dateModified }),
+  breadcrumbSchema(crumbs),
+];
+const updated = dateModified ?? datePublished;
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogImage={meta.ogImage}
+  jsonLd={jsonLd}
+>
+  <Breadcrumbs items={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))} />
+  <article class="mx-auto max-w-3xl">
+    <header class="mb-6 space-y-2">
+      <h1>{title}</h1>
+      <p class="text-sm text-ink-500 dark:text-dark-muted">
+        Updated <time datetime={updated}>{updated}</time>
+      </p>
+    </header>
+    <div class="space-y-4">
+      <slot />
+    </div>
+    <AdSlot slotKey="inarticle" />
+    <slot name="after" />
+    <AdSlot slotKey="bottom" />
+  </article>
+</BaseLayout>
