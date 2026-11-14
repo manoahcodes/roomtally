@@ -1,0 +1,34 @@
+---
+/**
+ * The accuracy note shown with every result (PRD Rule 11): estimates only, check the
+ * manufacturer's coverage, buy from one batch. Wording follows PRD §11 and §13:
+ * plain, short sentences, "estimate" and never a promise of accuracy.
+ */
+export interface Props {
+  variant: 'short' | 'full';
+}
+
+const { variant } = Astro.props;
+---
+
+<aside
+  role="note"
+  class="rounded-md border border-cream-300 bg-cream-50 p-3 text-sm text-ink-700 dark:border-dark-border dark:bg-dark-bg dark:text-dark-muted"
+>
+  {
+    variant === 'short' ? (
+      <p>
+        These results are estimates. Round up, then check the label on your product.
+      </p>
+    ) : (
+      <div class="space-y-2">
+        <p>
+          <strong class="font-semibold text-ink-900 dark:text-dark-text">Estimates only.</strong> Real
+          needs depend on your walls, floors, tools and the product you choose.
+        </p>
+        <p>Check the coverage on the manufacturer's label before you buy.</p>
+        <p>Buy all of one product from the same batch, so colours and patterns match.</p>
+      </div>
+    )
+  }
+</aside>
