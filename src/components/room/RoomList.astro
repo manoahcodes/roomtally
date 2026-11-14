@@ -1,0 +1,36 @@
+---
+/**
+ * The rooms added so far, with Edit and Remove buttons and "Clear my data" (PRD Rules 1, 7, 9).
+ * bindRoomForm.ts fills the list from the store by cloning the template, setting text only.
+ *
+ * Hooks: [data-room-list] [data-room-count] [data-room-empty] [data-room-items]
+ *   template [data-room-item-template]; per item [data-room-item] [data-room-name]
+ *   [data-room-size] [data-edit-room] [data-remove-room]; and [data-clear-data]
+ */
+import { LIMITS } from '../../lib/calc/validation';
+---
+
+<section data-room-list aria-labelledby="room-list-heading" class="space-y-3">
+  <h2 id="room-list-heading" class="text-h3">
+    Your rooms (<span data-room-count>0</span> of {LIMITS.maxRooms})
+  </h2>
+  <p data-room-empty class="text-ink-700 dark:text-dark-muted">
+    No rooms yet. Enter a room above and choose Calculate my list.
+  </p>
+  <ul data-room-items class="space-y-2"></ul>
+
+  <template data-room-item-template>
+    <li data-room-item class="card flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <p data-room-name class="font-medium"></p>
+        <p data-room-size class="text-sm text-ink-700 dark:text-dark-muted"></p>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" data-edit-room class="btn btn-secondary">Edit</button>
+        <button type="button" data-remove-room class="btn btn-ghost underline">Remove</button>
+      </div>
+    </li>
+  </template>
+
+  <button type="button" data-clear-data class="btn btn-ghost underline">Clear my data</button>
+</section>
