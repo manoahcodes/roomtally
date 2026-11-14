@@ -1,0 +1,36 @@
+---
+/**
+ * Visible breadcrumb trail. Pass the same items to breadcrumbSchema() so the page's
+ * BreadcrumbList JSON-LD matches what visitors see (TDD §H.59).
+ * The last item is the current page and is not a link.
+ */
+export interface Props {
+  items: { name: string; href: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="no-print mb-4 text-sm">
+  <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-ink-500 dark:text-dark-muted">
+    {
+      items.map((item, index) => {
+        const last = index === items.length - 1;
+        return (
+          <li class="flex items-center gap-2">
+            {last ? (
+              <span aria-current="page" class="text-ink-900 dark:text-dark-text">
+                {item.name}
+              </span>
+            ) : (
+              <>
+                <a href={item.href}>{item.name}</a>
+                <span aria-hidden="true">/</span>
+              </>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>
