@@ -1,0 +1,39 @@
+---
+/**
+ * FAQ accordion built on native <details>, so it works without JavaScript and with a
+ * keyboard. It also emits the page's FAQPage JSON-LD (TDD §H.59), so pages must not pass
+ * the same questions to Seo as well.
+ */
+import { faqSchema, toJsonLd } from '../../lib/seo/schema';
+
+export interface Props {
+  items: { q: string; a: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section aria-labelledby="faq-heading" class="space-y-3">
+      <h2 id="faq-heading">Common questions</h2>
+      <div class="space-y-2">
+        {items.map((item) => (
+          <details class="card group p-0">
+            <summary class="touch-target flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-medium">
+              <span>{item.q}</span>
+              <span
+                aria-hidden="true"
+                class="text-clay-600 transition-transform duration-200 ease-standard group-open:rotate-45 dark:text-dark-clay"
+              >
+                +
+              </span>
+            </summary>
+            <p class="px-4 pb-4 text-ink-700 dark:text-dark-muted">{item.a}</p>
+          </details>
+        ))}
+      </div>
+      <script type="application/ld+json" set:html={toJsonLd(faqSchema(items))} />
+    </section>
+  )
+}
