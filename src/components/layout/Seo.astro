@@ -1,0 +1,40 @@
+---
+/**
+ * Head tags: title, description, canonical, Open Graph, Twitter card and JSON-LD (TDD §H).
+ * Markup only. Titles and descriptions are built by src/lib/seo/meta.ts, JSON-LD by
+ * src/lib/seo/schema.ts. The JSON-LD text is escaped by toJsonLd() so it cannot end the
+ * script element. FAQ markup comes from FaqBlock, so do not pass FAQPage here too.
+ */
+import { SITE, absoluteUrl } from '../../config/site';
+import { toJsonLd } from '../../lib/seo/schema';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogImage?: string;
+  jsonLd?: object[];
+}
+
+const { title, description, canonical, ogImage = absoluteUrl(SITE.ogImage), jsonLd = [] } =
+  Astro.props;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+{
+  jsonLd.map((data) => (
+    <script type="application/ld+json" set:html={toJsonLd(data as Record<string, unknown>)} />
+  ))
+}

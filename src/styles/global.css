@@ -179,6 +179,43 @@
   }
 }
 
+/*
+ * Shared component classes. Tokens only (Design_Brief §A.5); components compose these
+ * instead of repeating long utility lists. Dark values use the dark-* tokens.
+ */
+@layer components {
+  .card {
+    @apply rounded-md border border-cream-300 bg-cream-100 p-4 shadow-sm dark:border-dark-border dark:bg-dark-surface;
+  }
+  .btn {
+    @apply touch-target inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-2 text-base font-medium transition-colors duration-150 ease-standard disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply bg-clay-600 text-cream-50 hover:bg-clay-700 hover:text-cream-50 dark:bg-dark-clay dark:text-dark-bg dark:hover:bg-dark-text dark:hover:text-dark-bg;
+  }
+  .btn-secondary {
+    @apply border border-sage-600 bg-transparent text-sage-600 hover:bg-sage-600 hover:text-cream-50 dark:border-dark-sage dark:text-dark-sage dark:hover:bg-dark-sage dark:hover:text-dark-bg;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-ink-700 hover:text-clay-700 dark:text-dark-muted dark:hover:text-dark-clay;
+  }
+  .field-label {
+    @apply mb-1 block text-sm font-medium text-ink-700 dark:text-dark-text;
+  }
+  .field-input {
+    @apply touch-target w-full rounded-sm border border-ink-500 bg-cream-50 px-3 py-2 text-base text-ink-900 dark:border-dark-muted dark:bg-dark-bg dark:text-dark-text;
+  }
+  .field-input[aria-invalid='true'] {
+    @apply border-2 border-error dark:border-dark-clay;
+  }
+  .field-hint {
+    @apply mt-1 text-sm text-ink-500 dark:text-dark-muted;
+  }
+  .field-error {
+    @apply mt-1 text-sm font-medium text-error dark:text-dark-clay;
+  }
+}
+
 /* Touch targets are at least 44 px (Design_Brief §B.17). */
 @utility touch-target {
   min-height: 2.75rem;
