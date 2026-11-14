@@ -1,0 +1,52 @@
+---
+/**
+ * Region and unit switch (PRD Rules 10 and 17). Region sets default units, currency and
+ * wording; it never changes the maths. Wired by the script below through unitToggle.ts.
+ * Hooks: [data-region-select], [data-unit-select]
+ */
+import { REGION_CODES, REGIONS } from '../../data/regions';
+---
+
+<div class="flex flex-wrap items-center gap-2" data-unit-switch>
+  <div>
+    <label for="region-select" class="sr-only">Region</label>
+    <select id="region-select" data-region-select class="field-input w-auto py-1 text-sm">
+      {REGION_CODES.map((code) => <option value={code}>{REGIONS[code].label}</option>)}
+    </select>
+  </div>
+  <div>
+    <label for="unit-select" class="sr-only">Units</label>
+    <select id="unit-select" data-unit-select class="field-input w-auto py-1 text-sm">
+      <option value="metric">Metric (m, L)</option>
+      <option value="imperial">Imperial (ft, gal)</option>
+    </select>
+  </div>
+</div>
+
+<script>
+  import { getProjectStore } from '../../lib/state/projectStore';
+  import { applyRegion, applyUnitSystem } from '../../lib/ui/unitToggle';
+  import type { Region, UnitSystem } from '../../types/project';
+
+  const store = getProjectStore();
+  const region = document.querySelector<HTMLSelectElement>('[data-region-select]');
+  const unit = document.querySelector<HTMLSelectElement>('[data-unit-select]');
+
+  function sync(): void {
+    const { settings } = store.getState();
+    if (region) region.value = settings.region;
+    if (unit) unit.value = settings.unitSystem;
+  }
+
+  region?.addEventListener('change', () => {
+    applyRegion(store, region.value as Region);
+    sync();
+  });
+  unit?.addEventListener('change', () => {
+    applyUnitSystem(store, unit.value as UnitSystem);
+    sync();
+  });
+
+  store.subscribe(sync);
+  sync();
+</script>
