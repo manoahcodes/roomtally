@@ -1,0 +1,78 @@
+---
+/**
+ * Shows every default and override behind the list (PRD Rule 5, NV5): no coverage or waste
+ * value is ever applied without being visible here. Until the script has a result, the
+ * table lists the defaults in both unit systems. renderResults.ts then fills the live list
+ * with the values actually in use and marks the ones the visitor changed.
+ *
+ * Props: material filters the defaults to one material (calculator pages).
+ * Hooks: [data-assumptions] [data-assumptions-live] [data-assumptions-defaults]
+ *   template [data-assumption-template]; per item [data-assumption-item]
+ *   [data-assumption-label] [data-assumption-value] [data-assumption-changed]
+ */
+import { MATERIAL_PRESETS } from '../../data/materials';
+
+export interface Props {
+  material?: string;
+}
+
+const { material } = Astro.props;
+const presets = MATERIAL_PRESETS.filter((preset) => !material || preset.material === material);
+const show = (preset: { value: number; unit: string }): string => `${preset.value} ${preset.unit}`;
+---
+
+<details data-assumptions class="card">
+  <summary class="touch-target flex cursor-pointer list-none items-center font-medium">
+    Assumptions used
+  </summary>
+  <div class="mt-3 space-y-3">
+    <p class="text-sm text-ink-700 dark:text-dark-muted">
+      Every number behind your list is shown here. Change them in the room options, and changed
+      values are marked.
+    </p>
+
+    <dl data-assumptions-live class="grid gap-2 sm:grid-cols-2" hidden></dl>
+
+    <template data-assumption-template>
+      <div data-assumption-item class="rounded-sm border border-cream-300 p-2 dark:border-dark-border">
+        <dt data-assumption-label class="text-sm text-ink-700 dark:text-dark-muted"></dt>
+        <dd class="font-medium">
+          <span data-assumption-value></span>
+          <span
+            data-assumption-changed
+            class="ml-2 rounded-sm bg-ochre-400 px-1 text-xs font-semibold text-ink-900"
+            hidden>Changed</span
+          >
+        </dd>
+      </div>
+    </template>
+
+    <div data-assumptions-defaults class="overflow-x-auto">
+      <table class="w-full text-left text-sm">
+        <caption class="sr-only">
+          Default values
+        </caption>
+        <thead>
+          <tr class="border-b border-cream-300 dark:border-dark-border">
+            <th scope="col" class="py-1 pr-3 font-medium">Setting</th>
+            <th scope="col" class="py-1 pr-3 font-medium">Metric</th>
+            <th scope="col" class="py-1 font-medium">Imperial</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            presets.map((preset) => (
+              <tr class="border-b border-cream-300 dark:border-dark-border">
+                <th scope="row" class="py-1 pr-3 font-normal">
+                  {preset.label}
+                </th>
+                <td class="py-1 pr-3">{show(preset.metric)}</td>
+                <td class="py-1">{show(preset.imperial)}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</details>
