@@ -1,0 +1,53 @@
+---
+/**
+ * Repeatable door and window rows (PRD Rule 7: up to 20 openings, each with a width,
+ * height and count). Rows are cloned from the template by bindRoomForm.ts, which sets
+ * values as properties, never as markup.
+ *
+ * Hooks: [data-openings] [data-openings-list] [data-add-opening] [data-opening-template]
+ *   per row: [data-opening-row] [data-opening-field="kind|width|height|count"]
+ *            [data-remove-opening] [data-opening-error]
+ *   unit text: [data-unit-label="length"]
+ *   group error: [data-error-for="openings"]
+ */
+---
+
+<fieldset data-openings class="space-y-3">
+  <legend class="field-label">Doors and windows</legend>
+  <p id="openings-hint" class="field-hint">
+    Add each door and window to take its area off the walls. You can add up to 20.
+  </p>
+  <ul data-openings-list class="space-y-3" aria-describedby="openings-hint"></ul>
+  <p id="openings-error" data-error-for="openings" class="field-error" hidden></p>
+  <button type="button" data-add-opening class="btn btn-secondary">Add door or window</button>
+
+  <template data-opening-template>
+    <li data-opening-row class="card grid grid-cols-2 gap-3 sm:grid-cols-5">
+      <label class="block">
+        <span class="field-label">Type</span>
+        <select data-opening-field="kind" class="field-input">
+          <option value="door">Door</option>
+          <option value="window">Window</option>
+        </select>
+      </label>
+      <label class="block">
+        <span class="field-label">Width (<span data-unit-label="length">m</span>)</span>
+        <input data-opening-field="width" type="text" inputmode="decimal" autocomplete="off" class="field-input" />
+      </label>
+      <label class="block">
+        <span class="field-label">Height (<span data-unit-label="length">m</span>)</span>
+        <input data-opening-field="height" type="text" inputmode="decimal" autocomplete="off" class="field-input" />
+      </label>
+      <label class="block">
+        <span class="field-label">How many</span>
+        <input data-opening-field="count" type="text" inputmode="numeric" autocomplete="off" class="field-input" />
+      </label>
+      <div class="flex items-end">
+        <button type="button" data-remove-opening class="btn btn-ghost w-full underline">
+          Remove
+        </button>
+      </div>
+      <p data-opening-error class="field-error col-span-2 sm:col-span-5" hidden></p>
+    </li>
+  </template>
+</fieldset>
