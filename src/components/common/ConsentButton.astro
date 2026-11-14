@@ -1,0 +1,23 @@
+---
+/**
+ * Reopens the cookie preference centre (PRD Rule 14). The centre itself is started by the
+ * consent script in BaseLayout; until then this button does nothing.
+ * Hook: [data-consent-open]
+ */
+export interface Props {
+  label?: string;
+}
+
+const { label = 'Cookie preferences' } = Astro.props;
+---
+
+<button type="button" data-consent-open class="btn btn-ghost underline">{label}</button>
+
+<script>
+  import { openPreferences } from '../../lib/ui/consent';
+
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target instanceof Element && target.closest('[data-consent-open]')) openPreferences();
+  });
+</script>
