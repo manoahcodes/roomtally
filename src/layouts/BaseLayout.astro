@@ -1,0 +1,82 @@
+---
+/**
+ * Page shell: head tags, skip link and header, main (max width 72rem, centred), footer
+ * (Design_Brief §B.12). Every page uses this layout, directly or through GuideLayout or
+ * LegalLayout.
+ *
+ * Adapted from the page layout idea in onwidget/astrowind (MIT), src/layouts/PageLayout.astro.
+ *
+ * Scripts, in order:
+ *  1. A tiny inline script in <head> applies the saved theme before first paint, so there
+ *     is no flash. Light is the default (Design_Brief §B.15). Key: roomtally:theme.
+ *  2. One bundled module starts the global error handler, the consent banner, then
+ *     analytics and ads. Both of those wait for consent, so no ad or analytics script
+ *     exists before the visitor accepts (PRD Rules 13-14).
+ */
+import '../styles/global.css';
+import Seo from '../components/layout/Seo.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogImage?: string;
+  jsonLd?: object[];
+  /** Switch ads off for the page (legal pages). Sets data-no-ads on <body>. */
+  noAds?: boolean;
+}
+
+const { title, description, canonical, ogImage, jsonLd, noAds = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Seo
+      title={title}
+      description={description}
+      canonical={canonical}
+      ogImage={ogImage}
+      jsonLd={jsonLd}
+    />
+    <script is:inline>
+      // No-flash theme. Reads only the two allowed values; anything else stays light.
+      (function () {
+        try {
+          if (localStorage.getItem('roomtally:theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+          }
+        } catch (e) {
+          /* storage blocked: stay on the light default */
+        }
+      })();
+    </script>
+  </head>
+  <body
+    class="min-h-screen bg-cream-50 font-body text-ink-900 dark:bg-dark-bg dark:text-dark-text"
+    data-no-ads={noAds ? '' : undefined}
+  >
+    <Header />
+    <main id="main" class="mx-auto w-full max-w-6xl px-4 py-8">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import { installGlobalErrorHandler } from '../lib/ui/dom';
+      import { initConsent } from '../lib/ui/consent';
+      import { initAnalytics } from '../lib/ui/analytics';
+      import { initAds } from '../lib/ui/ads';
+
+      installGlobalErrorHandler();
+      // Subscribe first so a saved choice restored by the banner is picked up.
+      initAnalytics();
+      initAds();
+      void initConsent();
+    </script>
+  </body>
+</html>
