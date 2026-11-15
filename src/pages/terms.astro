@@ -1,0 +1,103 @@
+---
+/**
+ * Terms of use (App_Flow §A.1; PRD Rules 11, 12, 15). LegalLayout, no ads.
+ *
+ * LEGAL REVIEW REQUIRED before launch (Engineering_Plan: agent audit items). Open items
+ * for the reviewer: the operator's legal name and address, the governing law and courts
+ * (left out on purpose until the operator's location is known), and the limit on
+ * liability, which depends on local consumer law. Also set PUBLIC_CONTACT_EMAIL.
+ */
+import { SITE } from '../config/site';
+import LegalLayout from '../layouts/LegalLayout.astro';
+
+const description =
+  'The terms for using Roomtally: what the estimates are, what you agree to, and the limits of what we can promise.';
+const { contactEmail } = SITE;
+---
+
+<LegalLayout title="Terms of use" description={description} path="/terms/" updated="2026-11-15">
+  <p class="text-lg">
+    These terms cover your use of Roomtally. By using the site you agree to them. If you do not
+    agree, please do not use it.
+  </p>
+
+  <h2>What Roomtally is</h2>
+  <p>
+    Roomtally is a free tool that estimates how much paint, flooring, tile and wallpaper a home
+    project may need. It runs in your browser.
+  </p>
+
+  <h2>Estimates only</h2>
+  <p>
+    Every result is an estimate. It is based on the sizes you enter and on common coverage and
+    waste figures. Real needs depend on your surfaces, your tools, your skill and the product you
+    choose.
+  </p>
+  <p>
+    You are responsible for checking the label on each product and for deciding how much to buy.
+    Read our <a href="/disclaimer/">disclaimer</a> as part of these terms.
+  </p>
+
+  <h2>Using the site</h2>
+  <p>You agree to use Roomtally lawfully and fairly. Please do not:</p>
+  <ul>
+    <li>Try to break, overload or gain unauthorised access to the site.</li>
+    <li>Copy the site's content in bulk, or sell it, without our written permission.</li>
+    <li>Use the site in a way that breaks the law or harms other people.</li>
+  </ul>
+
+  <h2>Your data</h2>
+  <p>
+    Your rooms are saved on your own device and are not sent to us. You are responsible for your
+    device and browser. If you clear your browser data, your saved rooms are removed. The
+    <a href="/privacy/">privacy notice</a> has the details.
+  </p>
+
+  <h2>Our content</h2>
+  <p>
+    The text, guides, design and code of Roomtally belong to us or our licensors. You may use the
+    site and print your own shopping lists for personal use. Please do not republish our content
+    as your own.
+  </p>
+
+  <h2>Advertising, shops and other websites</h2>
+  <p>
+    The site may show advertising and links to shops and other websites. We do not control those
+    sites and are not responsible for them. Their own terms and privacy policies apply.
+  </p>
+  <p>
+    Some links may be affiliate links. Prices, stock and product details are set by the shop, not
+    by us.
+  </p>
+
+  <h2>No warranty</h2>
+  <p>
+    We work to keep Roomtally accurate and available. We provide it as it is, and we cannot promise
+    that it is free of errors or always online.
+  </p>
+
+  <h2>Limits on our responsibility</h2>
+  <p>
+    To the extent the law allows, we are not responsible for the cost of materials you buy. That
+    includes shortfalls, surpluses and any other loss that comes from relying on an estimate.
+  </p>
+  <p>Nothing in these terms limits any right you have by law that cannot be limited.</p>
+
+  <h2>Changes</h2>
+  <p>
+    We may change the site or these terms. When we change the terms we will update the date at the
+    top of this page. If you keep using Roomtally after that, you accept the new terms.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about these terms? Write to us at
+    {
+      contactEmail ? (
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+      ) : (
+        <span>[contact address to be added before launch]</span>
+      )
+    }.
+  </p>
+</LegalLayout>
