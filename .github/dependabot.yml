@@ -1,0 +1,28 @@
+# Weekly dependency updates (TDD §D.33). Minor and patch updates arrive as one pull request
+# per ecosystem; major updates stay separate. Review each one by hand, and do not take a
+# version that is under 14 days old (TDD §E.35, supply-chain scenario).
+version: 2
+updates:
+  # pnpm projects use the "npm" ecosystem and update pnpm-lock.yaml.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 14
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
