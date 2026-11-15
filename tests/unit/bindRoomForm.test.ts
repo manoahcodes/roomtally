@@ -306,10 +306,7 @@ function makeCompletePage(mode: 'project' | 'single' = 'project') {
   const roomItem = document.createElement('article');
   roomItem.dataset.roomItem = '';
 
-  for (const [key, selector] of [
-    ['name', 'roomName'],
-    ['size', 'roomSize'],
-  ] as Array<[string, 'roomName' | 'roomSize']>) {
+  for (const selector of ['roomName', 'roomSize'] as const) {
     const node = document.createElement('span');
     node.dataset[selector] = '';
     roomItem.append(node);
