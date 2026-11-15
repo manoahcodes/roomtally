@@ -1,6 +1,6 @@
 > **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
 
-# App_Flow — Roomtally
+# App_Flow — Beautally
 
 ## A. Pages
 

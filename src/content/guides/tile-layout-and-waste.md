@@ -33,7 +33,7 @@ For walls, take off doors and windows. The guide on [how to measure a room](/gui
 
 ## Step 2: Account for the grout gap
 
-Each tile sits in a small space of grout. The gap is usually 2 to 5 mm, or about 1/8 inch. Roomtally starts with 3 mm, or 1/8 inch, and lets you change it.
+Each tile sits in a small space of grout. The gap is usually 2 to 5 mm, or about 1/8 inch. Beautally starts with 3 mm, or 1/8 inch, and lets you change it.
 
 The tile plus its gap is the area each tile really uses. For a 300 mm tile with a 3 mm gap, that is 303 mm on each side. The effect is small on one tile and noticeable across a whole floor.
 
@@ -53,7 +53,7 @@ These are typical trade allowances, not rules. A small room with many corners ne
 
 Multiply the tile count by one plus the waste. Round up to whole tiles. Then divide the tile area by the area one box covers and round up to whole boxes.
 
-You order boxes, so the box count is the number that counts. Roomtally shows it first as the buy quantity, with the unrounded need beside it.
+You order boxes, so the box count is the number that counts. Beautally shows it first as the buy quantity, with the unrounded need beside it.
 
 ## Worked example: a 4 m by 3.5 m floor
 
@@ -97,7 +97,7 @@ If you want a repair reserve, add a box to your order or raise the waste in the 
 
 If several rooms use the same tile, add their areas first. Apply the waste once, then round up once. Rounding each room on its own leaves part-used boxes.
 
-Roomtally adds rooms together first and rounds up once to whole boxes.
+Beautally adds rooms together first and rounds up once to whole boxes.
 
 ## Common mistakes
 

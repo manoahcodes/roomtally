@@ -1,16 +1,16 @@
-# Roomtally
+# Beautally
 
 **Measure once. Buy right.**
 
-Roomtally is a free, private Home & Garden estimator. Enter a room once, and get one shopping list for paint, flooring, tile and wallpaper. Every purchase quantity is rounded up to real packs, with waste built in. The whole app runs in your browser.
+Beautally is a free, private Home & Garden estimator. Enter a room once, and get one shopping list for paint, flooring, tile and wallpaper. Every purchase quantity is rounded up to real packs, with waste built in. The whole app runs in your browser.
 
-There is no account, no server and no database. Your measurements never leave your device. Roomtally is supported by ads and affiliate links.
+There is no account, no server and no database. Your measurements never leave your device. Beautally is supported by ads and affiliate links.
 
 > **Project status:** built in order from `agents/Build_prompts.md` (88 batches). Before you launch, run the checks in [Testing](#testing) and work through [Before you launch](#before-you-launch).
 
-## Why Roomtally
+## Why Beautally
 
-Most calculators answer one question. Roomtally answers the one that matters in the store aisle: how much do I buy?
+Most calculators answer one question. Beautally answers the one that matters in the store aisle: how much do I buy?
 
 - **One room, every material.** Enter length, width and height once. Paint, flooring, tile and wallpaper all use the same measurements.
 - **Buy quantity first.** Each card shows the rounded-up pack quantity first, then the unrounded need beside it.
@@ -172,7 +172,7 @@ The site is fully static and deploys to Cloudflare Pages. You can deploy by hand
 
 ```bash
 pnpm run build
-pnpm exec wrangler pages deploy dist --project-name=roomtally
+pnpm exec wrangler pages deploy dist --project-name=beautally
 ```
 
 For a preview of another branch, add `--branch=<branch-name>`.
@@ -180,12 +180,12 @@ For a preview of another branch, add `--branch=<branch-name>`.
 ### Continuous integration and deploy
 
 - **CI** (`.github/workflows/ci.yml`) runs on every push and pull request, and weekly. It installs from the lockfile, then runs format, types, unit tests with coverage, build, size budget, SEO scan, `pnpm audit --prod --audit-level=high` and the Playwright specs. Node comes from `.nvmrc` and pnpm from `packageManager`.
-- **Deploy** (`.github/workflows/deploy.yml`) runs only after a CI run on `main` that was started by a push and passed. It builds that same commit and deploys it to the `roomtally` Cloudflare Pages project.
+- **Deploy** (`.github/workflows/deploy.yml`) runs only after a CI run on `main` that was started by a push and passed. It builds that same commit and deploys it to the `beautally` Cloudflare Pages project.
 - **Dependabot** (`.github/dependabot.yml`) opens weekly pull requests for npm and GitHub Actions, with minor and patch updates grouped. Review each one by hand.
 
 ### One-time setup
 
-1. Create a Cloudflare Pages project named `roomtally` (direct upload).
+1. Create a Cloudflare Pages project named `beautally` (direct upload).
 2. In GitHub, add the repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
 3. In GitHub, add the repository variable `PUBLIC_SITE_URL` with your real address. Add the other `PUBLIC_` variables from the table above only when you need them.
 4. Set the same `PUBLIC_` variables in the Cloudflare Pages project settings if you also build there.

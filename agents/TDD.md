@@ -1,6 +1,6 @@
 > **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
 
-# TDD — Roomtally Tech Design Document
+# TDD — Beautally Tech Design Document
 
 Project type: **frontend-only static site** (no backend, no database, no accounts). Sections that normally describe servers are marked **N/A** with the reason, so no agent invents a backend.
 
@@ -57,7 +57,7 @@ Set `"packageManager": "pnpm@12.15.0"` in package.json. pnpm scripts (names fixe
 ### A.5 Environment Variables
 | Variable | Required? | Description | Example |
 |---|---|---|---|
-| PUBLIC_SITE_URL | yes | canonical origin, no trailing slash | https://roomtally.example |
+| PUBLIC_SITE_URL | yes | canonical origin, no trailing slash | https://beautally.example |
 | PUBLIC_ADS_ENABLED | no (default false) | master switch for ads | false |
 | PUBLIC_ADSENSE_CLIENT | when ads on | AdSense publisher ID | ca-pub-0000000000000000 |
 | PUBLIC_ADSENSE_SLOT_INARTICLE | when ads on | ad unit ID for in-content units | 0000000000 |
@@ -349,13 +349,13 @@ Static files on a CDN. Targets (75th percentile, mobile 4G): LCP ≤ 2.0 s, INP 
 | DB / API | N/A | — | — | — |
 | CDN edge | HTML | path | `Cache-Control: public, max-age=0, must-revalidate` | each deploy |
 | CDN edge | `/_astro/*` hashed assets and fonts | path with hash | `public, max-age=31536000, immutable` | new hash per build |
-| Client | localStorage project | `roomtally:project:v1` | until cleared | Clear my data / schema reset |
+| Client | localStorage project | `beautally:project:v1` | until cleared | Clear my data / schema reset |
 
 ### F.41 Database Performance
 N/A (no database). N+1 rule translates to: never recompute all rooms on every keystroke of one room; `buildShoppingList` runs once per valid change, debounced 300 ms.
 
 ### F.42 Horizontal Scaling Strategy
-Cloudflare's global network serves static files; nothing to scale. Deploy with `pnpm exec wrangler pages deploy dist --project-name=roomtally`.
+Cloudflare's global network serves static files; nothing to scale. Deploy with `pnpm exec wrangler pages deploy dist --project-name=beautally`.
 
 ### F.43 Load Testing
 Not needed for static hosting. Instead run budget checks: `pnpm run size` and the Lighthouse run in PageSpeed Insights against the preview URL before each release.
@@ -429,11 +429,11 @@ B2C, organic search is the main channel. Highest priority: calculator pages and 
 ### H.56 Meta Tag Strategy
 | Page type | Title pattern (≤ 60 chars) | Description pattern (≤ 155 chars) |
 |---|---|---|
-| Home | Roomtally: Paint, Flooring & Tile Calculator in One List | Enter your room once to get a shopping list for paint, flooring, tile and wallpaper, rounded to real pack sizes. |
-| Calculator | {Material} Calculator: How Much Do I Need? \| Roomtally | one sentence on what it calculates plus the assumption shown |
-| Room type | {Room} Paint Calculator: How Much Paint? \| Roomtally | typical room size and result sentence |
-| Guide | {Guide title} \| Roomtally | one-sentence summary |
-| Legal | {Page} \| Roomtally | one-sentence purpose |
+| Home | Beautally: Paint, Flooring & Tile Calculator in One List | Enter your room once to get a shopping list for paint, flooring, tile and wallpaper, rounded to real pack sizes. |
+| Calculator | {Material} Calculator: How Much Do I Need? \| Beautally | one sentence on what it calculates plus the assumption shown |
+| Room type | {Room} Paint Calculator: How Much Paint? \| Beautally | typical room size and result sentence |
+| Guide | {Guide title} \| Beautally | one-sentence summary |
+| Legal | {Page} \| Beautally | one-sentence purpose |
 All pages: Open Graph title, description, URL and image (`public/og-default.png`), Twitter card `summary_large_image`.
 
 ### H.57 Sitemap Configuration

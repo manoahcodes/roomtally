@@ -22,14 +22,14 @@ import {
 } from '../../src/lib/seo/meta';
 import { ROOM_TYPES } from '../../src/data/rooms';
 
-const ORIGIN = 'https://roomtally.example';
+const ORIGIN = 'https://beautally.example';
 
 describe('websiteSchema', () => {
   it('has the required fields', () => {
     const s = websiteSchema('A description');
     expect(s['@context']).toBe('https://schema.org');
     expect(s['@type']).toBe('WebSite');
-    expect(s.name).toBe('Roomtally');
+    expect(s.name).toBe('Beautally');
     expect(s.url).toBe(`${ORIGIN}/`);
     expect(s.description).toBe('A description');
   });
@@ -98,7 +98,7 @@ describe('articleSchema', () => {
     expect(s.headline).toBe(base.headline);
     expect(s.url).toBe(`${ORIGIN}/guides/measure-a-room/`);
     expect(s.datePublished).toBe('2026-01-05');
-    expect(s.author).toEqual({ '@type': 'Organization', name: 'Roomtally', url: ORIGIN });
+    expect(s.author).toEqual({ '@type': 'Organization', name: 'Beautally', url: ORIGIN });
   });
   it('uses the publish date when there is no modified date', () => {
     expect(articleSchema(base).dateModified).toBe('2026-01-05');
@@ -150,7 +150,7 @@ describe('canonicalUrl', () => {
 describe('page meta', () => {
   it('home uses the exact title and description from the spec', () => {
     const m = homeMeta();
-    expect(m.title).toBe('Roomtally: Paint, Flooring & Tile Calculator in One List');
+    expect(m.title).toBe('Beautally: Paint, Flooring & Tile Calculator in One List');
     expect(m.description).toBe(HOME_DESCRIPTION);
     expect(m.canonical).toBe(`${ORIGIN}/`);
     expect(m.twitterCard).toBe('summary_large_image');
@@ -162,13 +162,13 @@ describe('page meta', () => {
   });
   it('calculator titles follow the pattern', () => {
     const m = calculatorMeta('Flooring', 'Works out flooring.', '/flooring-calculator/');
-    expect(m.title).toBe('Flooring Calculator: How Much Do I Need? | Roomtally');
+    expect(m.title).toBe('Flooring Calculator: How Much Do I Need? | Beautally');
     expect(m.canonical).toBe(`${ORIGIN}/flooring-calculator/`);
   });
   it('room titles follow the pattern and every room type fits', () => {
     for (const room of ROOM_TYPES) {
       const m = roomMeta(room.name, room.intro, `/paint-calculator/${room.slug}/`);
-      expect(m.title).toBe(`${room.name} Paint Calculator: How Much Paint? | Roomtally`);
+      expect(m.title).toBe(`${room.name} Paint Calculator: How Much Paint? | Beautally`);
       expect(m.title.length).toBeLessThanOrEqual(TITLE_MAX);
       expect(m.description.length).toBeLessThanOrEqual(DESCRIPTION_MAX);
     }
@@ -177,8 +177,8 @@ describe('page meta', () => {
     const long = 'A very long guide title that would go well past the sixty character limit';
     const g = guideMeta(long, 'Summary.', '/guides/long/');
     expect(g.title.length).toBeLessThanOrEqual(TITLE_MAX);
-    expect(g.title.endsWith(' | Roomtally')).toBe(true);
-    expect(legalMeta('Privacy', 'How we handle data.', '/privacy/').title).toBe('Privacy | Roomtally');
+    expect(g.title.endsWith(' | Beautally')).toBe(true);
+    expect(legalMeta('Privacy', 'How we handle data.', '/privacy/').title).toBe('Privacy | Beautally');
   });
   it('shortens an over-long description to 155 characters', () => {
     const m = guideMeta('Guide', 'word '.repeat(60), '/guides/g/');

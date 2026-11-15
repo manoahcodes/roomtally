@@ -18,9 +18,9 @@ export interface PageMeta {
   twitterCard: 'summary_large_image';
 }
 
-const SUFFIX = ' | Roomtally';
+const SUFFIX = ' | Beautally';
 
-export const HOME_TITLE = 'Roomtally: Paint, Flooring & Tile Calculator in One List';
+export const HOME_TITLE = 'Beautally: Paint, Flooring & Tile Calculator in One List';
 export const HOME_DESCRIPTION =
   'Enter your room once to get a shopping list for paint, flooring, tile and wallpaper, rounded to real pack sizes.';
 

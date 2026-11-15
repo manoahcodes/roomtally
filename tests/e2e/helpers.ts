@@ -5,7 +5,7 @@
 import { expect } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
 
-export const STORAGE_KEY = 'roomtally:project:v1';
+export const STORAGE_KEY = 'beautally:project:v1';
 
 /** Turn window.print into a recorder, so a spec can look at the page while "printing". */
 export async function stubPrint(page: Page): Promise<void> {

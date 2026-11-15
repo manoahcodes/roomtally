@@ -44,7 +44,7 @@ For a room that is not a rectangle, split it into rectangles. Measure each one a
 
 ## Step 2: Pick the waste for your layout
 
-The way you lay the floor changes how much you cut. Roomtally starts from these typical allowances:
+The way you lay the floor changes how much you cut. Beautally starts from these typical allowances:
 
 | Layout | Typical waste |
 | --- | --- |
@@ -97,11 +97,11 @@ Take the 14 m² room and a 6 m² hallway. Both use the same straight lay and 2 m
 
 The hall needs 6.6 m², which is 3.3 boxes, so on its own it rounds up to 4.
 
-Adding the rooms first saves a box here. Roomtally does this for you. It adds the rooms together first and rounds up once.
+Adding the rooms first saves a box here. Beautally does this for you. It adds the rooms together first and rounds up once.
 
 ## Does the waste factor change for tiles?
 
-The idea is the same. Tiles are cut at the edges, and a diagonal or herringbone layout wastes more. Roomtally uses the same typical allowances for tile. The tile calculator also adds a grout gap to each tile, which changes how many tiles fit.
+The idea is the same. Tiles are cut at the edges, and a diagonal or herringbone layout wastes more. Beautally uses the same typical allowances for tile. The tile calculator also adds a grout gap to each tile, which changes how many tiles fit.
 
 ## Common mistakes
 

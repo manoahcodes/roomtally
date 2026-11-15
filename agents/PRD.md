@@ -1,9 +1,9 @@
 > **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
 
-# PRD — Roomtally (working name) — Home Project Estimator
+# PRD — Beautally (working name) — Home Project Estimator
 
 ## 1. Product Vision
-Homeowners and DIYers guess how much paint, flooring, tile and wallpaper to buy, and either run short mid-job or overbuy. Roomtally is a free, private, one-page website where you enter a room once and get a single shopping list for every material, rounded up to real pack sizes (cans, boxes, rolls) with waste built in. It runs entirely in the browser and earns from ads and affiliate links.
+Homeowners and DIYers guess how much paint, flooring, tile and wallpaper to buy, and either run short mid-job or overbuy. Beautally is a free, private, one-page website where you enter a room once and get a single shopping list for every material, rounded up to real pack sizes (cans, boxes, rolls) with waste built in. It runs entirely in the browser and earns from ads and affiliate links.
 
 ## 2. Target Audience
 - **Primary persona — "First-time room refresher" (US/UK/CA/AU, 25–55):** about to repaint or refloor one or two rooms, not a professional, searches on a phone before going to the store, wants one number to write on a list.
@@ -106,9 +106,9 @@ Signup, upgrade and cancellation events do not exist: there are no accounts or p
 **Not in v1 (out of scope):** accounts, email capture, saving to a server, sharing links, concrete/mulch/gravel/fencing calculators, non-English languages, mobile app, product database or live prices, room shapes other than rectangles (L-shapes are handled by adding two rooms and are explained in the guide).
 
 ## 10. Brand Identity & Positioning
-- **Name (working):** Roomtally. Alternatives considered: Onceover, Plankwise. A search found no calculator site under Roomtally or Onceover, but that is not proof it is free: ⚠ domain and trademark checks still to do.
+- **Name (working):** Beautally. Alternatives considered: Onceover, Plankwise. A search found no calculator site under Beautally or Onceover, but that is not proof it is free: ⚠ domain and trademark checks still to do.
 - **Tagline:** "Measure once. Buy right."
-- **Brand story:** Roomtally was built for the moment you stand in a hardware store aisle and cannot remember whether you needed two cans or three. Measure the room once, and the list you carry in is already right, rounded to the packs on the shelf.
+- **Brand story:** Beautally was built for the moment you stand in a hardware store aisle and cannot remember whether you needed two cans or three. Measure the room once, and the list you carry in is already right, rounded to the packs on the shelf.
 - **Personality:** practical, warm, plain-spoken, dependable, tidy.
 
 ## 11. Brand Voice & Tone

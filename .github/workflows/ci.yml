@@ -19,7 +19,7 @@ concurrency:
 
 env:
   # The site address is public. Set the repository variable PUBLIC_SITE_URL for real builds.
-  PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://roomtally.example' }}
+  PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://beautally.example' }}
 
 jobs:
   verify:

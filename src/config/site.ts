@@ -4,10 +4,10 @@ export interface NavItem {
 }
 
 const env = (import.meta.env ?? {}) as unknown as Record<string, string | undefined>;
-const rawUrl = env.PUBLIC_SITE_URL ?? 'https://roomtally.example';
+const rawUrl = env.PUBLIC_SITE_URL ?? 'https://beautally.example';
 
 export const SITE = {
-  name: 'Roomtally',
+  name: 'Beautally',
   tagline: 'Measure once. Buy right.',
   /** Canonical origin without a trailing slash. */
   url: rawUrl.replace(/\/+$/, ''),

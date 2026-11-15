@@ -1,6 +1,6 @@
 > **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
 
-# File_Map — Roomtally
+# File_Map — Beautally
 
 Every file the finished project needs. Entry format: `path` [goal], (connections), then layer, dependencies, what it implements, the batch that builds it, and the model-after repo. Layers match Build_prompts.md.
 

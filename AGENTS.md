@@ -1,9 +1,9 @@
 > **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
 
-# Roomtally — Agent instructions (AGENTS.md)
+# Beautally — Agent instructions (AGENTS.md)
 
 ## 1. Project Overview
-Roomtally (working name) is a free, private, one-page Home & Garden estimator: enter a room once, get one shopping list for paint, flooring, tile and wallpaper. Frontend-only static site: Astro 7.4.7, TypeScript 6.0.3, Tailwind CSS 4.3.5, Vitest, Playwright, Cloudflare Pages, pnpm 12.15.0.
+Beautally (working name) is a free, private, one-page Home & Garden estimator: enter a room once, get one shopping list for paint, flooring, tile and wallpaper. Frontend-only static site: Astro 7.4.7, TypeScript 6.0.3, Tailwind CSS 4.3.5, Vitest, Playwright, Cloudflare Pages, pnpm 12.15.0.
 
 ## 2. Where Things Are
 | File | When to read it |

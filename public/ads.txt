@@ -1,3 +1,3 @@
-# ads.txt for Roomtally. Comment only until the AdSense publisher ID exists (PRD §6).
+# ads.txt for Beautally. Comment only until the AdSense publisher ID exists (PRD §6).
 # When the account is approved, replace this line with the entry from AdSense, in this form:
 # google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

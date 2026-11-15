@@ -1,9 +1,9 @@
 ---
 /**
  * Cookie notice (App_Flow §A.1; PRD Rules 13 and 14). LegalLayout, no ads.
- * Lists everything Roomtally stores on a device and which consent category it belongs to.
- * Names match the code: roomtally_consent (consent.ts), roomtally:project:v1 and
- * roomtally:theme (storage.ts), and the Google cookie names cleared in consent.ts.
+ * Lists everything Beautally stores on a device and which consent category it belongs to.
+ * Names match the code: beautally_consent (consent.ts), beautally:project:v1 and
+ * beautally:theme (storage.ts), and the Google cookie names cleared in consent.ts.
  *
  * LEGAL REVIEW REQUIRED before launch (Engineering_Plan: agent audit items). Check the
  * cookie list against what the live site and the ad and analytics providers actually set.
@@ -13,24 +13,24 @@ import { SITE } from '../config/site';
 import LegalLayout from '../layouts/LegalLayout.astro';
 
 const description =
-  'The cookies and browser storage Roomtally uses, what each one is for, and how to change your choices.';
+  'The cookies and browser storage Beautally uses, what each one is for, and how to change your choices.';
 const { contactEmail } = SITE;
 
 const essential = [
   {
-    name: 'roomtally_consent',
+    name: 'beautally_consent',
     kind: 'Cookie',
     purpose: 'Remembers your cookie choices.',
     lasts: 'About six months',
   },
   {
-    name: 'roomtally:project:v1',
+    name: 'beautally:project:v1',
     kind: 'Local storage',
     purpose: 'Saves your rooms, options and prices on your device.',
     lasts: 'Until you clear it',
   },
   {
-    name: 'roomtally:theme',
+    name: 'beautally:theme',
     kind: 'Local storage',
     purpose: 'Remembers light or dark theme.',
     lasts: 'Until you clear it',
@@ -40,7 +40,7 @@ const essential = [
 
 <LegalLayout title="Cookie notice" description={description} path="/cookies/" updated="2026-11-15">
   <p class="text-lg">
-    Roomtally works without cookies. This page lists what we store on your device and why. You
+    Beautally works without cookies. This page lists what we store on your device and why. You
     choose what is allowed beyond the essentials.
   </p>
 

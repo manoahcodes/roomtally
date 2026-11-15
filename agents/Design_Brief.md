@@ -1,14 +1,14 @@
 > **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
 
-# Design_Brief — Roomtally
+# Design_Brief — Beautally
 
 ## A. Brand Identity
 
 ### A.1 Brand Name & Tagline
-Roomtally (working; ⚠ domain and trademark still to check). Tagline: **Measure once. Buy right.** Domain: candidate only, none confirmed.
+Beautally (working; ⚠ domain and trademark still to check). Tagline: **Measure once. Buy right.** Domain: candidate only, none confirmed.
 
 ### A.2 Brand Personality
-Practical, warm, plain-spoken, dependable, tidy. Roomtally feels like a knowledgeable neighbour with a tape measure: friendly, specific, never showy.
+Practical, warm, plain-spoken, dependable, tidy. Beautally feels like a knowledgeable neighbour with a tape measure: friendly, specific, never showy.
 
 ### A.3 Colour Palette
 **Primary / secondary / accent**
@@ -94,7 +94,7 @@ Tokens live in **`src/styles/global.css`** (Tailwind v4 theme section; the dark 
 | ease-standard | ease-out | transitions |
 
 ### A.6 Logo
-Concept: wordmark "Roomtally" in Fraunces 700 with a tally-mark glyph (four upright strokes crossed by one diagonal) in Clay. Usage rules: minimum wordmark width 96 px, minimum glyph size 24 px; clear space equal to the height of the "R". Variants: full colour (Clay on Cream), reversed (Cream on Clay or on dark background), monochrome (Ink 900). Forbidden: stretching or skewing; recolouring outside the palette; adding shadows, gradients or outlines; placing on busy photos; rotating; swapping the typeface. Formats: SVG master, PNG fallbacks.
+Concept: wordmark "Beautally" in Fraunces 700 with a tally-mark glyph (four upright strokes crossed by one diagonal) in Clay. Usage rules: minimum wordmark width 96 px, minimum glyph size 24 px; clear space equal to the height of the "R". Variants: full colour (Clay on Cream), reversed (Cream on Clay or on dark background), monochrome (Ink 900). Forbidden: stretching or skewing; recolouring outside the palette; adding shadows, gradients or outlines; placing on busy photos; rotating; swapping the typeface. Formats: SVG master, PNG fallbacks.
 
 ### A.7 Favicon & App Icon
 `public/favicon.svg` (glyph, Clay on Cream, 10% safe margin); `public/favicon-32.png` 32×32; `public/apple-touch-icon.png` 180×180 with solid Cream background. 16×16 comes from the SVG. No PWA icons in v1.
@@ -150,7 +150,7 @@ Page shell in `BaseLayout.astro`: header, main (max width 72rem, centred), foote
 Progressive enhancement. 1) The server-built page contains the form and empty results container. 2) A page script calls `bindRoomForm`. 3) Valid input updates the store and re-renders results through safe DOM calls. Files: `bindRoomForm.ts`, `projectStore.ts`, `renderResults.ts`.
 
 ### B.15 Dark Mode Strategy
-Light is the default for everyone, regardless of system setting. The toggle sets `data-theme` on the html element and saves `roomtally:theme`. A tiny inline script in `BaseLayout.astro` applies the saved theme before first paint to prevent a flash. Dark values are the tokens in A.3 and A.5.
+Light is the default for everyone, regardless of system setting. The toggle sets `data-theme` on the html element and saves `beautally:theme`. A tiny inline script in `BaseLayout.astro` applies the saved theme before first paint to prevent a flash. Dark values are the tokens in A.3 and A.5.
 
 ### B.16 Interaction & Animation Guidelines
 Transitions 150–200 ms ease-out (A.9). Hover darkens Clay to Clay 700. Focus: 3px Clay ring with 2px offset, always visible. Results update in place with no layout jump; ad containers keep their reserved height.

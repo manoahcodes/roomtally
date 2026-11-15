@@ -10,7 +10,7 @@ faq:
   - q: Do I subtract doors and windows from the paint amount?
     a: Yes. Measure each one, multiply width by height, and take the total off the wall area. Small items such as switches can be ignored.
   - q: Can I mix can sizes to get closer to the amount I need?
-    a: Yes. Roomtally picks the mix of can sizes that leaves the least spare paint. Compare shop prices, because a different mix may cost less.
+    a: Yes. Beautally picks the mix of can sizes that leaves the least spare paint. Compare shop prices, because a different mix may cost less.
 ---
 
 Paint is easy to under-buy and easy to over-buy. A few minutes of measuring fixes both. This guide shows how to work out the litres for one room, then turn that into real cans.
@@ -47,7 +47,7 @@ Small items, such as light switches and sockets, can be ignored. They are too sm
 
 Two coats is the usual advice when you change colour. One coat can be enough to refresh the same colour on walls in good shape.
 
-Bare plaster, a stained wall or a big colour change may need more. A coat of primer first can reduce the number of finish coats. Roomtally lets you choose from one to four coats.
+Bare plaster, a stained wall or a big colour change may need more. A coat of primer first can reduce the number of finish coats. Beautally lets you choose from one to four coats.
 
 ## Step 5: Divide by the coverage
 
@@ -57,7 +57,7 @@ Rough or porous walls soak up more paint than smooth ones. If your wall is rough
 
 ## Step 6: Add a little spare
 
-A small spare amount covers touch-ups and uneven walls. Roomtally adds 5% by default. You can change it in the paint options, and the Assumptions panel shows the value in use.
+A small spare amount covers touch-ups and uneven walls. Beautally adds 5% by default. You can change it in the paint options, and the Assumptions panel shows the value in use.
 
 ## Step 7: Round up to real cans
 
@@ -93,7 +93,7 @@ Switch each one on in the paint options when you want it in your list.
 
 If several rooms get the same paint, add their litres together before you round up. Rounding each room on its own leaves a part-used can in every room.
 
-Roomtally adds the rooms first and rounds once. The whole-project estimator does this for up to 10 rooms.
+Beautally adds the rooms first and rounds once. The whole-project estimator does this for up to 10 rooms.
 
 ## Common mistakes
 

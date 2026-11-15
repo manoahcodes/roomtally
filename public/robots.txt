@@ -4,4 +4,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://roomtally.example/sitemap-index.xml
+Sitemap: https://beautally.example/sitemap-index.xml

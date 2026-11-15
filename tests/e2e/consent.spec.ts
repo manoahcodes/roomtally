@@ -31,7 +31,7 @@ const banner = (page: Page) => page.getByRole('button', { name: 'Accept all' }).
 
 async function consentCookie(page: Page): Promise<string | null> {
   const cookies = await page.context().cookies();
-  return cookies.find((cookie) => cookie.name === 'roomtally_consent')?.value ?? null;
+  return cookies.find((cookie) => cookie.name === 'beautally_consent')?.value ?? null;
 }
 
 test.describe('before any choice', () => {
@@ -42,8 +42,8 @@ test.describe('before any choice', () => {
     await page.waitForLoadState('networkidle');
 
     expect(seen).toEqual([]);
-    await expect(page.locator('script[data-roomtally-ads]')).toHaveCount(0);
-    await expect(page.locator('script[data-roomtally-beacon]')).toHaveCount(0);
+    await expect(page.locator('script[data-beautally-ads]')).toHaveCount(0);
+    await expect(page.locator('script[data-beautally-beacon]')).toHaveCount(0);
     await expect(page.locator('ins.adsbygoogle')).toHaveCount(0);
   });
 
@@ -108,12 +108,12 @@ test.describe('Accept all', () => {
       await expect.poll(() => consentCookie(page)).toContain('advertisement');
 
       if (ADS_BUILT) {
-        await expect(page.locator('script[data-roomtally-ads]')).toHaveCount(1);
+        await expect(page.locator('script[data-beautally-ads]')).toHaveCount(1);
         await expect.poll(() => seen.some((url) => url.includes('adsbygoogle.js'))).toBe(true);
       } else {
         await page.waitForLoadState('networkidle');
         expect(seen).toEqual([]);
-        await expect(page.locator('script[data-roomtally-ads]')).toHaveCount(0);
+        await expect(page.locator('script[data-beautally-ads]')).toHaveCount(0);
       }
     },
   );

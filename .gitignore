@@ -1,4 +1,4 @@
-# Roomtally — git ignore rules
+# Beautally — git ignore rules
 # Keeps secrets, dependencies and build/test output out of version control.
 
 # --- Dependencies ---

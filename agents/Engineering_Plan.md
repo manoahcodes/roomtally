@@ -1,6 +1,6 @@
 > **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
 
-# Engineering_Plan — Roomtally (bonus)
+# Engineering_Plan — Beautally (bonus)
 
 ## A. Testing Strategy
 
@@ -73,7 +73,7 @@ Branches: `main` deploys to production; every other branch can deploy a Cloudfla
 ### B.14 Deployment Target + Deploy Commands
 ```bash
 pnpm run build
-pnpm exec wrangler pages deploy dist --project-name=roomtally
+pnpm exec wrangler pages deploy dist --project-name=beautally
 ```
 Preview: add `--branch=<branch-name>` (⚠ VERIFY flag in current Wrangler docs).
 

@@ -1,9 +1,9 @@
 {
-  "name": "roomtally",
+  "name": "beautally",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Roomtally: a free, private home project estimator for paint, flooring, tile and wallpaper.",
+  "description": "Beautally: a free, private home project estimator for paint, flooring, tile and wallpaper.",
   "packageManager": "pnpm@12.15.0",
   "engines": {
     "node": ">=22.23.4"

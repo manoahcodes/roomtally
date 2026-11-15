@@ -1,17 +1,17 @@
 > **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
 
-# Backend_Schema — Roomtally
+# Backend_Schema — Beautally
 
 **There is no server and no database.** This file defines the *client-side data model*: what is stored in the visitor's browser (localStorage) and the static data tables shipped in the code. Nothing here is ever sent to a server (PRD NV1).
 
 ## 1. Entity Overview
 | Entity | Where it lives | Description |
 |---|---|---|
-| Project | localStorage key `roomtally:project:v1` | The visitor's rooms and settings (one per browser) |
+| Project | localStorage key `beautally:project:v1` | The visitor's rooms and settings (one per browser) |
 | Room | inside Project | One rectangular room with dimensions and options |
 | Opening | inside Room | A door or window to subtract from wall area |
 | Settings | inside Project | Region, unit system, per-material overrides and prices |
-| ThemePreference | localStorage key `roomtally:theme` | `light` or `dark` (light default) |
+| ThemePreference | localStorage key `beautally:theme` | `light` or `dark` (light default) |
 | ConsentRecord | cookie `cc_cookie` (owned by vanilla-cookieconsent) | Stores the visitor's consent choices; first-party, necessary |
 | MaterialPreset | `src/data/materials.ts` (static) | Default coverage, waste, pack sizes |
 | RegionPreset | `src/data/regions.ts` (static) | Units, currency, wording per region |

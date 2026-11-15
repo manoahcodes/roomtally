@@ -165,14 +165,14 @@ export function installGlobalErrorHandler(target: Window = window): () => void {
   const onError = (event: ErrorEvent): void => {
     if (event.message === 'Script error.') return;
     if (isThirdParty(event.filename, origin)) return;
-    console.error('Roomtally: unexpected error');
+    console.error('Beautally: unexpected error');
     showBanner();
   };
   const onRejection = (event: PromiseRejectionEvent): void => {
     const reason: unknown = event.reason;
     const stack = reason instanceof Error ? reason.stack : undefined;
     if (isThirdParty(stack, origin)) return;
-    console.error('Roomtally: unexpected rejection');
+    console.error('Beautally: unexpected rejection');
     showBanner();
   };
 

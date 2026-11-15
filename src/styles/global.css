@@ -1,5 +1,5 @@
 /*
- * Roomtally design tokens (Design_Brief §A.3-A.5, §B.15-B.17).
+ * Beautally design tokens (Design_Brief §A.3-A.5, §B.15-B.17).
  * Tailwind v4: tokens live in @theme. Light is the default for everyone; dark applies
  * only when <html data-theme="dark"> is set by the theme toggle.
  * Adapted from the structure of onwidget/astrowind src/assets/styles/tailwind.css (MIT).

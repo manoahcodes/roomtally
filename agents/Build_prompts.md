@@ -1,6 +1,6 @@
 > **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
 
-# Build_prompts — Roomtally
+# Build_prompts — Beautally
 
 Work through the batches in order. Run each batch's gate checks; do not start the next batch until all pass. One unit per batch. No batch creates a file that is not in `agents/File_Map.md`.
 
@@ -61,7 +61,7 @@ pnpm exec vitest run --passWithNoTests
 1. astro.config.ts: static output, trailingSlash always, build format directory, site from PUBLIC_SITE_URL, sitemap integration, Tailwind Vite plugin.
 2. vitest.config.ts: node default, jsdom for tests named *.dom or the two jsdom suites, V8 coverage with thresholds from Engineering_Plan §A.9.
 3. playwright.config.ts: Chromium desktop and one mobile profile, webServer runs astro preview on the built site.
-4. wrangler.toml: project name roomtally, pages_build_output_dir dist.
+4. wrangler.toml: project name beautally, pages_build_output_dir dist.
 **Gate checks (all must pass before the next batch):**
 ```bash
 pnpm exec astro check
@@ -319,7 +319,7 @@ pnpm exec vitest run --passWithNoTests
 **Read first:** Backend_Schema → §5; TDD → §D.26, §E (tampering), and each file's File_Map entry
 **Reference:** none — write from the spec
 **Deliverables:**
-1. readProject / writeProject / clearProject under key roomtally:project:v1 with try/catch (STO_001) and invalid-data reset (STO_002).
+1. readProject / writeProject / clearProject under key beautally:project:v1 with try/catch (STO_001) and invalid-data reset (STO_002).
 2. Migrations map from older versions; unknown newer version resets safely.
 3. Tests for empty, corrupt JSON, tampered numbers (negative, NaN, huge strings) and unavailable storage.
 **Gate checks (all must pass before the next batch):**

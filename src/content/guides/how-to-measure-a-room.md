@@ -8,12 +8,12 @@ faq:
   - q: What do I need to measure a room?
     a: A tape measure, a pencil and paper. A laser measure is faster in a large room, but a tape works well. A second person helps with long walls.
   - q: Should I measure in metres or feet?
-    a: Use whichever you are comfortable with. Switch Roomtally to match, enter every number in that one unit, and never mix the two in one room.
+    a: Use whichever you are comfortable with. Switch Beautally to match, enter every number in that one unit, and never mix the two in one room.
   - q: How do I measure a room that is not a rectangle?
     a: Split it into rectangles and add each one as its own room. For an L-shape, add the join between the two parts as a doorway-sized opening in both rooms.
 ---
 
-Every estimate starts with a few measurements. Get them right once and the same numbers work for paint, flooring, tile and wallpaper. Roomtally is built around this idea: enter a room once, then read one shopping list.
+Every estimate starts with a few measurements. Get them right once and the same numbers work for paint, flooring, tile and wallpaper. Beautally is built around this idea: enter a room once, then read one shopping list.
 
 All results are estimates. Measure carefully, and check your supplier's figures before you buy.
 
@@ -37,11 +37,11 @@ Measure twice. Old houses often have walls that are not quite square, so the two
 
 Measure from the floor to the ceiling in the middle of the room. Standard rooms are around 2.4 m, or 8 feet, but older and newer homes vary. A slope or a sloping attic ceiling needs more care, so measure the highest and lowest points.
 
-Roomtally accepts heights from 1.5 m to 6 m.
+Beautally accepts heights from 1.5 m to 6 m.
 
 ### Doors and windows
 
-Measure each door and window by width and height. Include the frame if you will not paint or paper it. Roomtally takes the area off the walls.
+Measure each door and window by width and height. Include the frame if you will not paint or paper it. Beautally takes the area off the walls.
 
 Skip tiny items such as light switches and sockets. They do not change how much you buy.
 
@@ -62,11 +62,11 @@ That is why one set of measurements is enough.
 
 Choose metric or imperial before you start. Write every number down in that unit. The most common cause of a strange result is feet typed into a form set to metres.
 
-Roomtally stores your sizes in metres and converts what it shows. Switching units does not change the maths.
+Beautally stores your sizes in metres and converts what it shows. Switching units does not change the maths.
 
 ## Rooms that are not rectangles
 
-Roomtally works with rectangles. Most rooms can be split into rectangles, and each rectangle goes in as its own room. Rooms are added together for the final list.
+Beautally works with rectangles. Most rooms can be split into rectangles, and each rectangle goes in as its own room. Rooms are added together for the final list.
 
 For an L-shaped room:
 
@@ -93,7 +93,7 @@ An L-shaped room splits into part A, 5 m by 3 m, and part B, 2 m by 2 m. The cei
 
 Without the join, the wall total would read 57.6 m². That is nearly a fifth too high, and you would buy extra paint.
 
-In Roomtally, add the 2 m by 2.4 m join as an opening in part A. Add it again in part B.
+In Beautally, add the 2 m by 2.4 m join as an opening in part A. Add it again in part B.
 
 ## Check your numbers
 
@@ -103,7 +103,7 @@ Before you trust a list, check three things:
 - Are the wall heights the same as the ceiling height you measured?
 - Did you include every door and window?
 
-If the number looks odd, measure again. Roomtally shows an error code next to any value outside its limits.
+If the number looks odd, measure again. Beautally shows an error code next to any value outside its limits.
 
 ## Common mistakes
 

@@ -10,8 +10,8 @@ import type { Project, Region } from '../../types/project';
 import { sanitizeProject } from '../calc/validation';
 import { migrate } from './migrations';
 
-export const PROJECT_KEY = 'roomtally:project:v1';
-export const THEME_KEY = 'roomtally:theme';
+export const PROJECT_KEY = 'beautally:project:v1';
+export const THEME_KEY = 'beautally:theme';
 /** The document stays under 50 KB in normal use; anything over twice that is rejected unread. */
 export const MAX_STORED_CHARS = 100 * 1024;
 

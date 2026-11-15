@@ -108,7 +108,7 @@ function syncFromLibrary(saved: boolean): void {
 /** Banner text and categories. Static strings only. */
 export function buildConsentConfig(onSync: (saved: boolean) => void): Record<string, unknown> {
   return {
-    cookie: { name: 'roomtally_consent' },
+    cookie: { name: 'beautally_consent' },
     guiOptions: {
       consentModal: { layout: 'box', position: 'bottom right', equalWeightButtons: true },
       preferencesModal: { layout: 'box' },
@@ -132,7 +132,7 @@ export function buildConsentConfig(onSync: (saved: boolean) => void): Record<str
           consentModal: {
             title: 'Your privacy choices',
             description:
-              'Roomtally works without cookies. With your permission we use anonymous analytics to improve the site, and ads to keep it free. Your rooms never leave your browser.',
+              'Beautally works without cookies. With your permission we use anonymous analytics to improve the site, and ads to keep it free. Your rooms never leave your browser.',
             acceptAllBtn: 'Accept all',
             acceptNecessaryBtn: 'Reject all',
             showPreferencesBtn: 'Choose',
@@ -159,7 +159,7 @@ export function buildConsentConfig(onSync: (saved: boolean) => void): Record<str
               {
                 title: 'Advertising',
                 description:
-                  'Lets Google show ads that keep Roomtally free. Off unless you accept. Ads never appear in the form or your results.',
+                  'Lets Google show ads that keep Beautally free. Off unless you accept. Ads never appear in the form or your results.',
                 linkedCategory: CAT_ADVERTISEMENT,
               },
               {

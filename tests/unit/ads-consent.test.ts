@@ -61,10 +61,10 @@ async function startConsent() {
 }
 
 function adScripts(): HTMLScriptElement[] {
-  return Array.from(document.querySelectorAll<HTMLScriptElement>('script[data-roomtally-ads]'));
+  return Array.from(document.querySelectorAll<HTMLScriptElement>('script[data-beautally-ads]'));
 }
 function beaconScripts(): HTMLScriptElement[] {
-  return Array.from(document.querySelectorAll<HTMLScriptElement>('script[data-roomtally-beacon]'));
+  return Array.from(document.querySelectorAll<HTMLScriptElement>('script[data-beautally-beacon]'));
 }
 function addSlot(name: string, parent: Element = document.body): HTMLElement {
   const div = document.createElement('div');
@@ -389,13 +389,13 @@ describe('analytics: silent without consent', () => {
     const sink = vi.fn();
     const heard = vi.fn();
     setTrackSink(sink);
-    window.addEventListener('roomtally:track', heard);
+    window.addEventListener('beautally:track', heard);
     await startConsent();
     track('room_added', { room_count: 2 });
     expect(isAnalyticsAllowed()).toBe(false);
     expect(sink).not.toHaveBeenCalled();
     expect(heard).not.toHaveBeenCalled();
-    window.removeEventListener('roomtally:track', heard);
+    window.removeEventListener('beautally:track', heard);
   });
 
   it('track does nothing when only advertising was accepted', async () => {
@@ -464,12 +464,12 @@ describe('analytics: after consent', () => {
 
   it('announces the event on window', async () => {
     const heard = vi.fn();
-    window.addEventListener('roomtally:track', heard);
+    window.addEventListener('beautally:track', heard);
     await allowed();
     track('data_cleared');
     expect(heard).toHaveBeenCalledTimes(1);
     expect((heard.mock.calls[0]![0] as CustomEvent).detail).toEqual({ name: 'data_cleared', props: {} });
-    window.removeEventListener('roomtally:track', heard);
+    window.removeEventListener('beautally:track', heard);
   });
 
   it('drops values that are not plain strings, numbers or booleans', async () => {

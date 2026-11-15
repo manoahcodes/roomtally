@@ -150,7 +150,7 @@ test.describe('home page: enter a room, get one list', () => {
       return { calls: record.__printCalls, header: record.__printHeader };
     });
     expect(printed.calls).toBe(1);
-    expect(printed.header).toContain('Roomtally shopping list');
+    expect(printed.header).toContain('Beautally shopping list');
 
     // The browser reports the end of printing; the added header goes away.
     await page.evaluate(() => window.dispatchEvent(new Event('afterprint')));
@@ -191,7 +191,7 @@ test.describe('storage problems', () => {
 
   test('STO_002: resets damaged saved data with a friendly note', async ({ page }) => {
     await page.addInitScript(() => {
-      window.localStorage.setItem('roomtally:project:v1', '{"schemaVersion":1,"rooms":"nope"}');
+      window.localStorage.setItem('beautally:project:v1', '{"schemaVersion":1,"rooms":"nope"}');
     });
     await page.goto('/');
     await dismissConsent(page);

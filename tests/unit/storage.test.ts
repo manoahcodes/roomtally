@@ -45,8 +45,8 @@ describe('readProject: empty and valid', () => {
   it('stores under the documented key', () => {
     const storage = createMemoryStorage();
     writeProject(makeProject(), storage);
-    expect(PROJECT_KEY).toBe('roomtally:project:v1');
-    expect(storage.data.has('roomtally:project:v1')).toBe(true);
+    expect(PROJECT_KEY).toBe('beautally:project:v1');
+    expect(storage.data.has('beautally:project:v1')).toBe(true);
   });
 });
 

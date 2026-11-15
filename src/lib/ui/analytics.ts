@@ -6,7 +6,7 @@
  *
  * Events are delivered to a sink. Cloudflare Web Analytics has no custom events and
  * the site has no backend, so by default an event is only announced on `window` as a
- * `roomtally:track` CustomEvent. A sink can be registered with setTrackSink().
+ * `beautally:track` CustomEvent. A sink can be registered with setTrackSink().
  */
 import { FEATURES } from '../../config/features';
 import { getConsent, onConsentChange } from './consent';
@@ -29,7 +29,7 @@ export type TrackSink = (name: EventName, props: Record<string, EventValue>) => 
 
 const MAX_STRING = 100;
 const BEACON_SRC = 'https://static.cloudflareinsights.com/beacon.min.js';
-const BEACON_ATTR = 'data-roomtally-beacon';
+const BEACON_ATTR = 'data-beautally-beacon';
 
 interface AnalyticsOptions {
   enabled: boolean;
@@ -78,7 +78,7 @@ export function track(name: EventName, props: EventProps = {}): void {
   try {
     sink?.(name, clean);
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('roomtally:track', { detail: { name, props: clean } }));
+      window.dispatchEvent(new CustomEvent('beautally:track', { detail: { name, props: clean } }));
     }
   } catch {
     // Analytics must never break the calculator (TDD §G.47).

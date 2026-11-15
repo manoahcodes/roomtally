@@ -8,7 +8,7 @@
  *
  * Scripts, in order:
  *  1. A tiny inline script in <head> applies the saved theme before first paint, so there
- *     is no flash. Light is the default (Design_Brief §B.15). Key: roomtally:theme.
+ *     is no flash. Light is the default (Design_Brief §B.15). Key: beautally:theme.
  *  2. One bundled module starts the global error handler, the consent banner, then
  *     analytics and ads. Both of those wait for consent, so no ad or analytics script
  *     exists before the visitor accepts (PRD Rules 13-14).
@@ -50,7 +50,7 @@ const { title, description, canonical, ogImage, jsonLd, noAds = false } = Astro.
       // No-flash theme. Reads only the two allowed values; anything else stays light.
       (function () {
         try {
-          if (localStorage.getItem('roomtally:theme') === 'dark') {
+          if (localStorage.getItem('beautally:theme') === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
           }
         } catch (e) {

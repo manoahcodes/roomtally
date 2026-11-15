@@ -16,7 +16,7 @@ import { getConsent, onConsentChange } from './consent';
 
 export const ADSENSE_SRC = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
 export const MAX_ADS_PER_PAGE = 3;
-const SCRIPT_ATTR = 'data-roomtally-ads';
+const SCRIPT_ATTR = 'data-beautally-ads';
 const SLOT_SELECTOR = '[data-ad-slot]';
 const FILLED_ATTR = 'data-ad-filled';
 

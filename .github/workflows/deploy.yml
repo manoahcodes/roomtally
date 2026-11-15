@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://roomtally.example' }}
+  PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://beautally.example' }}
   # Optional build-time switches. Leave the repository variables unset to keep them off.
   PUBLIC_ADS_ENABLED: ${{ vars.PUBLIC_ADS_ENABLED || 'false' }}
   PUBLIC_ADSENSE_CLIENT: ${{ vars.PUBLIC_ADSENSE_CLIENT }}
@@ -57,4 +57,4 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: pnpm exec wrangler pages deploy dist --project-name=roomtally --branch=main
+        run: pnpm exec wrangler pages deploy dist --project-name=beautally --branch=main

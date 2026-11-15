@@ -1,8 +1,8 @@
 > **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
 
-# Roomtally — Claude Code entry file
+# Beautally — Claude Code entry file
 
-Roomtally (working name) is a free, private, one-page Home & Garden estimator: enter a room once, get one shopping list for paint, flooring, tile and wallpaper. Stack: Astro 7.4.7 static site, TypeScript 6.0.3, Tailwind CSS 4.3.5, Vitest, Playwright, Cloudflare Pages, pnpm 12.15.0. Frontend-only; no backend (TDD §A.1).
+Beautally (working name) is a free, private, one-page Home & Garden estimator: enter a room once, get one shopping list for paint, flooring, tile and wallpaper. Stack: Astro 7.4.7 static site, TypeScript 6.0.3, Tailwind CSS 4.3.5, Vitest, Playwright, Cloudflare Pages, pnpm 12.15.0. Frontend-only; no backend (TDD §A.1).
 
 ## Document Map
 | File | When to read it |
