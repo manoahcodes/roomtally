@@ -1,5 +1,5 @@
 ---
-title: How much extra flooring should I buy? The waste factor explained
+title: How much extra flooring should I buy?
 description: Learn why flooring needs extra for cuts and mistakes, how much to add for straight, diagonal and herringbone lays, and how to round up to whole boxes.
 published: 2026-11-15
 updated: 2026-11-15

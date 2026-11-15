@@ -1,5 +1,5 @@
 ---
-title: How to measure a room for paint, flooring, tile or wallpaper
+title: How to measure a room for paint and flooring
 description: Measure length, width, height, doors and windows once, then use the same numbers for every material. Includes tips for L-shaped rooms and a worked example.
 published: 2026-11-15
 updated: 2026-11-15
