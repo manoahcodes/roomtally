@@ -69,13 +69,13 @@ Always round up. Running short half way through a wall can leave a visible line 
 
 The ceiling is 2.4 m high. The room has one door (0.9 m by 2 m) and one window (1.2 m by 1.2 m).
 
-| Step | Working | Result |
-| --- | --- | --- |
-| All four walls | 2 × (4 + 3.5) × 2.4 | 36 m² |
-| Door and window | 0.9 × 2 + 1.2 × 1.2 | 3.24 m² |
-| Wall area to paint | 36 − 3.24 | 32.76 m² |
-| Two coats at 10 m² per litre | 32.76 × 2 ÷ 10 | 6.552 L |
-| Plus 5% spare | 6.552 × 1.05 | 6.88 L |
+| Step                         | Working             | Result   |
+| ---------------------------- | ------------------- | -------- |
+| All four walls               | 2 × (4 + 3.5) × 2.4 | 36 m²    |
+| Door and window              | 0.9 × 2 + 1.2 × 1.2 | 3.24 m²  |
+| Wall area to paint           | 36 − 3.24           | 32.76 m² |
+| Two coats at 10 m² per litre | 32.76 × 2 ÷ 10      | 6.552 L  |
+| Plus 5% spare                | 6.552 × 1.05        | 6.88 L   |
 
 You need about 6.88 litres. With cans of 1, 2.5, 5 and 10 litres, the closest fit is 7 litres. That is one 5 litre can and two 1 litre cans, which is three cans.
 

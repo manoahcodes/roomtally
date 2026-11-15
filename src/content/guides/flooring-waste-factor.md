@@ -46,11 +46,11 @@ For a room that is not a rectangle, split it into rectangles. Measure each one a
 
 The way you lay the floor changes how much you cut. Beautally starts from these typical allowances:
 
-| Layout | Typical waste |
-| --- | --- |
-| Straight (boards or tiles parallel to the walls) | 10% |
-| Diagonal | 15% |
-| Herringbone | 20% |
+| Layout                                           | Typical waste |
+| ------------------------------------------------ | ------------- |
+| Straight (boards or tiles parallel to the walls) | 10%           |
+| Diagonal                                         | 15%           |
+| Herringbone                                      | 20%           |
 
 These are typical trade allowances, not rules. Complicated rooms, patterned planks or a very small floor may need more. A large, plain room may need a little less.
 
@@ -70,11 +70,11 @@ Always round up. Buying one box too few means a second order, and a second order
 
 The floor is 4 × 3.5 = 14 m². The boxes cover 2 m² each.
 
-| Layout | Working | Area with waste | Boxes |
-| --- | --- | --- | --- |
-| Straight, 10% | 14 × 1.10 | 15.4 m² | 8 |
-| Diagonal, 15% | 14 × 1.15 | 16.1 m² | 9 |
-| Herringbone, 20% | 14 × 1.20 | 16.8 m² | 9 |
+| Layout           | Working   | Area with waste | Boxes |
+| ---------------- | --------- | --------------- | ----- |
+| Straight, 10%    | 14 × 1.10 | 15.4 m²         | 8     |
+| Diagonal, 15%    | 14 × 1.15 | 16.1 m²         | 9     |
+| Herringbone, 20% | 14 × 1.20 | 16.8 m²         | 9     |
 
 For the straight lay, 15.4 ÷ 2 is 7.7, so you buy 8 boxes. They cover 16 m².
 

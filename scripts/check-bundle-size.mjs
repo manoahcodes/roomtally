@@ -61,7 +61,9 @@ function main() {
   for (const item of sizes.slice(0, 10)) {
     console.log(`  ${kb(item.gzip)} / ${kb(item.raw)}  ${item.file}`);
   }
-  console.log(`Total: ${(total / KB).toFixed(1)} KB gzip across ${sizes.length} files (budget ${BUDGET_KB} KB).`);
+  console.log(
+    `Total: ${(total / KB).toFixed(1)} KB gzip across ${sizes.length} files (budget ${BUDGET_KB} KB).`,
+  );
 
   if (total > BUDGET_KB * KB) {
     const over = ((total - BUDGET_KB * KB) / KB).toFixed(1);

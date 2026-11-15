@@ -56,7 +56,11 @@ const others = ROOM_TYPES.filter((other) => other.slug !== room.slug);
   canonical={meta.canonical}
   ogImage={meta.ogImage}
   jsonLd={[
-    webApplicationSchema(`Beautally ${room.name.toLowerCase()} paint calculator`, meta.description, path),
+    webApplicationSchema(
+      `Beautally ${room.name.toLowerCase()} paint calculator`,
+      meta.description,
+      path,
+    ),
     breadcrumbSchema(crumbs),
   ]}
 >
@@ -71,15 +75,13 @@ const others = ROOM_TYPES.filter((other) => other.slug !== room.slug);
     <section aria-labelledby="other-rooms-heading" class="space-y-3">
       <h2 id="other-rooms-heading">Paint for other rooms</h2>
       <ul class="flex flex-wrap gap-3">
-        {
-          others.map((other) => (
-            <li>
-              <a href={`/paint-calculator/${other.slug}/`} class="btn btn-secondary">
-                {other.name} paint
-              </a>
-            </li>
-          ))
-        }
+        {others.map((other) => (
+          <li>
+            <a href={`/paint-calculator/${other.slug}/`} class="btn btn-secondary">
+              {other.name} paint
+            </a>
+          </li>
+        ))}
       </ul>
       <p>
         See the full <a href="/paint-calculator/">paint calculator</a>, or add this room to your{' '}

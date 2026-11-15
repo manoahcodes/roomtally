@@ -12,7 +12,11 @@ import {
   writeProject,
   writeTheme,
 } from '../../src/lib/state/storage';
-import { createFailingStorage, createFullStorage, createMemoryStorage } from '../helpers/storageMock';
+import {
+  createFailingStorage,
+  createFullStorage,
+  createMemoryStorage,
+} from '../helpers/storageMock';
 import { makeProject, makeRoom, makeRoomWithOpenings } from '../helpers/roomFixtures';
 
 /** A saved project as plain JSON that a test can tamper with. */
@@ -21,7 +25,9 @@ function saved(): { rooms: Record<string, unknown>[]; [key: string]: unknown } {
 }
 
 function storageWith(value: unknown) {
-  return createMemoryStorage({ [PROJECT_KEY]: typeof value === 'string' ? value : JSON.stringify(value) });
+  return createMemoryStorage({
+    [PROJECT_KEY]: typeof value === 'string' ? value : JSON.stringify(value),
+  });
 }
 
 describe('readProject: empty and valid', () => {
@@ -82,14 +88,24 @@ describe('readProject: tampered data resets with STO_002', () => {
     ['a name that is not text', (p) => void (p.rooms[0]!.name = { a: 1 })],
     ['a missing options block', (p) => void delete p.rooms[0]!.tile],
     ['an unknown region', (p) => void ((p.settings as Record<string, unknown>).region = 'XX')],
-    ['a negative price', (p) => void ((p.settings as Record<string, unknown>).prices = { paint: -3 })],
-    ['an unknown price key', (p) => void ((p.settings as Record<string, unknown>).prices = { gold: 3 })],
+    [
+      'a negative price',
+      (p) => void ((p.settings as Record<string, unknown>).prices = { paint: -3 }),
+    ],
+    [
+      'an unknown price key',
+      (p) => void ((p.settings as Record<string, unknown>).prices = { gold: 3 }),
+    ],
     ['a newer schema version', (p) => void (p.schemaVersion = 2)],
     ['schema version 0', (p) => void (p.schemaVersion = 0)],
     ['a text schema version', (p) => void (p.schemaVersion = '1')],
     ['rooms that are not a list', (p) => void ((p as Record<string, unknown>).rooms = 'many')],
     ['a bad date', (p) => void (p.createdAt = 'yesterday')],
-    ['11 rooms', (p) => void (p.rooms = Array.from({ length: 11 }, (_, i) => ({ ...p.rooms[0], id: `r${i}` })))],
+    [
+      '11 rooms',
+      (p) =>
+        void (p.rooms = Array.from({ length: 11 }, (_, i) => ({ ...p.rooms[0], id: `r${i}` }))),
+    ],
   ];
   it.each(cases)('%s', (_name, tamper) => {
     const project = saved();
@@ -161,8 +177,14 @@ describe('readProject: storage unavailable', () => {
 
 describe('writeProject and clearProject', () => {
   it('returns STO_001 when storage throws or is full', () => {
-    expect(writeProject(makeProject(), createFailingStorage())).toEqual({ ok: false, notice: 'STO_001' });
-    expect(writeProject(makeProject(), createFullStorage())).toEqual({ ok: false, notice: 'STO_001' });
+    expect(writeProject(makeProject(), createFailingStorage())).toEqual({
+      ok: false,
+      notice: 'STO_001',
+    });
+    expect(writeProject(makeProject(), createFullStorage())).toEqual({
+      ok: false,
+      notice: 'STO_001',
+    });
     expect(writeProject(makeProject(), null)).toEqual({ ok: false, notice: 'STO_001' });
   });
 
@@ -250,10 +272,16 @@ describe('migrate', () => {
     expect(migrate({ schemaVersion: 1 }, { 1: stuck }, 2)).toBeNull();
   });
 
-  it.each([null, 'x', 5, [], {}, { schemaVersion: 0 }, { schemaVersion: 1.5 }, { schemaVersion: '1' }])(
-    'returns null for unusable input %j',
-    (input) => {
-      expect(migrate(input)).toBeNull();
-    },
-  );
+  it.each([
+    null,
+    'x',
+    5,
+    [],
+    {},
+    { schemaVersion: 0 },
+    { schemaVersion: 1.5 },
+    { schemaVersion: '1' },
+  ])('returns null for unusable input %j', (input) => {
+    expect(migrate(input)).toBeNull();
+  });
 });

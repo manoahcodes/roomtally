@@ -40,10 +40,26 @@ const steps = [
 ];
 
 const calculators = [
-  { href: '/paint-calculator/', name: 'Paint calculator', text: 'Cans of paint for walls, ceiling and primer.' },
-  { href: '/flooring-calculator/', name: 'Flooring calculator', text: 'Boxes of flooring with waste included.' },
-  { href: '/tile-calculator/', name: 'Tile calculator', text: 'Tiles and boxes for a floor or a wall.' },
-  { href: '/wallpaper-calculator/', name: 'Wallpaper calculator', text: 'Rolls of wallpaper, with pattern repeat.' },
+  {
+    href: '/paint-calculator/',
+    name: 'Paint calculator',
+    text: 'Cans of paint for walls, ceiling and primer.',
+  },
+  {
+    href: '/flooring-calculator/',
+    name: 'Flooring calculator',
+    text: 'Boxes of flooring with waste included.',
+  },
+  {
+    href: '/tile-calculator/',
+    name: 'Tile calculator',
+    text: 'Tiles and boxes for a floor or a wall.',
+  },
+  {
+    href: '/wallpaper-calculator/',
+    name: 'Wallpaper calculator',
+    text: 'Rolls of wallpaper, with pattern repeat.',
+  },
 ];
 
 const faq = [
@@ -79,7 +95,10 @@ const faq = [
   description={meta.description}
   canonical={meta.canonical}
   ogImage={meta.ogImage}
-  jsonLd={[websiteSchema(meta.description), webApplicationSchema('Beautally', meta.description, '/')]}
+  jsonLd={[
+    websiteSchema(meta.description),
+    webApplicationSchema('Beautally', meta.description, '/'),
+  ]}
 >
   <div class="space-y-12">
     <section aria-labelledby="hero-heading" class="space-y-5">
@@ -87,16 +106,17 @@ const faq = [
         Enter your room once and get everything you need to buy.
       </h1>
       <p class="max-w-prose text-lg text-ink-700 dark:text-dark-muted">
-        Paint, flooring, tile and wallpaper in one shopping list, with pack sizes and waste built in.
+        Paint, flooring, tile and wallpaper in one shopping list, with pack sizes and waste built
+        in.
       </p>
       <ul class="grid gap-2 sm:grid-cols-3">
-        {
-          proofPoints.map((point) => (
-            <li class="card text-sm">{point}</li>
-          ))
-        }
+        {proofPoints.map((point) => (
+          <li class="card text-sm">{point}</li>
+        ))}
       </ul>
-      <a href="#room-form-heading" class="btn btn-primary">Calculate my list</a>
+      <a href="#room-form-heading" class="btn btn-primary">
+        Calculate my list
+      </a>
     </section>
 
     <div class="grid items-start gap-8 lg:grid-cols-2">
@@ -110,15 +130,13 @@ const faq = [
     <section aria-labelledby="how-heading" class="space-y-4">
       <h2 id="how-heading">How it works</h2>
       <ol class="grid gap-4 md:grid-cols-3">
-        {
-          steps.map((step, index) => (
-            <li class="card space-y-1">
-              <p class="text-sm font-medium text-ink-500 dark:text-dark-muted">Step {index + 1}</p>
-              <h3 class="text-h4">{step.title}</h3>
-              <p class="text-ink-700 dark:text-dark-muted">{step.text}</p>
-            </li>
-          ))
-        }
+        {steps.map((step, index) => (
+          <li class="card space-y-1">
+            <p class="text-sm font-medium text-ink-500 dark:text-dark-muted">Step {index + 1}</p>
+            <h3 class="text-h4">{step.title}</h3>
+            <p class="text-ink-700 dark:text-dark-muted">{step.text}</p>
+          </li>
+        ))}
       </ol>
     </section>
 
@@ -127,16 +145,14 @@ const faq = [
     <section aria-labelledby="calculators-heading" class="space-y-4">
       <h2 id="calculators-heading">Need just one material?</h2>
       <ul class="grid gap-4 sm:grid-cols-2">
-        {
-          calculators.map((calculator) => (
-            <li class="card space-y-1">
-              <h3 class="text-h4">
-                <a href={calculator.href}>{calculator.name}</a>
-              </h3>
-              <p class="text-ink-700 dark:text-dark-muted">{calculator.text}</p>
-            </li>
-          ))
-        }
+        {calculators.map((calculator) => (
+          <li class="card space-y-1">
+            <h3 class="text-h4">
+              <a href={calculator.href}>{calculator.name}</a>
+            </h3>
+            <p class="text-ink-700 dark:text-dark-muted">{calculator.text}</p>
+          </li>
+        ))}
       </ul>
       <p>
         New to measuring? Read <a href="/guides/how-to-measure-a-room/">how to measure a room</a>,

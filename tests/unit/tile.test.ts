@@ -48,7 +48,9 @@ describe('grout gap', () => {
 
 describe('layout waste', () => {
   it('uses the waste in the options: herringbone 20% is more than straight 10%', () => {
-    const straight = tileNeed(makeRoom({ tile: withPatternWaste(defaultTileOptions('metric'), 'straight') }));
+    const straight = tileNeed(
+      makeRoom({ tile: withPatternWaste(defaultTileOptions('metric'), 'straight') }),
+    );
     const herringbone = tileNeed(
       makeRoom({ tile: withPatternWaste(defaultTileOptions('metric'), 'herringbone') }),
     );
@@ -58,7 +60,9 @@ describe('layout waste', () => {
 
 describe('wall surface', () => {
   it('uses the net wall area: 32.76 m2 for the room with a door and window', () => {
-    const room = makeRoomWithOpenings({ tile: { ...defaultTileOptions('metric'), surface: 'wall' } });
+    const room = makeRoomWithOpenings({
+      tile: { ...defaultTileOptions('metric'), surface: 'wall' },
+    });
     const r = calculateTile(room);
     expect(r.label).toBe('Wall tile');
     // 32.76 / 0.091809 = 356.83 tiles, x 1.10 = 392.51; x 0.09 = 35.326 m2.

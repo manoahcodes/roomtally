@@ -7,7 +7,15 @@
  */
 import { REGIONS, isRegion } from '../../data/regions';
 import type { Region, Settings, UnitSystem } from '../../types/project';
-import { ftToM, litresToUsGal, m2ToSqFt, mToFt, roundTo, sqFtToM2, usGalToLitres } from '../calc/units';
+import {
+  ftToM,
+  litresToUsGal,
+  m2ToSqFt,
+  mToFt,
+  roundTo,
+  sqFtToM2,
+  usGalToLitres,
+} from '../calc/units';
 import type { ProjectStore } from '../state/projectStore';
 import { track } from './analytics';
 

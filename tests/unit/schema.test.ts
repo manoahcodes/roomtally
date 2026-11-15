@@ -178,7 +178,9 @@ describe('page meta', () => {
     const g = guideMeta(long, 'Summary.', '/guides/long/');
     expect(g.title.length).toBeLessThanOrEqual(TITLE_MAX);
     expect(g.title.endsWith(' | Beautally')).toBe(true);
-    expect(legalMeta('Privacy', 'How we handle data.', '/privacy/').title).toBe('Privacy | Beautally');
+    expect(legalMeta('Privacy', 'How we handle data.', '/privacy/').title).toBe(
+      'Privacy | Beautally',
+    );
   });
   it('shortens an over-long description to 155 characters', () => {
     const m = guideMeta('Guide', 'word '.repeat(60), '/guides/g/');

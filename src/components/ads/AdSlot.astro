@@ -19,18 +19,16 @@ const { slotKey, minHeight } = Astro.props;
 const height = minHeight ?? (slotKey === 'inarticle' ? 280 : 120);
 ---
 
-{
-  FEATURES.ads && (
-    <aside class="no-print my-8" aria-label="Advertisement">
-      <p class="mb-1 text-xs uppercase tracking-wide text-ink-500 dark:text-dark-muted">
-        Advertisement
-      </p>
-      <div
-        data-ad-slot={slotKey}
-        data-ad
-        class="ad-slot overflow-hidden rounded-md border border-dashed border-cream-300 dark:border-dark-border"
-        style={`min-height: ${height}px`}
-      />
-    </aside>
-  )
-}
+{FEATURES.ads && (
+  <aside class="no-print my-8" aria-label="Advertisement">
+    <p class="mb-1 text-xs uppercase tracking-wide text-ink-500 dark:text-dark-muted">
+      Advertisement
+    </p>
+    <div
+      data-ad-slot={slotKey}
+      data-ad
+      class="ad-slot overflow-hidden rounded-md border border-dashed border-cream-300 dark:border-dark-border"
+      style={`min-height: ${height}px`}
+    />
+  </aside>
+)}

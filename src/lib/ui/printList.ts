@@ -42,7 +42,8 @@ function roomCount(container: Element): number {
 export function printShoppingList(options: PrintOptions = {}): boolean {
   const win = options.win ?? window;
   const doc = win.document;
-  const container = options.container === undefined ? select('[data-results]', doc) : options.container;
+  const container =
+    options.container === undefined ? select('[data-results]', doc) : options.container;
   if (!container) return false;
 
   removeHeaders(doc); // A header left over from an earlier print must not appear twice.

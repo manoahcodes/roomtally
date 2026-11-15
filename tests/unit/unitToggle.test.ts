@@ -21,7 +21,11 @@ import { makeRoom } from '../helpers/roomFixtures';
 
 const stamp = '2026-01-01T00:00:00.000Z';
 function newStore() {
-  return createProjectStore({ storage: createMemoryStorage(), now: () => stamp, newId: () => 'r1' });
+  return createProjectStore({
+    storage: createMemoryStorage(),
+    now: () => stamp,
+    newId: () => 'r1',
+  });
 }
 
 describe('applyRegion', () => {
@@ -33,7 +37,11 @@ describe('applyRegion', () => {
   });
   it('US and CA default to imperial, UK and AU to metric', () => {
     const store = newStore();
-    for (const [region, unit] of [['CA', 'imperial'], ['AU', 'metric'], ['US', 'imperial']] as const) {
+    for (const [region, unit] of [
+      ['CA', 'imperial'],
+      ['AU', 'metric'],
+      ['US', 'imperial'],
+    ] as const) {
       applyRegion(store, region);
       expect(store.getState().settings.unitSystem).toBe(unit);
     }
@@ -61,7 +69,12 @@ describe('applyUnitSystem', () => {
   });
   it('never changes the stored room, which stays in metres', () => {
     const store = newStore();
-    const { id: _id, createdAt: _c, updatedAt: _u, ...input } = makeRoom({ lengthM: 4, widthM: 3.5 });
+    const {
+      id: _id,
+      createdAt: _c,
+      updatedAt: _u,
+      ...input
+    } = makeRoom({ lengthM: 4, widthM: 3.5 });
     store.addRoom(input);
     applyUnitSystem(store, 'metric');
     applyUnitSystem(store, 'imperial');

@@ -1,5 +1,5 @@
 ---
-title: "Tile layout and waste: how many tiles to buy"
+title: 'Tile layout and waste: how many tiles to buy'
 description: See how grout gaps and layout patterns change the number of tiles you need, with a worked example for straight, diagonal and herringbone lays.
 published: 2026-11-15
 updated: 2026-11-15
@@ -41,11 +41,11 @@ The tile plus its gap is the area each tile really uses. For a 300 mm tile with 
 
 The pattern you lay changes how many tiles are cut. More cuts mean more waste.
 
-| Layout | Typical waste | Why |
-| --- | --- | --- |
-| Straight | 10% | Few cuts, mostly at the edges. |
-| Diagonal | 15% | Every edge tile is cut at an angle. |
-| Herringbone | 20% | Many angled cuts and short offcuts. |
+| Layout      | Typical waste | Why                                 |
+| ----------- | ------------- | ----------------------------------- |
+| Straight    | 10%           | Few cuts, mostly at the edges.      |
+| Diagonal    | 15%           | Every edge tile is cut at an angle. |
+| Herringbone | 20%           | Many angled cuts and short offcuts. |
 
 These are typical trade allowances, not rules. A small room with many corners needs more. Large tiles also waste more, because each cut throws away more of the tile.
 
@@ -61,11 +61,11 @@ The floor is 14 m². The tiles are 300 mm by 300 mm with a 3 mm gap. Each box co
 
 One tile and its gap take up 0.303 × 0.303 = 0.0918 m². So 14 m² holds about 152.5 tiles before waste.
 
-| Layout | Waste | Tiles with waste | Tile area | Boxes |
-| --- | --- | --- | --- | --- |
-| Straight | 10% | 168 | 15.10 m² | 16 |
-| Diagonal | 15% | 176 | 15.78 m² | 16 |
-| Herringbone | 20% | 183 | 16.47 m² | 17 |
+| Layout      | Waste | Tiles with waste | Tile area | Boxes |
+| ----------- | ----- | ---------------- | --------- | ----- |
+| Straight    | 10%   | 168              | 15.10 m²  | 16    |
+| Diagonal    | 15%   | 176              | 15.78 m²  | 16    |
+| Herringbone | 20%   | 183              | 16.47 m²  | 17    |
 
 The tile area is the number of tiles, with waste, times the face area of one tile (0.09 m²).
 

@@ -37,13 +37,11 @@ const { title, intro, material, faq, breadcrumbs, preset } = Astro.props;
   <div class="grid items-start gap-8 lg:grid-cols-2">
     <div class="space-y-4">
       <RoomForm mode="single" material={material} preset={preset} />
-      {
-        preset && (
-          <a href="/" data-add-to-project class="btn btn-secondary">
-            Add to my project
-          </a>
-        )
-      }
+      {preset && (
+        <a href="/" data-add-to-project class="btn btn-secondary">
+          Add to my project
+        </a>
+      )}
     </div>
     <ShoppingList mode="single" material={material} />
   </div>

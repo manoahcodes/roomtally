@@ -33,11 +33,14 @@ for (const calculator of calculators) {
       await expect(page.locator('[data-material-card]')).toHaveCount(0);
     });
 
-    test('gives the expected result for the known room, and only its own material', async ({ page }) => {
+    test('gives the expected result for the known room, and only its own material', async ({
+      page,
+    }) => {
       await fillRoom(page, { length: '4', width: '3.5', height: '2.4' });
 
       await expect(buy(page, calculator.material)).toHaveText(calculator.buy);
-      if (calculator.exact) await expect(exact(page, calculator.material)).toHaveText(calculator.exact);
+      if (calculator.exact)
+        await expect(exact(page, calculator.material)).toHaveText(calculator.exact);
       await expect(page.locator('[data-material-card]')).toHaveCount(1);
       await expect(card(page, calculator.material)).toBeVisible();
     });

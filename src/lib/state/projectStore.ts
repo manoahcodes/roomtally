@@ -14,7 +14,13 @@ import {
 import type { Project, Room, Settings } from '../../types/project';
 import { CalcValidationError } from '../calc/errors';
 import { LIMITS, sanitizeProject, validateRoom, validateSettings } from '../calc/validation';
-import { clearProject, createEmptyProject, getBrowserStorage, readProject, writeProject } from './storage';
+import {
+  clearProject,
+  createEmptyProject,
+  getBrowserStorage,
+  readProject,
+  writeProject,
+} from './storage';
 import type { StorageLike, StorageNotice } from './storage';
 
 /** A room before the store gives it an id and timestamps. */

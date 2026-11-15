@@ -50,7 +50,10 @@ const faq = [
   description={meta.description}
   canonical={meta.canonical}
   ogImage={meta.ogImage}
-  jsonLd={[webApplicationSchema('Beautally wallpaper calculator', meta.description, path), breadcrumbSchema(crumbs)]}
+  jsonLd={[
+    webApplicationSchema('Beautally wallpaper calculator', meta.description, path),
+    breadcrumbSchema(crumbs),
+  ]}
 >
   <CalculatorShell
     title="Wallpaper calculator"

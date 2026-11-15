@@ -51,7 +51,10 @@ const faq = [
   description={meta.description}
   canonical={meta.canonical}
   ogImage={meta.ogImage}
-  jsonLd={[webApplicationSchema('Beautally paint calculator', meta.description, path), breadcrumbSchema(crumbs)]}
+  jsonLd={[
+    webApplicationSchema('Beautally paint calculator', meta.description, path),
+    breadcrumbSchema(crumbs),
+  ]}
 >
   <CalculatorShell
     title="Paint calculator"
@@ -66,15 +69,13 @@ const faq = [
         Start from a typical size and change it to match yours.
       </p>
       <ul class="flex flex-wrap gap-3">
-        {
-          ROOM_TYPES.map((room) => (
-            <li>
-              <a href={`/paint-calculator/${room.slug}/`} class="btn btn-secondary">
-                {room.name} paint
-              </a>
-            </li>
-          ))
-        }
+        {ROOM_TYPES.map((room) => (
+          <li>
+            <a href={`/paint-calculator/${room.slug}/`} class="btn btn-secondary">
+              {room.name} paint
+            </a>
+          </li>
+        ))}
       </ul>
       <p>
         Painting more than one room? Use the <a href="/">whole-project estimator</a>, or read{' '}

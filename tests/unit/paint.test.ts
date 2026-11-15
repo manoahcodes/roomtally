@@ -92,7 +92,10 @@ describe('imperial defaults', () => {
   });
 
   it('uses gallon-based can sizes', () => {
-    const wall = calculatePaint(makeRoom({ paint: defaultPaintOptions('imperial') }), WALLS_ONLY).wall;
+    const wall = calculatePaint(
+      makeRoom({ paint: defaultPaintOptions('imperial') }),
+      WALLS_ONLY,
+    ).wall;
     expect(wall.coveredQuantity).toBeGreaterThanOrEqual(wall.exactQuantity);
     expect(wall.unit).toBe('L');
   });

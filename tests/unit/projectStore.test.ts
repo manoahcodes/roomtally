@@ -4,7 +4,11 @@ import type { ErrorCode } from '../../src/lib/calc/errors';
 import { createDefaultRoomInput, createProjectStore } from '../../src/lib/state/projectStore';
 import type { RoomInput } from '../../src/lib/state/projectStore';
 import { PROJECT_KEY, createEmptyProject } from '../../src/lib/state/storage';
-import { createFailingStorage, createFullStorage, createMemoryStorage } from '../helpers/storageMock';
+import {
+  createFailingStorage,
+  createFullStorage,
+  createMemoryStorage,
+} from '../helpers/storageMock';
 import { makeProject, makeRoom } from '../helpers/roomFixtures';
 
 let tick = 0;

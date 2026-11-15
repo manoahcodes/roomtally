@@ -65,10 +65,12 @@ export function adsAllowed(doc: Document = document): boolean {
 }
 
 function eligibleSlots(doc: Document): HTMLElement[] {
-  return Array.from(doc.querySelectorAll<HTMLElement>(SLOT_SELECTOR))
-    // Never inside the form or the results (PRD Rule 12).
-    .filter((slot) => !slot.closest('form, [data-results]'))
-    .slice(0, MAX_ADS_PER_PAGE);
+  return (
+    Array.from(doc.querySelectorAll<HTMLElement>(SLOT_SELECTOR))
+      // Never inside the form or the results (PRD Rule 12).
+      .filter((slot) => !slot.closest('form, [data-results]'))
+      .slice(0, MAX_ADS_PER_PAGE)
+  );
 }
 
 function fillSlots(doc: Document, win: Window): void {

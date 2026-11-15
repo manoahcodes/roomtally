@@ -73,7 +73,8 @@ import {
 
 /* ---------- units ---------- */
 
-type UnitKind = 'length' | 'small-length' | 'roll-width' | 'area' | 'coverage' | 'volume' | 'percent';
+type UnitKind =
+  'length' | 'small-length' | 'roll-width' | 'area' | 'coverage' | 'volume' | 'percent';
 
 const UNIT_LABELS: Record<UnitKind, Record<UnitSystem, string>> = {
   length: { metric: 'm', imperial: 'ft' },
@@ -169,8 +170,7 @@ function message(code: ErrorCode, params: MessageParams = {}): string {
 /* ---------- field tables ---------- */
 
 type Rule =
-  | { kind: 'range'; min: number; max: number; code?: ErrorCode }
-  | { kind: 'positive'; max: number };
+  { kind: 'range'; min: number; max: number; code?: ErrorCode } | { kind: 'positive'; max: number };
 
 interface NumField {
   key: string;
@@ -180,7 +180,12 @@ interface NumField {
   set(room: RoomInput, value: number): void;
 }
 
-const PERCENT: Rule = { kind: 'range', min: LIMITS.wasteMin, max: LIMITS.wasteMax, code: 'CALC_005' };
+const PERCENT: Rule = {
+  kind: 'range',
+  min: LIMITS.wasteMin,
+  max: LIMITS.wasteMax,
+  code: 'CALC_005',
+};
 
 const NUM_FIELDS: readonly NumField[] = [
   {
@@ -347,7 +352,9 @@ function computeOverrides(rooms: readonly RoomInput[]): Record<string, number> {
 
   for (const room of rooms) {
     const { paint, flooring, tile, wallpaper } = room;
-    if (differs(paint.coverageM2PerL, paintCoverageM2PerL('metric'), paintCoverageM2PerL('imperial'))) {
+    if (
+      differs(paint.coverageM2PerL, paintCoverageM2PerL('metric'), paintCoverageM2PerL('imperial'))
+    ) {
       mark('paint.coverage', paint.coverageM2PerL);
     }
     if (differs(paint.coats, DEFAULT_COATS)) mark('paint.coats', paint.coats);
@@ -356,7 +363,13 @@ function computeOverrides(rooms: readonly RoomInput[]): Record<string, number> {
     if (differs(flooring.wastePct, WASTE_PCT_BY_PATTERN[flooring.layPattern])) {
       mark(`flooring.waste.${flooring.layPattern}`, flooring.wastePct);
     }
-    if (differs(flooring.boxCoverageM2, boxCoverageM2('flooring', 'metric'), boxCoverageM2('flooring', 'imperial'))) {
+    if (
+      differs(
+        flooring.boxCoverageM2,
+        boxCoverageM2('flooring', 'metric'),
+        boxCoverageM2('flooring', 'imperial'),
+      )
+    ) {
       mark('flooring.box', flooring.boxCoverageM2);
     }
 
@@ -366,18 +379,27 @@ function computeOverrides(rooms: readonly RoomInput[]): Record<string, number> {
     ) {
       mark('tile.size', tile.tileWidthM);
     }
-    if (differs(tile.groutM, metric.tile.groutM, imperial.tile.groutM)) mark('tile.grout', tile.groutM);
+    if (differs(tile.groutM, metric.tile.groutM, imperial.tile.groutM))
+      mark('tile.grout', tile.groutM);
     if (differs(tile.wastePct, WASTE_PCT_BY_PATTERN[tile.layPattern])) {
       mark(`tile.waste.${tile.layPattern}`, tile.wastePct);
     }
-    if (differs(tile.boxCoverageM2, boxCoverageM2('tile', 'metric'), boxCoverageM2('tile', 'imperial'))) {
+    if (
+      differs(
+        tile.boxCoverageM2,
+        boxCoverageM2('tile', 'metric'),
+        boxCoverageM2('tile', 'imperial'),
+      )
+    ) {
       mark('tile.box', tile.boxCoverageM2);
     }
 
     if (differs(wallpaper.rollWidthM, metric.wallpaper.rollWidthM, imperial.wallpaper.rollWidthM)) {
       mark('wallpaper.roll.width', wallpaper.rollWidthM);
     }
-    if (differs(wallpaper.rollLengthM, metric.wallpaper.rollLengthM, imperial.wallpaper.rollLengthM)) {
+    if (
+      differs(wallpaper.rollLengthM, metric.wallpaper.rollLengthM, imperial.wallpaper.rollLengthM)
+    ) {
       mark('wallpaper.roll.length', wallpaper.rollLengthM);
     }
     if (differs(wallpaper.repeatM * 100, 0)) mark('wallpaper.repeat', wallpaper.repeatM * 100);
@@ -437,7 +459,10 @@ export function bindRoomForm(options: BindOptions = {}): (() => void) | null {
   const openingsList = select('[data-openings-list]', form);
   const openingTemplate = select<HTMLTemplateElement>('template[data-opening-template]', form);
 
-  let base: RoomInput = createDefaultRoomInput(store.getState().settings, store.getState().rooms.length);
+  let base: RoomInput = createDefaultRoomInput(
+    store.getState().settings,
+    store.getState().rooms.length,
+  );
   let editingId: string | null = null;
   let transient: RoomInput | null = null;
   let lastSystem: UnitSystem = store.getState().settings.unitSystem;
@@ -583,7 +608,11 @@ export function bindRoomForm(options: BindOptions = {}): (() => void) | null {
       const el = optionEl(key);
       if (!el) continue;
       if (isLayPattern(el.value)) room[group].layPattern = el.value;
-      else errors.set(key, message('CALC_001', { min: LAY_PATTERNS[0] ?? '', max: LAY_PATTERNS[2] ?? '' }));
+      else
+        errors.set(
+          key,
+          message('CALC_001', { min: LAY_PATTERNS[0] ?? '', max: LAY_PATTERNS[2] ?? '' }),
+        );
     }
 
     const surface = optionEl('tile.surface');
@@ -595,7 +624,8 @@ export function bindRoomForm(options: BindOptions = {}): (() => void) | null {
     const repeat = optionEl('wallpaper.repeat');
     if (repeat) {
       const cm = Number(repeat.value);
-      if (Number.isFinite(cm) && cm >= 0 && cm / 100 <= LIMITS.repeatMaxM) room.wallpaper.repeatM = cm / 100;
+      if (Number.isFinite(cm) && cm >= 0 && cm / 100 <= LIMITS.repeatMaxM)
+        room.wallpaper.repeatM = cm / 100;
       else errors.set('wallpaper.repeat', message('CALC_001', { min: '0 cm', max: '90 cm' }));
     }
 
@@ -760,7 +790,10 @@ export function bindRoomForm(options: BindOptions = {}): (() => void) | null {
       if (!PRICE_KEYS.includes(key)) continue;
       const unit = priceUnit(key as MaterialKey, settings.unitSystem);
       const card = input.closest('[data-material-card]');
-      setText(select('[data-price-label]', card ?? resultsEl), `Price per ${unit.label} (optional)`);
+      setText(
+        select('[data-price-label]', card ?? resultsEl),
+        `Price per ${unit.label} (optional)`,
+      );
       if (document.activeElement === input) continue;
       const stored = settings.prices[key as PriceKey];
       input.value = stored === undefined ? '' : formatNumber(stored * unit.factor, 4);
@@ -834,7 +867,8 @@ export function bindRoomForm(options: BindOptions = {}): (() => void) | null {
       el.value = show(kind, fromDisplay(kind, typed, from), to);
     };
     for (const core of CORE_FIELDS) convert(fieldEl(core.key), 'length');
-    for (const field of NUM_FIELDS) if (field.unit !== 'percent') convert(optionEl(field.key), field.unit);
+    for (const field of NUM_FIELDS)
+      if (field.unit !== 'percent') convert(optionEl(field.key), field.unit);
     for (const row of selectAll('[data-opening-row]', form)) {
       convert(select<HTMLInputElement>('[data-opening-field="width"]', row), 'length');
       convert(select<HTMLInputElement>('[data-opening-field="height"]', row), 'length');
@@ -868,7 +902,9 @@ export function bindRoomForm(options: BindOptions = {}): (() => void) | null {
 
   function loadRoom(room: RoomInput | null, id: string | null, blankDims: boolean): void {
     const project = store.getState();
-    base = room ? structuredClone(room) : createDefaultRoomInput(project.settings, project.rooms.length);
+    base = room
+      ? structuredClone(room)
+      : createDefaultRoomInput(project.settings, project.rooms.length);
     editingId = id;
     if (hiddenId) hiddenId.value = id ?? '';
     touched.clear();
@@ -1062,7 +1098,8 @@ export function bindRoomForm(options: BindOptions = {}): (() => void) | null {
       const typed = parseDecimal(text);
       if (typed === null) return showError(message('CALC_007'));
       const stored = typed / priceUnit(key as MaterialKey, settings.unitSystem).factor;
-      if (typed < LIMITS.priceMin || stored > LIMITS.priceMax) return showError(message('CALC_006'));
+      if (typed < LIMITS.priceMin || stored > LIMITS.priceMax)
+        return showError(message('CALC_006'));
       prices[key as PriceKey] = stored;
     }
     showError('');
@@ -1095,7 +1132,10 @@ export function bindRoomForm(options: BindOptions = {}): (() => void) | null {
       const parsed: unknown = JSON.parse(raw);
       if (typeof parsed !== 'object' || parsed === null) return null;
       const { settings, rooms } = store.getState();
-      const merged: RoomInput = { ...createDefaultRoomInput(settings, rooms.length), ...(parsed as Partial<RoomInput>) };
+      const merged: RoomInput = {
+        ...createDefaultRoomInput(settings, rooms.length),
+        ...(parsed as Partial<RoomInput>),
+      };
       validateRoom({ ...merged, id: 'preset', createdAt: STAMP, updatedAt: STAMP });
       return merged;
     } catch {

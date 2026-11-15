@@ -30,23 +30,21 @@ const url =
     : null;
 ---
 
-{
-  url && (
-    <a
-      href={url}
-      rel="sponsored nofollow noopener"
-      target="_blank"
-      data-affiliate-link
-      data-partner-id={partner?.id}
-      data-region={partner?.region}
-      data-category={category}
-      class="btn btn-secondary"
-    >
-      {label}
-      <span class="sr-only"> (sponsored link)</span>
-      <span aria-hidden="true" class="text-xs uppercase tracking-wide">
-        Sponsored
-      </span>
-    </a>
-  )
-}
+{url && (
+  <a
+    href={url}
+    rel="sponsored nofollow noopener"
+    target="_blank"
+    data-affiliate-link
+    data-partner-id={partner?.id}
+    data-region={partner?.region}
+    data-category={category}
+    class="btn btn-secondary"
+  >
+    {label}
+    <span class="sr-only"> (sponsored link)</span>
+    <span aria-hidden="true" class="text-xs uppercase tracking-wide">
+      Sponsored
+    </span>
+  </a>
+)}

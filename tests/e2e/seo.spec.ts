@@ -106,7 +106,10 @@ for (const route of ROUTES) {
         /^https?:\/\/.+og-default\.png$/,
       );
       const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
-      await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', canonical ?? '');
+      await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+        'content',
+        canonical ?? '',
+      );
       await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
         'content',
         'summary_large_image',
@@ -139,7 +142,9 @@ test.describe('SEO: site files', () => {
     const index = await request.get('/sitemap-index.xml');
     expect(index.status()).toBe(200);
     const indexText = await index.text();
-    const files = [...indexText.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1] ?? '').pathname);
+    const files = [...indexText.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+      (m) => new URL(m[1] ?? '').pathname,
+    );
     expect(files.length).toBeGreaterThan(0);
 
     const paths: string[] = [];
@@ -147,7 +152,9 @@ test.describe('SEO: site files', () => {
       const sitemap = await request.get(file);
       expect(sitemap.status()).toBe(200);
       const text = await sitemap.text();
-      paths.push(...[...text.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1] ?? '').pathname));
+      paths.push(
+        ...[...text.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1] ?? '').pathname),
+      );
     }
     for (const route of ROUTES) expect(paths, `${route.path} in sitemap`).toContain(route.path);
     expect(paths.some((path) => path.includes('404'))).toBe(false);

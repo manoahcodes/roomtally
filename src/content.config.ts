@@ -24,9 +24,7 @@ const guides = defineCollection({
     /** Position on the guides index, lowest first. */
     order: z.number().int().default(100),
     /** Questions shown in the FAQ block under the article. */
-    faq: z
-      .array(z.object({ q: z.string().min(1), a: z.string().min(1) }))
-      .default([]),
+    faq: z.array(z.object({ q: z.string().min(1), a: z.string().min(1) })).default([]),
   }),
 });
 

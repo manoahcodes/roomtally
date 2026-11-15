@@ -11,7 +11,9 @@ export interface Props {
 const { label = 'Cookie preferences' } = Astro.props;
 ---
 
-<button type="button" data-consent-open class="btn btn-ghost underline">{label}</button>
+<button type="button" data-consent-open class="btn btn-ghost underline">
+  {label}
+</button>
 
 <script>
   import { openPreferences } from '../../lib/ui/consent';

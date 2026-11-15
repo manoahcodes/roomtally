@@ -106,7 +106,10 @@ function requirePositive(value: unknown, field: string, max: number): number {
 
 function requireOneOf(value: unknown, field: string, allowed: readonly string[]): string {
   if (typeof value !== 'string' || !allowed.includes(value)) {
-    return fail('CALC_001', field, { min: allowed[0] ?? '', max: allowed[allowed.length - 1] ?? '' });
+    return fail('CALC_001', field, {
+      min: allowed[0] ?? '',
+      max: allowed[allowed.length - 1] ?? '',
+    });
   }
   return value;
 }
@@ -252,7 +255,9 @@ export function validateSettings(settings: Settings): void {
   if (typeof settings.includePrimer !== 'boolean') fail('CALC_007', 'includePrimer');
   const materials: unknown = settings.enabledMaterials;
   if (!Array.isArray(materials)) return fail('CALC_007', 'enabledMaterials');
-  (materials as readonly unknown[]).forEach((m) => requireOneOf(m, 'enabledMaterials', MATERIAL_VALUES));
+  (materials as readonly unknown[]).forEach((m) =>
+    requireOneOf(m, 'enabledMaterials', MATERIAL_VALUES),
+  );
   if (!isRecord(settings.prices)) return fail('CALC_007', 'prices');
   for (const [key, value] of Object.entries(settings.prices)) {
     requireOneOf(key, 'prices', PRICE_KEY_VALUES);

@@ -20,8 +20,8 @@ const { contactEmail } = SITE;
 
 <LegalLayout title="Privacy notice" description={description} path="/privacy/" updated="2026-11-15">
   <p class="text-lg">
-    Beautally is built so your rooms stay on your device. This page explains what is stored, what
-    is shared, and the choices you have.
+    Beautally is built so your rooms stay on your device. This page explains what is stored, what is
+    shared, and the choices you have.
   </p>
 
   <h2>The short version</h2>
@@ -54,8 +54,8 @@ const { contactEmail } = SITE;
     sends you a page.
   </p>
   <p>
-    We do not combine this with your rooms, because we never see your rooms. We do not sell
-    personal information.
+    We do not combine this with your rooms, because we never see your rooms. We do not sell personal
+    information.
   </p>
 
   <h2>Analytics, only if you accept</h2>
@@ -78,8 +78,9 @@ const { contactEmail } = SITE;
   <p>
     Read how Google uses information from sites that use its services at{' '}
     <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">
-      policies.google.com/technologies/partner-sites</a
-    >. Ads never appear in the room form or in your results, and they cannot see your rooms.
+      policies.google.com/technologies/partner-sites
+    </a>
+    . Ads never appear in the room form or in your results, and they cannot see your rooms.
   </p>
 
   <h2>Shop links</h2>
@@ -95,18 +96,20 @@ const { contactEmail } = SITE;
     <li>Delete your saved rooms with Clear my data.</li>
     <li>Block or delete cookies and site data in your browser settings.</li>
   </ul>
-  <p><ConsentButton label="Open cookie preferences" /></p>
-  <p>Read more about cookies in the <a href="/cookies/">cookie notice</a>.</p>
+  <p>
+    <ConsentButton label="Open cookie preferences" />
+  </p>
+  <p>
+    Read more about cookies in the <a href="/cookies/">cookie notice</a>.
+  </p>
 
   <h2>Your rights</h2>
   <p>
     The law where you live may give you rights over personal information. You may be able to ask to
-    see, correct or delete it. We keep no personal information about you, so there is usually nothing
-    for us to give, correct or delete.
+    see, correct or delete it. We keep no personal information about you, so there is usually
+    nothing for us to give, correct or delete.
   </p>
-  <p>
-    If you think we hold something about you, write to us and we will look into it.
-  </p>
+  <p>If you think we hold something about you, write to us and we will look into it.</p>
 
   <h2>Children</h2>
   <p>
@@ -123,12 +126,11 @@ const { contactEmail } = SITE;
   <h2>Contact</h2>
   <p>
     Questions about privacy? Write to us at
-    {
-      contactEmail ? (
-        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-      ) : (
-        <span>[contact address to be added before launch]</span>
-      )
-    }.
+    {contactEmail ? (
+      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+    ) : (
+      <span>[contact address to be added before launch]</span>
+    )}
+    .
   </p>
 </LegalLayout>

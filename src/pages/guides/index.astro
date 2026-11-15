@@ -28,7 +28,12 @@ const crumbs = [
 
 /** 15 November 2026 */
 const longDate = (date: Date): string =>
-  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
 ---
 
 <BaseLayout
@@ -49,22 +54,20 @@ const longDate = (date: Date): string =>
     </header>
 
     <ul class="grid gap-4 sm:grid-cols-2">
-      {
-        guides.map((guide) => (
-          <li class="card flex flex-col gap-2">
-            <h2 class="text-h4">
-              <a href={`/guides/${guide.id}/`}>{guide.data.title}</a>
-            </h2>
-            <p class="text-ink-700 dark:text-dark-muted">{guide.data.description}</p>
-            <p class="mt-auto text-sm text-ink-500 dark:text-dark-muted">
-              Updated{' '}
-              <time datetime={guide.data.updated.toISOString().slice(0, 10)}>
-                {longDate(guide.data.updated)}
-              </time>
-            </p>
-          </li>
-        ))
-      }
+      {guides.map((guide) => (
+        <li class="card flex flex-col gap-2">
+          <h2 class="text-h4">
+            <a href={`/guides/${guide.id}/`}>{guide.data.title}</a>
+          </h2>
+          <p class="text-ink-700 dark:text-dark-muted">{guide.data.description}</p>
+          <p class="mt-auto text-sm text-ink-500 dark:text-dark-muted">
+            Updated{' '}
+            <time datetime={guide.data.updated.toISOString().slice(0, 10)}>
+              {longDate(guide.data.updated)}
+            </time>
+          </p>
+        </li>
+      ))}
     </ul>
 
     <p>

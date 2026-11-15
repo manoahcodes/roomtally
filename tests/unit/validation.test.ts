@@ -102,15 +102,15 @@ describe('validateOpenings', () => {
     expect(codeOf(() => validateOpenings(tiny))).toBe('CALC_001');
   });
   it('rejects a bad count, a bad kind and a missing list', () => {
-    expect(codeOf(() => validateOpenings(makeRoom({ openings: [makeOpening({ count: 0 })] })))).toBe(
-      'CALC_001',
-    );
-    expect(codeOf(() => validateOpenings(makeRoom({ openings: [makeOpening({ count: 1.5 })] })))).toBe(
-      'CALC_001',
-    );
-    expect(codeOf(() => validateOpenings(makeRoom({ openings: [makeOpening({ count: 11 })] })))).toBe(
-      'CALC_001',
-    );
+    expect(
+      codeOf(() => validateOpenings(makeRoom({ openings: [makeOpening({ count: 0 })] }))),
+    ).toBe('CALC_001');
+    expect(
+      codeOf(() => validateOpenings(makeRoom({ openings: [makeOpening({ count: 1.5 })] }))),
+    ).toBe('CALC_001');
+    expect(
+      codeOf(() => validateOpenings(makeRoom({ openings: [makeOpening({ count: 11 })] }))),
+    ).toBe('CALC_001');
     const badKind = makeRoom({ openings: [makeOpening({ kind: 'gate' as 'door' })] });
     expect(codeOf(() => validateOpenings(badKind))).toBe('CALC_001');
     const notAList = makeRoom({ openings: 'none' as unknown as [] });
@@ -219,9 +219,15 @@ describe('validateSettings', () => {
   });
   it('rejects a bad region, unit system, price or override', () => {
     expect(codeOf(() => validateSettings(makeSettings({ region: 'FR' as 'US' })))).toBe('CALC_001');
-    expect(codeOf(() => validateSettings(makeSettings({ unitSystem: 'x' as 'metric' })))).toBe('CALC_001');
-    expect(codeOf(() => validateSettings(makeSettings({ prices: { paint: -1 } })))).toBe('CALC_006');
-    expect(codeOf(() => validateSettings(makeSettings({ overrides: { 'paint.coverage': 0 } })))).toBe('CALC_001');
+    expect(codeOf(() => validateSettings(makeSettings({ unitSystem: 'x' as 'metric' })))).toBe(
+      'CALC_001',
+    );
+    expect(codeOf(() => validateSettings(makeSettings({ prices: { paint: -1 } })))).toBe(
+      'CALC_006',
+    );
+    expect(
+      codeOf(() => validateSettings(makeSettings({ overrides: { 'paint.coverage': 0 } }))),
+    ).toBe('CALC_001');
   });
 });
 
@@ -252,14 +258,18 @@ describe('sanitizeProject', () => {
   it('returns null for a room with a bad number, a long name or a missing block', () => {
     expect(sanitizeProject(makeProject([makeRoom({ lengthM: -5 })]))).toBeNull();
     expect(sanitizeProject(makeProject([makeRoom({ name: 'x'.repeat(5000) })]))).toBeNull();
-    const noPaint = JSON.parse(JSON.stringify(makeProject())) as { rooms: Record<string, unknown>[] };
+    const noPaint = JSON.parse(JSON.stringify(makeProject())) as {
+      rooms: Record<string, unknown>[];
+    };
     delete noPaint.rooms[0]!.paint;
     expect(sanitizeProject(noPaint)).toBeNull();
   });
   it('returns null for more than 10 rooms and for duplicate room ids', () => {
     const many = Array.from({ length: 11 }, (_, i) => makeRoom({ id: `r${i}` }));
     expect(sanitizeProject(makeProject(many))).toBeNull();
-    expect(sanitizeProject(makeProject([makeRoom({ id: 'same' }), makeRoom({ id: 'same' })]))).toBeNull();
+    expect(
+      sanitizeProject(makeProject([makeRoom({ id: 'same' }), makeRoom({ id: 'same' })])),
+    ).toBeNull();
   });
   it('accepts exactly 10 rooms', () => {
     const ten = Array.from({ length: 10 }, (_, i) => makeRoom({ id: `r${i}` }));

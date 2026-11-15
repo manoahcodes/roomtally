@@ -10,7 +10,8 @@
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
-const env = (globalThis as { process?: { env: Record<string, string | undefined> } }).process?.env ?? {};
+const env =
+  (globalThis as { process?: { env: Record<string, string | undefined> } }).process?.env ?? {};
 const ADS_BUILT =
   env.PUBLIC_ADS_ENABLED === 'true' && /^ca-pub-\d{10,20}$/.test(env.PUBLIC_ADSENSE_CLIENT ?? '');
 
@@ -53,7 +54,9 @@ test.describe('before any choice', () => {
 
     const defaults = await page.evaluate(() => {
       const layer = (window as unknown as { dataLayer?: ArrayLike<unknown>[] }).dataLayer ?? [];
-      const entry = Array.from(layer).find((item) => item[0] === 'consent' && item[1] === 'default');
+      const entry = Array.from(layer).find(
+        (item) => item[0] === 'consent' && item[1] === 'default',
+      );
       return entry ? (entry[2] as Record<string, string>) : null;
     });
     expect(defaults).not.toBeNull();
@@ -67,7 +70,9 @@ test.describe('before any choice', () => {
 });
 
 test.describe('Reject all', () => {
-  test('keeps ads and analytics off, hides the banner and remembers the choice', async ({ page }) => {
+  test('keeps ads and analytics off, hides the banner and remembers the choice', async ({
+    page,
+  }) => {
     const seen = await watchThirdParties(page);
     await page.goto('/');
     await page.getByRole('button', { name: 'Reject all' }).first().click();

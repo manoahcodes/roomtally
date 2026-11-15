@@ -59,16 +59,14 @@ const essential = [
       </tr>
     </thead>
     <tbody>
-      {
-        essential.map((item) => (
-          <tr>
-            <td>{item.name}</td>
-            <td>{item.kind}</td>
-            <td>{item.purpose}</td>
-            <td>{item.lasts}</td>
-          </tr>
-        ))
-      }
+      {essential.map((item) => (
+        <tr>
+          <td>{item.name}</td>
+          <td>{item.kind}</td>
+          <td>{item.purpose}</td>
+          <td>{item.lasts}</td>
+        </tr>
+      ))}
     </tbody>
   </table>
 
@@ -90,7 +88,9 @@ const essential = [
 
   <h2>Change your choices</h2>
   <p>You can reopen the cookie preferences at any time, here or from the footer on every page.</p>
-  <p><ConsentButton label="Open cookie preferences" /></p>
+  <p>
+    <ConsentButton label="Open cookie preferences" />
+  </p>
   <p>
     You can also block or delete cookies in your browser settings. The site still works without
     them, but it will ask for your choice again.
@@ -100,12 +100,11 @@ const essential = [
   <p>
     The <a href="/privacy/">privacy notice</a> explains what we receive and what we never receive.
     Questions about cookies? Write to us at
-    {
-      contactEmail ? (
-        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-      ) : (
-        <span>[contact address to be added before launch]</span>
-      )
-    }.
+    {contactEmail ? (
+      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+    ) : (
+      <span>[contact address to be added before launch]</span>
+    )}
+    .
   </p>
 </LegalLayout>

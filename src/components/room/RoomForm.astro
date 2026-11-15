@@ -55,7 +55,13 @@ const groups: Record<GroupKey, Group> = {
         choices: [1, 2, 3, 4].map((n) => ({ value: String(n), label: String(n) })),
       },
       { key: 'paint.coverage', label: 'Coverage per coat', kind: 'number', unit: 'coverage' },
-      { key: 'paint.spare', label: 'Spare paint', kind: 'number', unit: 'percent', hint: percentHint },
+      {
+        key: 'paint.spare',
+        label: 'Spare paint',
+        kind: 'number',
+        unit: 'percent',
+        hint: percentHint,
+      },
       {
         key: 'paint.packs',
         label: 'Can sizes',
@@ -109,7 +115,13 @@ const groups: Record<GroupKey, Group> = {
           label: cm === 0 ? 'Plain (no repeat)' : `${cm} cm`,
         })),
       },
-      { key: 'wallpaper.spare', label: 'Spare', kind: 'number', unit: 'percent', hint: percentHint },
+      {
+        key: 'wallpaper.spare',
+        label: 'Spare',
+        kind: 'number',
+        unit: 'percent',
+        hint: percentHint,
+      },
     ],
   },
 };
@@ -123,7 +135,9 @@ const describedBy = (id: string, hint?: string): string =>
 ---
 
 <section aria-labelledby="room-form-heading" class="space-y-3">
-  <h2 id="room-form-heading" class="text-h3">Your room</h2>
+  <h2 id="room-form-heading" class="text-h3">
+    Your room
+  </h2>
 
   <noscript>
     <p class="card">
@@ -152,7 +166,9 @@ const describedBy = (id: string, hint?: string): string =>
     <input type="hidden" data-room-id />
 
     <div>
-      <label for="room-name" class="field-label">Room name</label>
+      <label for="room-name" class="field-label">
+        Room name
+      </label>
       <input
         id="room-name"
         name="name"
@@ -181,7 +197,9 @@ const describedBy = (id: string, hint?: string): string =>
           class="field-input"
           aria-describedby="room-length-hint room-length-error"
         />
-        <p id="room-length-hint" class="field-hint">Measure wall to wall.</p>
+        <p id="room-length-hint" class="field-hint">
+          Measure wall to wall.
+        </p>
         <p id="room-length-error" data-error-for="length" class="field-error" hidden></p>
       </div>
       <div>
@@ -198,7 +216,9 @@ const describedBy = (id: string, hint?: string): string =>
           class="field-input"
           aria-describedby="room-width-hint room-width-error"
         />
-        <p id="room-width-hint" class="field-hint">Measure wall to wall.</p>
+        <p id="room-width-hint" class="field-hint">
+          Measure wall to wall.
+        </p>
         <p id="room-width-error" data-error-for="width" class="field-error" hidden></p>
       </div>
       <div>
@@ -215,95 +235,95 @@ const describedBy = (id: string, hint?: string): string =>
           class="field-input"
           aria-describedby="room-height-hint room-height-error"
         />
-        <p id="room-height-hint" class="field-hint">Floor to ceiling.</p>
+        <p id="room-height-hint" class="field-hint">
+          Floor to ceiling.
+        </p>
         <p id="room-height-error" data-error-for="height" class="field-error" hidden></p>
       </div>
     </div>
 
     <OpeningsFieldset />
 
-    {
-      visible.map((key) => (
-        <details class="card" open={mode === 'single'}>
-          <summary class="touch-target flex cursor-pointer list-none items-center font-medium">
-            {groups[key].title}
-          </summary>
-          <div class="mt-3 grid gap-4 sm:grid-cols-2">
-            {groups[key].fields.map((field) => {
-              const id = idFor(field.key);
-              return (
-                <div class={field.kind === 'checkbox' ? 'sm:col-span-2' : undefined}>
-                  {field.kind === 'checkbox' ? (
-                    <label class="touch-target flex items-center gap-3">
-                      <input
-                        type="checkbox"
+    {visible.map((key) => (
+      <details class="card" open={mode === 'single'}>
+        <summary class="touch-target flex cursor-pointer list-none items-center font-medium">
+          {groups[key].title}
+        </summary>
+        <div class="mt-3 grid gap-4 sm:grid-cols-2">
+          {groups[key].fields.map((field) => {
+            const id = idFor(field.key);
+            return (
+              <div class={field.kind === 'checkbox' ? 'sm:col-span-2' : undefined}>
+                {field.kind === 'checkbox' ? (
+                  <label class="touch-target flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id={id}
+                      data-option={field.key}
+                      class="size-5 accent-clay-600 dark:accent-dark-clay"
+                      aria-describedby={`${id}-error`}
+                    />
+                    <span>{field.label}</span>
+                  </label>
+                ) : (
+                  <>
+                    <label for={id} class="field-label">
+                      {field.label}
+                      {field.unit && (
+                        <>
+                          {' '}
+                          (<span data-unit-label={field.unit} />)
+                        </>
+                      )}
+                    </label>
+                    {field.kind === 'select' ? (
+                      <select
                         id={id}
                         data-option={field.key}
-                        class="size-5 accent-clay-600 dark:accent-dark-clay"
-                        aria-describedby={`${id}-error`}
+                        class="field-input"
+                        aria-describedby={describedBy(id, field.hint)}
+                      >
+                        {(field.choices ?? []).map((choice) => (
+                          <option value={choice.value}>{choice.label}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        id={id}
+                        data-option={field.key}
+                        type="text"
+                        inputmode={field.kind === 'number' ? 'decimal' : 'text'}
+                        autocomplete="off"
+                        class="field-input"
+                        aria-describedby={describedBy(id, field.hint)}
                       />
-                      <span>{field.label}</span>
-                    </label>
-                  ) : (
-                    <>
-                      <label for={id} class="field-label">
-                        {field.label}
-                        {field.unit && (
-                          <>
-                            {' '}
-                            (<span data-unit-label={field.unit} />)
-                          </>
-                        )}
-                      </label>
-                      {field.kind === 'select' ? (
-                        <select
-                          id={id}
-                          data-option={field.key}
-                          class="field-input"
-                          aria-describedby={describedBy(id, field.hint)}
-                        >
-                          {(field.choices ?? []).map((choice) => (
-                            <option value={choice.value}>{choice.label}</option>
-                          ))}
-                        </select>
-                      ) : (
-                        <input
-                          id={id}
-                          data-option={field.key}
-                          type="text"
-                          inputmode={field.kind === 'number' ? 'decimal' : 'text'}
-                          autocomplete="off"
-                          class="field-input"
-                          aria-describedby={describedBy(id, field.hint)}
-                        />
-                      )}
-                      {field.hint && (
-                        <p id={`${id}-hint`} class="field-hint">
-                          {field.hint}
-                        </p>
-                      )}
-                    </>
-                  )}
-                  <p id={`${id}-error`} data-error-for={field.key} class="field-error" hidden />
-                </div>
-              );
-            })}
-          </div>
-        </details>
-      ))
-    }
+                    )}
+                    {field.hint && (
+                      <p id={`${id}-hint`} class="field-hint">
+                        {field.hint}
+                      </p>
+                    )}
+                  </>
+                )}
+                <p id={`${id}-error`} data-error-for={field.key} class="field-error" hidden />
+              </div>
+            );
+          })}
+        </div>
+      </details>
+    ))}
 
     <p data-form-status role="status" class="text-sm text-ink-700 dark:text-dark-muted"></p>
 
     <div class="flex flex-wrap gap-3">
-      <button type="submit" class="btn btn-primary">Calculate my list</button>
-      {
-        mode === 'project' && (
-          <button type="button" data-add-room class="btn btn-secondary">
-            Add another room
-          </button>
-        )
-      }
+      <button type="submit" class="btn btn-primary">
+        Calculate my list
+      </button>
+      {mode === 'project' && (
+        <button type="button" data-add-room class="btn btn-secondary">
+          Add another room
+        </button>
+      )}
       <button type="button" data-cancel-edit class="btn btn-ghost underline" hidden>
         Cancel edit
       </button>

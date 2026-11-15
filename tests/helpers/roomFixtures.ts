@@ -56,7 +56,10 @@ export function makeSettings(overrides: Partial<Settings> = {}): Settings {
   };
 }
 
-export function makeProject(rooms: Room[] = [makeRoom()], settings: Settings = makeSettings()): Project {
+export function makeProject(
+  rooms: Room[] = [makeRoom()],
+  settings: Settings = makeSettings(),
+): Project {
   return {
     schemaVersion: SCHEMA_VERSION,
     rooms,

@@ -41,19 +41,17 @@ const isCurrent = (href: string): boolean => path === href || path.startsWith(hr
 
     <nav aria-label="Main" class="hidden md:block">
       <ul class="flex items-center gap-1">
-        {
-          NAV_ITEMS.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class="touch-target inline-flex items-center rounded-md px-3 text-ink-700 no-underline hover:text-clay-700 dark:text-dark-muted dark:hover:text-dark-clay"
-                aria-current={isCurrent(item.href) ? 'page' : undefined}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
+        {NAV_ITEMS.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="touch-target inline-flex items-center rounded-md px-3 text-ink-700 no-underline hover:text-clay-700 dark:text-dark-muted dark:hover:text-dark-clay"
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
       </ul>
     </nav>
 
@@ -66,19 +64,17 @@ const isCurrent = (href: string): boolean => path === href || path.startsWith(hr
       <summary class="btn btn-secondary w-full list-none">Menu</summary>
       <nav aria-label="Main (menu)" class="mt-2">
         <ul class="card space-y-1">
-          {
-            NAV_ITEMS.map((item) => (
-              <li>
-                <a
-                  href={item.href}
-                  class="touch-target flex items-center rounded-md px-3 text-ink-900 no-underline dark:text-dark-text"
-                  aria-current={isCurrent(item.href) ? 'page' : undefined}
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))
-          }
+          {NAV_ITEMS.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="touch-target flex items-center rounded-md px-3 text-ink-900 no-underline dark:text-dark-text"
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
     </details>

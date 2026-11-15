@@ -119,6 +119,7 @@ export function initAnalytics(doc: Document = document): () => void {
   return onConsentChange((state, saved) => {
     apply();
     // Only a choice the visitor just saved counts, not consent restored on page load.
-    if (saved) track('consent_updated', { analytics: state.analytics, advertising: state.advertising });
+    if (saved)
+      track('consent_updated', { analytics: state.analytics, advertising: state.advertising });
   });
 }

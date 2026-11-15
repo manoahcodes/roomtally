@@ -19,7 +19,9 @@
   </p>
   <ul data-openings-list class="space-y-3" aria-describedby="openings-hint"></ul>
   <p id="openings-error" data-error-for="openings" class="field-error" hidden></p>
-  <button type="button" data-add-opening class="btn btn-secondary">Add door or window</button>
+  <button type="button" data-add-opening class="btn btn-secondary">
+    Add door or window
+  </button>
 
   <template data-opening-template>
     <li data-opening-row class="card grid grid-cols-2 gap-3 sm:grid-cols-5">
@@ -31,16 +33,38 @@
         </select>
       </label>
       <label class="block">
-        <span class="field-label">Width (<span data-unit-label="length">m</span>)</span>
-        <input data-opening-field="width" type="text" inputmode="decimal" autocomplete="off" class="field-input" />
+        <span class="field-label">
+          Width (<span data-unit-label="length">m</span>)
+        </span>
+        <input
+          data-opening-field="width"
+          type="text"
+          inputmode="decimal"
+          autocomplete="off"
+          class="field-input"
+        />
       </label>
       <label class="block">
-        <span class="field-label">Height (<span data-unit-label="length">m</span>)</span>
-        <input data-opening-field="height" type="text" inputmode="decimal" autocomplete="off" class="field-input" />
+        <span class="field-label">
+          Height (<span data-unit-label="length">m</span>)
+        </span>
+        <input
+          data-opening-field="height"
+          type="text"
+          inputmode="decimal"
+          autocomplete="off"
+          class="field-input"
+        />
       </label>
       <label class="block">
         <span class="field-label">How many</span>
-        <input data-opening-field="count" type="text" inputmode="numeric" autocomplete="off" class="field-input" />
+        <input
+          data-opening-field="count"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          class="field-input"
+        />
       </label>
       <div class="flex items-end">
         <button type="button" data-remove-opening class="btn btn-ghost w-full underline">

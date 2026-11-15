@@ -70,13 +70,15 @@ export function checkPage(html, route) {
   const titleMatch = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
   const title = titleMatch ? decode(titleMatch[1]).trim() : '';
   if (!title) problems.push('missing <title>');
-  else if (title.length > MAX_TITLE) problems.push(`title is ${title.length} characters (max ${MAX_TITLE}): "${title}"`);
+  else if (title.length > MAX_TITLE)
+    problems.push(`title is ${title.length} characters (max ${MAX_TITLE}): "${title}"`);
 
   const metas = tags(html, 'meta');
   const meta = (key, value) => metas.filter((m) => m[key] === value);
 
   const descriptions = meta('name', 'description');
-  if (descriptions.length !== 1) problems.push(`expected one meta description, found ${descriptions.length}`);
+  if (descriptions.length !== 1)
+    problems.push(`expected one meta description, found ${descriptions.length}`);
   else {
     const text = (descriptions[0].content ?? '').trim();
     if (!text) problems.push('meta description is empty');
@@ -87,13 +89,15 @@ export function checkPage(html, route) {
 
   const canonicals = tags(html, 'link').filter((l) => (l.rel ?? '').toLowerCase() === 'canonical');
   let canonical = '';
-  if (canonicals.length !== 1) problems.push(`expected one canonical link, found ${canonicals.length}`);
+  if (canonicals.length !== 1)
+    problems.push(`expected one canonical link, found ${canonicals.length}`);
   else {
     canonical = canonicals[0].href ?? '';
     try {
       const url = new URL(canonical);
       if (!/^https?:$/.test(url.protocol)) problems.push(`canonical is not http(s): ${canonical}`);
-      else if (url.pathname !== route) problems.push(`canonical path ${url.pathname} does not match ${route}`);
+      else if (url.pathname !== route)
+        problems.push(`canonical path ${url.pathname} does not match ${route}`);
     } catch {
       problems.push(`canonical is not an absolute URL: "${canonical}"`);
     }
@@ -113,19 +117,27 @@ export function checkPage(html, route) {
 
   for (const property of ['og:title', 'og:description', 'og:url', 'og:image']) {
     const found = meta('property', property);
-    if (found.length === 0 || !(found[0].content ?? '').trim()) problems.push(`missing ${property}`);
+    if (found.length === 0 || !(found[0].content ?? '').trim())
+      problems.push(`missing ${property}`);
   }
   const card = meta('name', 'twitter:card')[0];
-  if (card?.content !== 'summary_large_image') problems.push('twitter:card must be summary_large_image');
+  if (card?.content !== 'summary_large_image')
+    problems.push('twitter:card must be summary_large_image');
   const ogUrl = meta('property', 'og:url')[0]?.content;
-  if (canonical && ogUrl && ogUrl !== canonical) problems.push(`og:url (${ogUrl}) differs from canonical (${canonical})`);
+  if (canonical && ogUrl && ogUrl !== canonical)
+    problems.push(`og:url (${ogUrl}) differs from canonical (${canonical})`);
 
-  const ldBlocks = [...html.matchAll(/<script\b[^>]*type=["']?application\/ld\+json["']?[^>]*>([\s\S]*?)<\/script>/gi)];
+  const ldBlocks = [
+    ...html.matchAll(
+      /<script\b[^>]*type=["']?application\/ld\+json["']?[^>]*>([\s\S]*?)<\/script>/gi,
+    ),
+  ];
   if (is404 && ldBlocks.length > 0) problems.push('404 page must not have JSON-LD (TDD §H.59)');
   ldBlocks.forEach((block, index) => {
     try {
       const data = JSON.parse(block[1]);
-      if (!data || typeof data !== 'object' || !data['@type']) problems.push(`JSON-LD block ${index + 1} has no @type`);
+      if (!data || typeof data !== 'object' || !data['@type'])
+        problems.push(`JSON-LD block ${index + 1} has no @type`);
     } catch (error) {
       problems.push(`JSON-LD block ${index + 1} does not parse: ${error.message}`);
     }
@@ -139,8 +151,10 @@ export function checkSiteFiles(dist) {
   const problems = [];
   const robots = join(dist, 'robots.txt');
   if (!existsSync(robots)) problems.push('robots.txt is missing from dist/');
-  else if (!/^Sitemap:\s*\S+/im.test(readFileSync(robots, 'utf8'))) problems.push('robots.txt has no Sitemap line');
-  if (!existsSync(join(dist, 'sitemap-index.xml'))) problems.push('sitemap-index.xml is missing from dist/');
+  else if (!/^Sitemap:\s*\S+/im.test(readFileSync(robots, 'utf8')))
+    problems.push('robots.txt has no Sitemap line');
+  if (!existsSync(join(dist, 'sitemap-index.xml')))
+    problems.push('sitemap-index.xml is missing from dist/');
   return problems;
 }
 
@@ -171,7 +185,9 @@ function main() {
   const siteProblems = checkSiteFiles(dist);
   for (const problem of siteProblems) console.error(`FAIL site: ${problem}`);
 
-  console.log(`Checked ${files.length} pages: ${files.length - failed} fine, ${failed} with problems.`);
+  console.log(
+    `Checked ${files.length} pages: ${files.length - failed} fine, ${failed} with problems.`,
+  );
   if (failed > 0 || siteProblems.length > 0) process.exit(1);
   console.log('OK: no SEO problems found.');
 }

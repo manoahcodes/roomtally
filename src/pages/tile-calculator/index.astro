@@ -52,7 +52,10 @@ const faq = [
   description={meta.description}
   canonical={meta.canonical}
   ogImage={meta.ogImage}
-  jsonLd={[webApplicationSchema('Beautally tile calculator', meta.description, path), breadcrumbSchema(crumbs)]}
+  jsonLd={[
+    webApplicationSchema('Beautally tile calculator', meta.description, path),
+    breadcrumbSchema(crumbs),
+  ]}
 >
   <CalculatorShell
     title="Tile calculator"
@@ -65,9 +68,9 @@ const faq = [
       <h2 id="related-heading">Before you buy</h2>
       <p>
         Read <a href="/guides/tile-layout-and-waste/">tile layout and waste</a> and{' '}
-        <a href="/guides/how-to-measure-a-room/">how to measure a room</a>. Doing the whole
-        project? Use the <a href="/">whole-project estimator</a> to list tile with paint, flooring
-        and wallpaper.
+        <a href="/guides/how-to-measure-a-room/">how to measure a room</a>. Doing the whole project?
+        Use the <a href="/">whole-project estimator</a> to list tile with paint, flooring and
+        wallpaper.
       </p>
     </section>
   </CalculatorShell>

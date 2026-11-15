@@ -19,7 +19,9 @@ beforeEach(() => {
 
 describe('el', () => {
   it('creates an element with attributes and children', () => {
-    const node = el('a', { href: '/guides/', class: 'link', 'data-x': 1, 'aria-label': 'Guides' }, ['Guides']);
+    const node = el('a', { href: '/guides/', class: 'link', 'data-x': 1, 'aria-label': 'Guides' }, [
+      'Guides',
+    ]);
     expect(node.tagName).toBe('A');
     expect(node.getAttribute('href')).toBe('/guides/');
     expect(node.className).toBe('link');
@@ -43,7 +45,12 @@ describe('el', () => {
   });
 
   it('sets boolean attributes for true and skips false, null and undefined', () => {
-    const node = el('input', { required: true, disabled: false, placeholder: null, title: undefined });
+    const node = el('input', {
+      required: true,
+      disabled: false,
+      placeholder: null,
+      title: undefined,
+    });
     expect(node.hasAttribute('required')).toBe(true);
     expect(node.hasAttribute('disabled')).toBe(false);
     expect(node.hasAttribute('placeholder')).toBe(false);
@@ -68,17 +75,28 @@ describe('el', () => {
     expect(() => el('a', { href })).toThrow(TypeError);
   });
 
-  it.each([['/paint-calculator/'], ['#results'], ['guides/x/'], ['https://example.com/a'], ['mailto:a@b.co']])(
-    'allows the link %s',
-    (href) => {
-      expect(el('a', { href }).getAttribute('href')).toBe(href);
-    },
-  );
+  it.each([
+    ['/paint-calculator/'],
+    ['#results'],
+    ['guides/x/'],
+    ['https://example.com/a'],
+    ['mailto:a@b.co'],
+  ])('allows the link %s', (href) => {
+    expect(el('a', { href }).getAttribute('href')).toBe(href);
+  });
 
   it('adds noopener to links that open a new tab, keeping other rel values', () => {
     expect(el('a', { href: '/x/', target: '_blank' }).getAttribute('rel')).toBe('noopener');
-    const sponsored = el('a', { href: 'https://e.co', target: '_blank', rel: 'sponsored nofollow' });
-    expect(sponsored.getAttribute('rel')!.split(' ').sort()).toEqual(['nofollow', 'noopener', 'sponsored']);
+    const sponsored = el('a', {
+      href: 'https://e.co',
+      target: '_blank',
+      rel: 'sponsored nofollow',
+    });
+    expect(sponsored.getAttribute('rel')!.split(' ').sort()).toEqual([
+      'nofollow',
+      'noopener',
+      'sponsored',
+    ]);
   });
 });
 

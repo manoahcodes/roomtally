@@ -49,12 +49,12 @@ You can add up to 20 openings to a room. Give each one a width, a height and a c
 
 ## Which numbers does each material use?
 
-| Material | Uses |
-| --- | --- |
-| Paint | Wall area (length, width, height, minus openings). The ceiling is optional. |
-| Flooring | Floor area (length × width). |
-| Tile | Floor area, or wall area for wall tiles. |
-| Wallpaper | Wall area, plus the ceiling height for each strip. |
+| Material  | Uses                                                                        |
+| --------- | --------------------------------------------------------------------------- |
+| Paint     | Wall area (length, width, height, minus openings). The ceiling is optional. |
+| Flooring  | Floor area (length × width).                                                |
+| Tile      | Floor area, or wall area for wall tiles.                                    |
+| Wallpaper | Wall area, plus the ceiling height for each strip.                          |
 
 That is why one set of measurements is enough.
 
@@ -81,15 +81,15 @@ The join is only needed for paint and wallpaper. Floors and tiles just add up.
 
 An L-shaped room splits into part A, 5 m by 3 m, and part B, 2 m by 2 m. The ceiling is 2.4 m high. The join between them is 2 m wide.
 
-| Step | Working | Result |
-| --- | --- | --- |
-| Floor, part A | 5 × 3 | 15 m² |
-| Floor, part B | 2 × 2 | 4 m² |
-| Total floor | 15 + 4 | 19 m² |
-| Walls, part A | 2 × (5 + 3) × 2.4 | 38.4 m² |
-| Walls, part B | 2 × (2 + 2) × 2.4 | 19.2 m² |
-| Join, counted in both parts | 2 × 2.4 × 2 | 9.6 m² |
-| Wall area to paint | 38.4 + 19.2 − 9.6 | 48 m² |
+| Step                        | Working           | Result  |
+| --------------------------- | ----------------- | ------- |
+| Floor, part A               | 5 × 3             | 15 m²   |
+| Floor, part B               | 2 × 2             | 4 m²    |
+| Total floor                 | 15 + 4            | 19 m²   |
+| Walls, part A               | 2 × (5 + 3) × 2.4 | 38.4 m² |
+| Walls, part B               | 2 × (2 + 2) × 2.4 | 19.2 m² |
+| Join, counted in both parts | 2 × 2.4 × 2       | 9.6 m²  |
+| Wall area to paint          | 38.4 + 19.2 − 9.6 | 48 m²   |
 
 Without the join, the wall total would read 57.6 m². That is nearly a fifth too high, and you would buy extra paint.
 

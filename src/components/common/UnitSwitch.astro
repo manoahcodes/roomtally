@@ -9,13 +9,19 @@ import { REGION_CODES, REGIONS } from '../../data/regions';
 
 <div class="flex flex-wrap items-center gap-2" data-unit-switch>
   <div>
-    <label for="region-select" class="sr-only">Region</label>
+    <label for="region-select" class="sr-only">
+      Region
+    </label>
     <select id="region-select" data-region-select class="field-input w-auto py-1 text-sm">
-      {REGION_CODES.map((code) => <option value={code}>{REGIONS[code].label}</option>)}
+      {REGION_CODES.map((code) => (
+        <option value={code}>{REGIONS[code].label}</option>
+      ))}
     </select>
   </div>
   <div>
-    <label for="unit-select" class="sr-only">Units</label>
+    <label for="unit-select" class="sr-only">
+      Units
+    </label>
     <select id="unit-select" data-unit-select class="field-input w-auto py-1 text-sm">
       <option value="metric">Metric (m, L)</option>
       <option value="imperial">Imperial (ft, gal)</option>

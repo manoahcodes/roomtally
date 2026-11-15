@@ -32,7 +32,9 @@ const showWhereToBuy = FEATURES.affiliates && partners.length > 0;
 ---
 
 <section data-results aria-labelledby="results-heading" class="space-y-4">
-  <h2 id="results-heading" class="text-h3">Your shopping list</h2>
+  <h2 id="results-heading" class="text-h3">
+    Your shopping list
+  </h2>
 
   <div aria-live="polite" class="space-y-4">
     <p data-results-empty class="card text-ink-700 dark:text-dark-muted">
@@ -56,35 +58,44 @@ const showWhereToBuy = FEATURES.affiliates && partners.length > 0;
   </div>
 
   <template data-card-template>
-    <li><MaterialCard material="" title="" /></li>
+    <li>
+      <MaterialCard material="" title="" />
+    </li>
   </template>
 
   <AssumptionsPanel material={mode === 'single' ? material : undefined} />
   <DisclaimerNote variant="full" />
 
   <div class="no-print flex flex-wrap gap-3">
-    <button type="button" data-print class="btn btn-secondary">Print my list</button>
+    <button type="button" data-print class="btn btn-secondary">
+      Print my list
+    </button>
   </div>
 
-  {
-    showWhereToBuy && (
-      <section data-where-to-buy class="no-print space-y-2" aria-labelledby="where-to-buy-heading" hidden>
-        <h3 id="where-to-buy-heading" class="text-h4">Where to buy</h3>
-        <p class="text-sm text-ink-700 dark:text-dark-muted">
-          Links marked Sponsored are affiliate links. We may earn a commission at no cost to you.
-        </p>
-        <div class="flex flex-wrap gap-2">
-          {partners.flatMap((partner) =>
-            categories.map((category) => (
-              <AffiliateLink
-                partnerId={partner.id}
-                category={category}
-                label={`Shop ${category} at ${partner.name}`}
-              />
-            )),
-          )}
-        </div>
-      </section>
-    )
-  }
+  {showWhereToBuy && (
+    <section
+      data-where-to-buy
+      class="no-print space-y-2"
+      aria-labelledby="where-to-buy-heading"
+      hidden
+    >
+      <h3 id="where-to-buy-heading" class="text-h4">
+        Where to buy
+      </h3>
+      <p class="text-sm text-ink-700 dark:text-dark-muted">
+        Links marked Sponsored are affiliate links. We may earn a commission at no cost to you.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        {partners.flatMap((partner) =>
+          categories.map((category) => (
+            <AffiliateLink
+              partnerId={partner.id}
+              category={category}
+              label={`Shop ${category} at ${partner.name}`}
+            />
+          )),
+        )}
+      </div>
+    </section>
+  )}
 </section>

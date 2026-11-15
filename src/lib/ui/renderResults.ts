@@ -144,7 +144,8 @@ function renderCards(container: ParentNode, list: ShoppingList): void {
     const card = select(`[${CARD_ATTR}]`, li);
     if (card) fillCard(card, item, list.unitSystem);
     // Only move a card that is out of place, so a focused price field is left alone.
-    if (cardList.children[index] !== li) cardList.insertBefore(li, cardList.children[index] ?? null);
+    if (cardList.children[index] !== li)
+      cardList.insertBefore(li, cardList.children[index] ?? null);
   });
 }
 
@@ -180,7 +181,10 @@ export function renderShoppingList(container: ParentNode, list: ShoppingList): v
   const total = select('[data-total]', container);
   if (total) {
     total.hidden = !list.totalCost;
-    setText(select('[data-total-value]', container), list.totalCost ? list.totalCost.formatted : '');
+    setText(
+      select('[data-total-value]', container),
+      list.totalCost ? list.totalCost.formatted : '',
+    );
   }
   setState(container, 'live');
 }

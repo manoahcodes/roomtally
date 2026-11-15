@@ -29,9 +29,8 @@ const { contactEmail } = SITE;
 
   <h2>Estimates only</h2>
   <p>
-    Every result is an estimate. It is based on the sizes you enter and on common coverage and
-    waste figures. Real needs depend on your surfaces, your tools, your skill and the product you
-    choose.
+    Every result is an estimate. It is based on the sizes you enter and on common coverage and waste
+    figures. Real needs depend on your surfaces, your tools, your skill and the product you choose.
   </p>
   <p>
     You are responsible for checking the label on each product and for deciding how much to buy.
@@ -56,8 +55,8 @@ const { contactEmail } = SITE;
   <h2>Our content</h2>
   <p>
     The text, guides, design and code of Beautally belong to us or our licensors. You may use the
-    site and print your own shopping lists for personal use. Please do not republish our content
-    as your own.
+    site and print your own shopping lists for personal use. Please do not republish our content as
+    your own.
   </p>
 
   <h2>Advertising, shops and other websites</h2>
@@ -66,8 +65,8 @@ const { contactEmail } = SITE;
     sites and are not responsible for them. Their own terms and privacy policies apply.
   </p>
   <p>
-    Some links may be affiliate links. Prices, stock and product details are set by the shop, not
-    by us.
+    Some links may be affiliate links. Prices, stock and product details are set by the shop, not by
+    us.
   </p>
 
   <h2>No warranty</h2>
@@ -92,12 +91,11 @@ const { contactEmail } = SITE;
   <h2>Contact</h2>
   <p>
     Questions about these terms? Write to us at
-    {
-      contactEmail ? (
-        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-      ) : (
-        <span>[contact address to be added before launch]</span>
-      )
-    }.
+    {contactEmail ? (
+      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+    ) : (
+      <span>[contact address to be added before launch]</span>
+    )}
+    .
   </p>
 </LegalLayout>

@@ -1,9 +1,4 @@
-import type {
-  AssumptionLine,
-  MaterialKey,
-  MaterialNeed,
-  ShoppingList,
-} from '../../types/calc';
+import type { AssumptionLine, MaterialKey, MaterialNeed, ShoppingList } from '../../types/calc';
 import type { Project, Room, Settings } from '../../types/project';
 import { estimateCost, totalCost } from './cost';
 import { CalcValidationError } from './errors';
@@ -109,7 +104,11 @@ function roomAssumptions(room: Room, settings: Settings): Omit<AssumptionLine, '
         label: 'Flooring waste',
         value: `${n(f.wastePct)}% (${f.layPattern} lay)`,
       },
-      { id: 'flooring.box', label: 'Flooring box coverage', value: area(f.boxCoverageM2, imperial) },
+      {
+        id: 'flooring.box',
+        label: 'Flooring box coverage',
+        value: area(f.boxCoverageM2, imperial),
+      },
     );
   }
   if (enabled.has('tile')) {

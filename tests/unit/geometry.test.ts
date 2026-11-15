@@ -7,7 +7,12 @@ import {
   openingsArea,
 } from '../../src/lib/calc/geometry';
 import { CalcValidationError } from '../../src/lib/calc/errors';
-import { makeInvalidRoom, makeOpening, makeRoom, makeRoomWithOpenings } from '../helpers/roomFixtures';
+import {
+  makeInvalidRoom,
+  makeOpening,
+  makeRoom,
+  makeRoomWithOpenings,
+} from '../helpers/roomFixtures';
 
 describe('floorArea and ceilingArea', () => {
   it('multiplies length by width', () => {

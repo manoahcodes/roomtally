@@ -125,7 +125,8 @@ export function withPatternWaste<T extends { layPattern: LayPattern; wastePct: n
   return { ...options, layPattern, wastePct: WASTE_PCT_BY_PATTERN[layPattern] };
 }
 
-const wasteNote = 'PRD Rule 4: typical trade allowance for this lay pattern. Check with your supplier.';
+const wasteNote =
+  'PRD Rule 4: typical trade allowance for this lay pattern. Check with your supplier.';
 
 function wastePresets(material: 'flooring' | 'tile'): MaterialPreset[] {
   const label = material === 'flooring' ? 'Flooring' : 'Tile';

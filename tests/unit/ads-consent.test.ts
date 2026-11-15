@@ -128,7 +128,11 @@ describe('consent defaults', () => {
         showPreferences: () => undefined,
       }),
     });
-    expect(Object.keys(config.categories as object)).toEqual(['necessary', 'analytics', 'advertisement']);
+    expect(Object.keys(config.categories as object)).toEqual([
+      'necessary',
+      'analytics',
+      'advertisement',
+    ]);
   });
 
   it('logs CNS_001 and keeps everything off when the library fails to load', async () => {
@@ -160,7 +164,9 @@ describe('consent changes', () => {
     fake.accepted.advertisement = true;
     fake.firstConsent();
     expect(getConsent()).toEqual({ analytics: false, advertising: true });
-    const update = dataLayerEntries().filter((e) => e[1] === 'update').at(-1)!;
+    const update = dataLayerEntries()
+      .filter((e) => e[1] === 'update')
+      .at(-1)!;
     expect(update[2]).toEqual({
       analytics_storage: 'denied',
       ad_storage: 'granted',
@@ -459,7 +465,10 @@ describe('analytics: after consent', () => {
       room_name: 'Kitchen',
       lengthM: 4,
     });
-    expect(sink).toHaveBeenCalledWith('first_room_entered', { region: 'UK', unit_system: 'metric' });
+    expect(sink).toHaveBeenCalledWith('first_room_entered', {
+      region: 'UK',
+      unit_system: 'metric',
+    });
   });
 
   it('announces the event on window', async () => {
@@ -468,7 +477,10 @@ describe('analytics: after consent', () => {
     await allowed();
     track('data_cleared');
     expect(heard).toHaveBeenCalledTimes(1);
-    expect((heard.mock.calls[0]![0] as CustomEvent).detail).toEqual({ name: 'data_cleared', props: {} });
+    expect((heard.mock.calls[0]![0] as CustomEvent).detail).toEqual({
+      name: 'data_cleared',
+      props: {},
+    });
     window.removeEventListener('beautally:track', heard);
   });
 
@@ -525,7 +537,9 @@ describe('analytics: after consent', () => {
     const scripts = beaconScripts();
     expect(scripts).toHaveLength(1);
     expect(scripts[0]!.src).toBe('https://static.cloudflareinsights.com/beacon.min.js');
-    expect(JSON.parse(scripts[0]!.getAttribute('data-cf-beacon')!)).toEqual({ token: BEACON_TOKEN });
+    expect(JSON.parse(scripts[0]!.getAttribute('data-cf-beacon')!)).toEqual({
+      token: BEACON_TOKEN,
+    });
     fake.accepted.analytics = false;
     fake.change();
     expect(beaconScripts()).toHaveLength(0);

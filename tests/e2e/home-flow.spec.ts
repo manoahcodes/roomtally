@@ -173,7 +173,9 @@ test.describe('home page: enter a room, get one list', () => {
 });
 
 test.describe('storage problems', () => {
-  test('STO_001: works from memory and says so when the browser blocks storage', async ({ page }) => {
+  test('STO_001: works from memory and says so when the browser blocks storage', async ({
+    page,
+  }) => {
     await page.addInitScript(() => {
       Object.defineProperty(window, 'localStorage', {
         get() {
