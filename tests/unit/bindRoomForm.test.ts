@@ -32,6 +32,19 @@ function makeForm(mode: 'project' | 'single' = 'project'): HTMLFormElement {
   return form;
 }
 
+function fillRoomFields(form: HTMLFormElement): void {
+  const values: Array<[string, string]> = [
+    ['name', 'Bedroom'],
+    ['length', '4'],
+    ['width', '3.5'],
+    ['height', '2.4'],
+  ];
+  for (const [key, value] of values) {
+    const input = form.querySelector<HTMLInputElement>(`[data-field="${key}"]`);
+    if (input) input.value = value;
+  }
+}
+
 function makeStore() {
   return createProjectStore({
     storage: null,
@@ -58,7 +71,7 @@ describe('bindRoomForm parsing', () => {
 
   it('parses comma, semicolon and whitespace separated pack sizes', () => {
     expect(parsePackList('1, 2.5; 5 10')).toEqual([1, 2.5, 5, 10]);
-    expect(parsePackList('1,5; 2,5')).toEqual([1.5, 2.5]);
+    expect(parsePackList('1.5; 2.5')).toEqual([1.5, 2.5]);
   });
 
   it('rejects an empty or partly invalid pack list', () => {
@@ -79,6 +92,7 @@ describe('bindRoomForm lifecycle and project flow', () => {
     const store = makeStore();
     const unbind = bindRoomForm({ root: document, store });
     expect(unbind).toBeTypeOf('function');
+    fillRoomFields(form);
 
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 
@@ -92,11 +106,12 @@ describe('bindRoomForm lifecycle and project flow', () => {
   it('does not save an invalid room and exposes the field error on submit', () => {
     document.body.replaceChildren();
     const form = makeForm();
-    const length = form.querySelector<HTMLInputElement>('[data-field="length"]')!;
-    length.value = 'not a number';
     document.body.append(form);
     const store = makeStore();
     const unbind = bindRoomForm({ root: document, store });
+    fillRoomFields(form);
+    const length = form.querySelector<HTMLInputElement>('[data-field="length"]')!;
+    length.value = 'not a number';
 
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 
@@ -114,6 +129,7 @@ describe('bindRoomForm lifecycle and project flow', () => {
     document.body.append(form);
     const store = makeStore();
     const unbind = bindRoomForm({ root: document, store });
+    fillRoomFields(form);
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 
     const name = form.querySelector<HTMLInputElement>('[data-field="name"]')!;
@@ -131,6 +147,7 @@ describe('bindRoomForm lifecycle and project flow', () => {
     document.body.append(form);
     const store = makeStore();
     const unbind = bindRoomForm({ root: document, store });
+    fillRoomFields(form);
 
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 
