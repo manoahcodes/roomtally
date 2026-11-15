@@ -108,6 +108,36 @@
     color: var(--color-dark-text);
   }
 
+  /* Scrollbars use the page tokens, for the page and for inner scrollers such as tables.
+     scrollbar-color is inherited and covers current browsers; the -webkit rules cover
+     older Safari. */
+  html {
+    --scrollbar-thumb: var(--color-ink-500);
+    --scrollbar-thumb-hover: var(--color-clay-600);
+    --scrollbar-track: var(--color-cream-100);
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+  html[data-theme='dark'] {
+    --scrollbar-thumb: var(--color-ink-500);
+    --scrollbar-thumb-hover: var(--color-dark-clay);
+    --scrollbar-track: var(--color-dark-surface);
+  }
+  *::-webkit-scrollbar {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+  *::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track);
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border: 3px solid var(--scrollbar-track);
+    border-radius: 9999px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+
   body {
     min-height: 100vh;
     font-size: var(--text-base);
