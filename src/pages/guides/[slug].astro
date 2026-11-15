@@ -1,0 +1,42 @@
+---
+/**
+ * One guide from the content collection (App_Flow §A.1), routed at /guides/<slug>/.
+ * GuideLayout adds the breadcrumbs, Article JSON-LD and two ad slots. The FAQ goes in the
+ * layout's "after" slot, so the second ad sits below it. FaqBlock emits the FAQPage markup.
+ *
+ * getCollection and render come from astro:content, as in the current Astro docs.
+ */
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import FaqBlock from '../../components/common/FaqBlock.astro';
+import GuideLayout from '../../layouts/GuideLayout.astro';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'guides'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, published, updated, faq } = entry.data;
+
+/** 2026-11-15, from the date Astro parsed out of the front matter. */
+const isoDate = (date: Date): string => date.toISOString().slice(0, 10);
+---
+
+<GuideLayout
+  title={title}
+  description={description}
+  path={`/guides/${entry.id}/`}
+  datePublished={isoDate(published)}
+  dateModified={isoDate(updated)}
+>
+  <div class="article-body">
+    <Content />
+  </div>
+  <FaqBlock slot="after" items={faq} />
+</GuideLayout>

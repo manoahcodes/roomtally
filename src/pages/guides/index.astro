@@ -1,0 +1,74 @@
+---
+/**
+ * Guides index (App_Flow §A.1): a card for each guide, lowest `order` first. Reads the
+ * guides collection at build time, so a new Markdown file appears here by itself.
+ * No ads here: the page is a short list of links.
+ */
+import { getCollection } from 'astro:content';
+import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { guideMeta } from '../../lib/seo/meta';
+import { breadcrumbSchema } from '../../lib/seo/schema';
+
+const path = '/guides/';
+const meta = guideMeta(
+  'Guides',
+  'Plain advice on measuring a room and buying the right amount of paint, flooring and tile, with worked examples.',
+  path,
+);
+
+const guides = (await getCollection('guides')).sort(
+  (a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title),
+);
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Guides', path },
+];
+
+/** 15 November 2026 */
+const longDate = (date: Date): string =>
+  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogImage={meta.ogImage}
+  jsonLd={[breadcrumbSchema(crumbs)]}
+>
+  <Breadcrumbs items={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))} />
+  <section aria-labelledby="guides-heading" class="mx-auto max-w-3xl space-y-6">
+    <header class="space-y-2">
+      <h1 id="guides-heading">Guides</h1>
+      <p class="text-lg text-ink-700 dark:text-dark-muted">
+        Short, practical guides with a worked example in each. Every figure is an estimate, so check
+        the label on what you buy.
+      </p>
+    </header>
+
+    <ul class="grid gap-4 sm:grid-cols-2">
+      {
+        guides.map((guide) => (
+          <li class="card flex flex-col gap-2">
+            <h2 class="text-h4">
+              <a href={`/guides/${guide.id}/`}>{guide.data.title}</a>
+            </h2>
+            <p class="text-ink-700 dark:text-dark-muted">{guide.data.description}</p>
+            <p class="mt-auto text-sm text-ink-500 dark:text-dark-muted">
+              Updated{' '}
+              <time datetime={guide.data.updated.toISOString().slice(0, 10)}>
+                {longDate(guide.data.updated)}
+              </time>
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p>
+      Ready to work out your own list? Try the <a href="/">whole-project estimator</a>.
+    </p>
+  </section>
+</BaseLayout>

@@ -214,6 +214,37 @@
   .field-error {
     @apply mt-1 text-sm font-medium text-error dark:text-dark-clay;
   }
+
+  /* Rendered Markdown in guides. No typography plugin is installed, so lists, tables and
+     spacing are set here from the same tokens. */
+  .article-body {
+    @apply space-y-4 text-lg leading-relaxed;
+  }
+  .article-body h2 {
+    @apply mt-8;
+  }
+  .article-body h3 {
+    @apply mt-6;
+  }
+  .article-body ul {
+    @apply list-disc space-y-1 pl-6;
+  }
+  .article-body ol {
+    @apply list-decimal space-y-1 pl-6;
+  }
+  .article-body table {
+    @apply block w-full overflow-x-auto text-base;
+  }
+  .article-body th,
+  .article-body td {
+    @apply border border-cream-300 px-3 py-2 text-left align-top dark:border-dark-border;
+  }
+  .article-body th {
+    @apply bg-cream-100 font-medium dark:bg-dark-surface;
+  }
+  .article-body a {
+    @apply underline;
+  }
 }
 
 /* Touch targets are at least 44 px (Design_Brief §B.17). */
