@@ -159,8 +159,6 @@ describe('bindRoomForm lifecycle and project flow', () => {
   });
 });
 
-
-
 /** A fuller page fixture for exercising the form's delegated UI interactions. */
 function makeCompletePage(mode: 'project' | 'single' = 'project') {
   document.body.replaceChildren();
@@ -381,11 +379,7 @@ function makeCompletePage(mode: 'project' | 'single' = 'project') {
   const assumptionsTemplate = document.createElement('template');
   assumptionsTemplate.dataset.assumptionTemplate = '';
   const assumption = document.createElement('div');
-  for (const key of [
-    'assumption-label',
-    'assumption-value',
-    'assumption-changed',
-  ]) {
+  for (const key of ['assumption-label', 'assumption-value', 'assumption-changed']) {
     const node = document.createElement('span');
     node.setAttribute('data-' + key, '');
     assumption.append(node);
@@ -402,16 +396,12 @@ function makeCompletePage(mode: 'project' | 'single' = 'project') {
 }
 
 function click(target: Element): void {
-  target.dispatchEvent(
-    new MouseEvent('click', { bubbles: true, cancelable: true }),
-  );
+  target.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
 }
 
 function submit(form: HTMLFormElement): void {
   fillRoomFields(form);
-  form.dispatchEvent(
-    new Event('submit', { bubbles: true, cancelable: true }),
-  );
+  form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 }
 
 afterEach(() => {
@@ -426,25 +416,17 @@ describe('bindRoomForm DOM interactions', () => {
     const unbind = bindRoomForm({ root: document, store });
 
     click(page.form.querySelector('[data-add-opening]')!);
-    expect(
-      page.openingList.querySelectorAll('[data-opening-row]'),
-    ).toHaveLength(1);
+    expect(page.openingList.querySelectorAll('[data-opening-row]')).toHaveLength(1);
 
-    const row = page.openingList.querySelector<HTMLElement>(
-      '[data-opening-row]',
-    )!;
-    const width = row.querySelector<HTMLInputElement>(
-      '[data-opening-field="width"]',
-    )!;
+    const row = page.openingList.querySelector<HTMLElement>('[data-opening-row]')!;
+    const width = row.querySelector<HTMLInputElement>('[data-opening-field="width"]')!;
     width.value = '1.2';
     submit(page.form);
 
     expect(store.getState().rooms[0]?.openings[0]?.widthM).toBeCloseTo(1.2);
 
     click(row.querySelector('[data-remove-opening]')!);
-    expect(
-      page.openingList.querySelectorAll('[data-opening-row]'),
-    ).toHaveLength(0);
+    expect(page.openingList.querySelectorAll('[data-opening-row]')).toHaveLength(0);
     unbind?.();
   });
 
@@ -454,18 +436,12 @@ describe('bindRoomForm DOM interactions', () => {
     const unbind = bindRoomForm({ root: document, store });
 
     click(page.form.querySelector('[data-add-opening]')!);
-    const row = page.openingList.querySelector<HTMLElement>(
-      '[data-opening-row]',
-    )!;
-    row.querySelector<HTMLInputElement>(
-      '[data-opening-field="count"]',
-    )!.value = '1.5';
+    const row = page.openingList.querySelector<HTMLElement>('[data-opening-row]')!;
+    row.querySelector<HTMLInputElement>('[data-opening-field="count"]')!.value = '1.5';
     submit(page.form);
 
     expect(store.getState().rooms).toHaveLength(0);
-    expect(
-      row.querySelector<HTMLElement>('[data-opening-error]')?.hidden,
-    ).toBe(false);
+    expect(row.querySelector<HTMLElement>('[data-opening-error]')?.hidden).toBe(false);
     unbind?.();
   });
 
@@ -475,37 +451,23 @@ describe('bindRoomForm DOM interactions', () => {
     const unbind = bindRoomForm({ root: document, store });
 
     submit(page.form);
-    expect(
-      page.roomList.querySelector('[data-room-count]')?.textContent,
-    ).toBe('1');
+    expect(page.roomList.querySelector('[data-room-count]')?.textContent).toBe('1');
 
-    const item = page.roomItems.querySelector<HTMLElement>(
-      '[data-room-item]',
-    )!;
+    const item = page.roomItems.querySelector<HTMLElement>('[data-room-item]')!;
     click(item.querySelector('[data-edit-room]')!);
-    expect(
-      page.form.querySelector<HTMLElement>('[data-cancel-edit]')?.hidden,
-    ).toBe(false);
+    expect(page.form.querySelector<HTMLElement>('[data-cancel-edit]')?.hidden).toBe(false);
 
-    const name = page.form.querySelector<HTMLInputElement>(
-      '[data-field="name"]',
-    )!;
+    const name = page.form.querySelector<HTMLInputElement>('[data-field="name"]')!;
     name.value = 'Edited bedroom';
     name.dispatchEvent(new Event('input', { bubbles: true }));
     expect(store.getState().rooms[0]?.name).toBe('Edited bedroom');
 
-    const updatedItem = page.roomItems.querySelector<HTMLElement>(
-      '[data-room-item]',
-    )!;
+    const updatedItem = page.roomItems.querySelector<HTMLElement>('[data-room-item]')!;
     click(updatedItem.querySelector('[data-remove-room]')!);
     expect(store.getState().rooms).toHaveLength(0);
 
     click(page.form.querySelector('[data-add-room]')!);
-    expect(
-      page.form.querySelector<HTMLInputElement>(
-        '[data-field="length"]',
-      )?.value,
-    ).toBe('');
+    expect(page.form.querySelector<HTMLInputElement>('[data-field="length"]')?.value).toBe('');
     unbind?.();
   });
 
@@ -532,23 +494,17 @@ describe('bindRoomForm DOM interactions', () => {
     const unbind = bindRoomForm({ root: document, store });
     submit(page.form);
 
-    const pattern = page.form.querySelector<HTMLSelectElement>(
-      '[data-option="flooring.pattern"]',
-    )!;
+    const pattern = page.form.querySelector<HTMLSelectElement>('[data-option="flooring.pattern"]')!;
     pattern.value = 'diagonal';
     pattern.dispatchEvent(new Event('change', { bubbles: true }));
     expect(store.getState().rooms[0]?.flooring.layPattern).toBe('diagonal');
 
-    const coats = page.form.querySelector<HTMLInputElement>(
-      '[data-option="paint.coats"]',
-    )!;
+    const coats = page.form.querySelector<HTMLInputElement>('[data-option="paint.coats"]')!;
     coats.value = '0';
     coats.dispatchEvent(new Event('input', { bubbles: true }));
-    expect(
-      page.form.querySelector<HTMLElement>(
-        '[data-error-for="paint.coats"]',
-      )?.hidden,
-    ).toBe(false);
+    expect(page.form.querySelector<HTMLElement>('[data-error-for="paint.coats"]')?.hidden).toBe(
+      false,
+    );
 
     const ceiling = page.form.querySelector<HTMLInputElement>(
       '[data-option="setting.includeCeiling"]',
@@ -566,13 +522,9 @@ describe('bindRoomForm DOM interactions', () => {
     submit(page.form);
 
     store.setSettings({ unitSystem: 'imperial' });
-    const length = page.form.querySelector<HTMLInputElement>(
-      '[data-field="length"]',
-    )!;
+    const length = page.form.querySelector<HTMLInputElement>('[data-field="length"]')!;
     expect(Number(length.value)).toBeCloseTo(13.1234, 1);
-    expect(
-      page.form.querySelector('[data-unit-label="length"]')?.textContent,
-    ).toBe('ft');
+    expect(page.form.querySelector('[data-unit-label="length"]')?.textContent).toBe('ft');
     unbind?.();
   });
 
@@ -582,9 +534,7 @@ describe('bindRoomForm DOM interactions', () => {
     const unbind = bindRoomForm({ root: document, store });
     submit(page.form);
 
-    const price = page.results.querySelector<HTMLInputElement>(
-      '[data-price-input]',
-    )!;
+    const price = page.results.querySelector<HTMLInputElement>('[data-price-input]')!;
     expect(price).toBeTruthy();
 
     price.value = '12.50';
@@ -593,17 +543,11 @@ describe('bindRoomForm DOM interactions', () => {
 
     price.value = 'not-a-price';
     price.dispatchEvent(new Event('input', { bubbles: true }));
-    expect(
-      page.results.querySelector<HTMLElement>(
-        '[data-price-error]',
-      )?.hidden,
-    ).toBe(false);
+    expect(page.results.querySelector<HTMLElement>('[data-price-error]')?.hidden).toBe(false);
 
     price.value = '';
     price.dispatchEvent(new Event('input', { bubbles: true }));
-    expect(
-      Object.keys(store.getState().settings.prices),
-    ).toHaveLength(0);
+    expect(Object.keys(store.getState().settings.prices)).toHaveLength(0);
     unbind?.();
   });
 
@@ -618,15 +562,11 @@ describe('bindRoomForm DOM interactions', () => {
     const store = makeStore();
     const unbind = bindRoomForm({ root: document, store });
 
-    expect(
-      page.form.querySelector<HTMLInputElement>(
-        '[data-field="name"]',
-      )?.value,
-    ).toBe('Preset room');
+    expect(page.form.querySelector<HTMLInputElement>('[data-field="name"]')?.value).toBe(
+      'Preset room',
+    );
     expect(store.getState().rooms).toHaveLength(0);
-    expect(
-      page.results.querySelector('[data-results-live]')?.hidden,
-    ).toBe(false);
+    expect(page.results.querySelector('[data-results-live]')?.hidden).toBe(false);
     unbind?.();
   });
 
@@ -638,14 +578,8 @@ describe('bindRoomForm DOM interactions', () => {
       store: makeStore(),
     });
 
-    expect(
-      page.form.querySelector<HTMLInputElement>(
-        '[data-field="length"]',
-      )?.value,
-    ).toBe('');
-    expect(
-      page.results.querySelector('[data-results-empty]')?.hidden,
-    ).toBe(false);
+    expect(page.form.querySelector<HTMLInputElement>('[data-field="length"]')?.value).toBe('');
+    expect(page.results.querySelector('[data-results-empty]')?.hidden).toBe(false);
     unbind?.();
   });
 
@@ -663,10 +597,6 @@ describe('bindRoomForm DOM interactions', () => {
     expect(flush).toHaveBeenCalledTimes(1);
 
     click(page.form.querySelector('[data-add-room]')!);
-    expect(
-      page.form.querySelector<HTMLInputElement>(
-        '[data-field="length"]',
-      )?.value,
-    ).toBe('');
+    expect(page.form.querySelector<HTMLInputElement>('[data-field="length"]')?.value).toBe('');
   });
 });
