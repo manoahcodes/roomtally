@@ -8,12 +8,13 @@ function makeForm(mode: 'project' | 'single' = 'project'): HTMLFormElement {
   const form = document.createElement('form');
   form.setAttribute('data-room-form', '');
   form.dataset.mode = mode;
-  for (const [key, value] of [
+  const fields: Array<[string, string]> = [
     ['name', 'Bedroom'],
     ['length', '4'],
     ['width', '3.5'],
     ['height', '2.4'],
-  ]) {
+  ];
+  for (const [key, value] of fields) {
     const input = document.createElement('input');
     input.setAttribute('data-field', key);
     input.value = value;
