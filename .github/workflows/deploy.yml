@@ -1,0 +1,60 @@
+# Production deploy (Engineering_Plan §B.14-B.15). Runs only for a push to main whose CI run
+# passed, and deploys the exact commit CI checked. The two secrets are used by the deploy
+# step only; nothing in the build can read them.
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://roomtally.example' }}
+  # Optional build-time switches. Leave the repository variables unset to keep them off.
+  PUBLIC_ADS_ENABLED: ${{ vars.PUBLIC_ADS_ENABLED || 'false' }}
+  PUBLIC_ADSENSE_CLIENT: ${{ vars.PUBLIC_ADSENSE_CLIENT }}
+  PUBLIC_ADSENSE_SLOT_INARTICLE: ${{ vars.PUBLIC_ADSENSE_SLOT_INARTICLE }}
+  PUBLIC_ADSENSE_SLOT_BOTTOM: ${{ vars.PUBLIC_ADSENSE_SLOT_BOTTOM }}
+  PUBLIC_AFFILIATES_ENABLED: ${{ vars.PUBLIC_AFFILIATES_ENABLED || 'false' }}
+  PUBLIC_ANALYTICS_ENABLED: ${{ vars.PUBLIC_ANALYTICS_ENABLED || 'false' }}
+  PUBLIC_CF_BEACON_TOKEN: ${{ vars.PUBLIC_CF_BEACON_TOKEN }}
+  PUBLIC_CONTACT_EMAIL: ${{ vars.PUBLIC_CONTACT_EMAIL }}
+
+jobs:
+  deploy:
+    name: Build and deploy to Cloudflare Pages
+    # A weekly scheduled CI run must not redeploy, and neither may a failed run.
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install (exact versions from the lockfile)
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler pages deploy dist --project-name=roomtally --branch=main
