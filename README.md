@@ -6,7 +6,7 @@ Roomtally is a free, private Home & Garden estimator. Enter a room once, and get
 
 There is no account, no server and no database. Your measurements never leave your device. Roomtally is supported by ads and affiliate links.
 
-> **Project status:** the documentation suite is complete and the application is being built in order from `agents/Build_prompts.md`. The setup and script commands below take effect once the Batch 2 scaffold adds `package.json`.
+> **Project status:** built in order from `agents/Build_prompts.md` (88 batches). Before you launch, run the checks in [Testing](#testing) and work through [Before you launch](#before-you-launch).
 
 ## Why Roomtally
 
@@ -80,15 +80,18 @@ The pnpm version is pinned in `package.json` under `packageManager`. `pnpm run b
 
 ## Project structure
 
-The target layout comes from `agents/File_Map.md`:
+The layout follows `agents/File_Map.md`:
 
 ```
+├── .github/         # CI and deploy workflows, Dependabot
 ├── agents/          # PRD, TDD, design, flows and build plan
-├── public/          # static assets, headers, robots, ads.txt
+├── public/          # favicons, OG image, _headers, robots.txt, ads.txt
 ├── scripts/         # build checks (bundle size, SEO)
 ├── src/
-│   ├── components/  # Astro components
-│   ├── data/        # material and region presets
+│   ├── components/  # Astro components (ads, calculators, common, layout, results, room)
+│   ├── config/      # site constants and feature flags
+│   ├── content/     # guides, written in Markdown
+│   ├── data/        # material, region, room-type and affiliate presets
 │   ├── layouts/     # page shells
 │   ├── lib/
 │   │   ├── calc/    # pure calculation engine
@@ -96,9 +99,35 @@ The target layout comes from `agents/File_Map.md`:
 │   │   ├── seo/     # meta and JSON-LD builders
 │   │   └── ui/      # browser scripts
 │   ├── pages/       # routes
-│   └── styles/      # design tokens
-└── tests/           # unit and end-to-end tests
+│   ├── styles/      # design tokens
+│   └── types/       # shared TypeScript types
+└── tests/
+    ├── e2e/         # Playwright specs
+    ├── helpers/     # fixtures shared by unit tests
+    └── unit/        # Vitest specs
 ```
+
+### Where to find things
+
+| I want to change...                          | Look in                                              |
+| -------------------------------------------- | ---------------------------------------------------- |
+| Coverage, waste or pack-size presets         | `src/data/materials.ts` (the only place they live)   |
+| A calculation                                | `src/lib/calc/` (paint, flooring, tile, wallpaper)   |
+| How packs are chosen and rounded             | `src/lib/calc/packSizes.ts`, `shoppingList.ts`       |
+| Input limits and error codes                 | `src/lib/calc/validation.ts`, `errors.ts`            |
+| Regions, currencies and units                | `src/data/regions.ts`, `src/lib/ui/unitToggle.ts`    |
+| Room-type pages (bedroom, kitchen, ...)      | `src/data/rooms.ts`, `src/pages/paint-calculator/`   |
+| Saving, loading and migrating a project      | `src/lib/state/`                                     |
+| The form and how it reaches the results      | `src/lib/ui/bindRoomForm.ts`, `renderResults.ts`     |
+| Printing                                     | `src/lib/ui/printList.ts`, print rules in `global.css` |
+| A guide                                      | `src/content/guides/*.md`                            |
+| Legal wording                                | `src/pages/privacy.astro`, `cookies.astro`, `terms.astro`, `disclaimer.astro` |
+| Colours, fonts and spacing                   | `src/styles/global.css` (tokens)                     |
+| Page titles, descriptions and JSON-LD        | `src/lib/seo/`                                       |
+| Ads, consent and analytics                   | `src/lib/ui/ads.ts`, `consent.ts`, `analytics.ts`    |
+| Affiliate partners and tags                  | `src/data/affiliates.ts`                             |
+| Security headers and caching                 | `public/_headers`                                    |
+| Site name, nav and feature flags             | `src/config/site.ts`, `features.ts`                  |
 
 ## Testing
 
@@ -109,8 +138,12 @@ The target layout comes from `agents/File_Map.md`:
 
 ```bash
 pnpm run test:cov
-pnpm run build && pnpm run test:e2e
+pnpm exec playwright install chromium   # once, for the end-to-end tests
+pnpm run build && pnpm run size && pnpm run seo:check
+pnpm run test:e2e                        # starts `astro preview` on port 4321
 ```
+
+The consent spec also has a branch that checks the ad script loads after "Accept all". It runs only when the site is built with `PUBLIC_ADS_ENABLED=true` and a real `PUBLIC_ADSENSE_CLIENT`. With the defaults, the same test checks that nothing loads.
 
 ## Environment variables
 
@@ -135,14 +168,40 @@ The deploy workflow uses two GitHub secrets: `CLOUDFLARE_API_TOKEN` and `CLOUDFL
 
 ## Deployment
 
-The site is fully static and deploys to Cloudflare Pages.
+The site is fully static and deploys to Cloudflare Pages. You can deploy by hand:
 
 ```bash
 pnpm run build
 pnpm exec wrangler pages deploy dist --project-name=roomtally
 ```
 
-`main` deploys to production. Other branches can deploy previews. GitHub Actions runs format, type, unit, build, size, SEO and end-to-end checks on every pull request.
+For a preview of another branch, add `--branch=<branch-name>`.
+
+### Continuous integration and deploy
+
+- **CI** (`.github/workflows/ci.yml`) runs on every push and pull request, and weekly. It installs from the lockfile, then runs format, types, unit tests with coverage, build, size budget, SEO scan, `pnpm audit --prod --audit-level=high` and the Playwright specs. Node comes from `.nvmrc` and pnpm from `packageManager`.
+- **Deploy** (`.github/workflows/deploy.yml`) runs only after a CI run on `main` that was started by a push and passed. It builds that same commit and deploys it to the `roomtally` Cloudflare Pages project.
+- **Dependabot** (`.github/dependabot.yml`) opens weekly pull requests for npm and GitHub Actions, with minor and patch updates grouped. Review each one by hand.
+
+### One-time setup
+
+1. Create a Cloudflare Pages project named `roomtally` (direct upload).
+2. In GitHub, add the repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+3. In GitHub, add the repository variable `PUBLIC_SITE_URL` with your real address. Add the other `PUBLIC_` variables from the table above only when you need them.
+4. Set the same `PUBLIC_` variables in the Cloudflare Pages project settings if you also build there.
+
+### Rolling back
+
+Open the project's Deployments in the Cloudflare dashboard and roll back to the previous good deployment. Or run `git revert <bad-commit>` and push to `main`. Nothing is stored on a server, so no data is lost.
+
+## Before you launch
+
+- Set `PUBLIC_SITE_URL` and `PUBLIC_CONTACT_EMAIL`, then rebuild.
+- Have the About, Privacy, Cookies, Terms and Disclaimer pages reviewed by a qualified person for your country.
+- If you turn ads on, add your AdSense line to `public/ads.txt` and set the ad variables.
+- Turn ads and affiliates on only after the consent and disclosure wording is approved.
+- Run `pnpm run build && pnpm run size && pnpm run seo:check && pnpm run test:e2e`.
+- Check the CSP in `public/_headers` against any host you add, and run the preview URL through PageSpeed Insights.
 
 ## Documentation
 
