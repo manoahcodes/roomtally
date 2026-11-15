@@ -12,6 +12,8 @@ export const SITE = {
   /** Canonical origin without a trailing slash. */
   url: rawUrl.replace(/\/+$/, ''),
   ogImage: '/og-default.png',
+  /** Public contact address for the legal pages. Empty until the owner sets PUBLIC_CONTACT_EMAIL. */
+  contactEmail: (env.PUBLIC_CONTACT_EMAIL ?? '').trim(),
 } as const;
 
 export const NAV_ITEMS: readonly NavItem[] = [

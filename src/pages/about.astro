@@ -1,0 +1,76 @@
+---
+/**
+ * About page (App_Flow §A.1): who and why, how the site is paid for, and a contact note.
+ * Uses LegalLayout, so there are no ads here (PRD Rule 12).
+ *
+ * LEGAL REVIEW REQUIRED before launch (Engineering_Plan: agent audit items). Check the
+ * funding and affiliate wording against the programs actually in use, and set
+ * PUBLIC_CONTACT_EMAIL so the contact line shows a real address.
+ */
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { SITE } from '../config/site';
+
+const description =
+  'Roomtally is a free, private estimator for paint, flooring, tile and wallpaper. Learn why we built it and how the site is paid for.';
+const { contactEmail } = SITE;
+---
+
+<LegalLayout title="About Roomtally" description={description} path="/about/" updated="2026-11-15">
+  <p class="text-lg">
+    Roomtally helps you work out what to buy for a home project. You enter a room once. You get one
+    shopping list for paint, flooring, tile and wallpaper.
+  </p>
+
+  <h2>Why we built it</h2>
+  <p>
+    Most people guess how much to buy. Some run short in the middle of a job. Others carry home
+    boxes they never open.
+  </p>
+  <p>
+    Separate calculators make it worse. Each one asks for the same measurements again, and most do
+    not round up to the real pack sizes in the shop.
+  </p>
+  <p>
+    Roomtally asks for the room once, adds up every room, and rounds up once to whole cans, boxes
+    and rolls. The number to buy comes first, with the working beside it.
+  </p>
+
+  <h2>How the estimates work</h2>
+  <p>
+    Every result is an estimate. We use common coverage and waste figures, and we show each one in
+    the Assumptions panel so you can check it and change it.
+  </p>
+  <p>
+    Read our <a href="/guides/">guides</a> for the maths behind each material, with a worked
+    example in every one. Check the label on the product you choose, because real coverage varies.
+  </p>
+
+  <h2>Your data stays with you</h2>
+  <p>
+    Roomtally runs in your browser. Your rooms and sizes are saved on your own device, and we never
+    receive them. There are no accounts. You can remove everything at any time with Clear my data.
+  </p>
+  <p>The <a href="/privacy/">privacy notice</a> explains this in full.</p>
+
+  <h2>How the site is paid for</h2>
+  <p>
+    Roomtally is free to use. It may be supported by advertising and by affiliate links to shops. We
+    only load advertising after you say yes in the cookie preferences.
+  </p>
+  <p>
+    Ads are labelled Advertisement. They never appear inside the room form or your results.
+    Affiliate links are marked as sponsored, and we explain them on the page where they appear.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Spotted a mistake, or have a question? Write to us at
+    {
+      contactEmail ? (
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+      ) : (
+        <span>[contact address to be added before launch]</span>
+      )
+    }.
+  </p>
+</LegalLayout>
