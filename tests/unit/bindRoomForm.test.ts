@@ -566,13 +566,7 @@ describe('bindRoomForm DOM interactions', () => {
       'Preset room',
     );
     expect(store.getState().rooms).toHaveLength(0);
-<<<<<<< HEAD
-    expect(page.results.querySelector('[data-results-live]')?.hidden).toBe(false);
-=======
-    expect(
-      (page.results.querySelector('[data-results-live]') as HTMLElement | null)?.hidden,
-    ).toBe(false);
->>>>>>> 878ad17e62509ffa3e84939729304f3b97407afc
+    expect(page.results.querySelector<HTMLElement>('[data-results-live]')?.hidden).toBe(false);
     unbind?.();
   });
 
@@ -584,19 +578,8 @@ describe('bindRoomForm DOM interactions', () => {
       store: makeStore(),
     });
 
-<<<<<<< HEAD
     expect(page.form.querySelector<HTMLInputElement>('[data-field="length"]')?.value).toBe('');
-    expect(page.results.querySelector('[data-results-empty]')?.hidden).toBe(false);
-=======
-    expect(
-      page.form.querySelector<HTMLInputElement>(
-        '[data-field="length"]',
-      )?.value,
-    ).toBe('');
-    expect(
-      (page.results.querySelector('[data-results-empty]') as HTMLElement | null)?.hidden,
-    ).toBe(false);
->>>>>>> 878ad17e62509ffa3e84939729304f3b97407afc
+    expect(page.results.querySelector<HTMLElement>('[data-results-empty]')?.hidden).toBe(false);
     unbind?.();
   });
 
