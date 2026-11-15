@@ -1,5 +1,5 @@
 ---
-title: Tile layout and waste: how many tiles to buy
+title: "Tile layout and waste: how many tiles to buy"
 description: See how grout gaps and layout patterns change the number of tiles you need, with a worked example for straight, diagonal and herringbone lays.
 published: 2026-11-15
 updated: 2026-11-15
