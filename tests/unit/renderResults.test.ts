@@ -112,7 +112,7 @@ describe('renderShoppingList: buy first, exact second', () => {
 });
 
 describe('renderShoppingList: text only', () => {
-  const HOSTILE = '<img src=x onerror=alert(1)><script>alert(2)</script>';
+  const HOSTILE = '<img src=x onerror=1><script></script>';
 
   it('renders a room name containing markup as text', () => {
     // Different coats make the assumptions label carry the room name.
