@@ -444,8 +444,10 @@ export interface BindOptions {
  */
 export function bindRoomForm(options: BindOptions = {}): (() => void) | null {
   const root = options.root ?? document;
-  const form = select<HTMLFormElement>('[data-room-form]', root);
-  if (!form) return null;
+  const foundForm = select<HTMLFormElement>('[data-room-form]', root);
+  if (!foundForm) return null;
+  // A separate, non-null name: TypeScript drops the check above inside hoisted functions.
+  const form: HTMLFormElement = foundForm;
   const store = options.store ?? getProjectStore();
 
   const mode = form.dataset.mode === 'single' ? 'single' : 'project';
@@ -1126,7 +1128,7 @@ export function bindRoomForm(options: BindOptions = {}): (() => void) | null {
   /* --- start --- */
 
   function readPreset(): RoomInput | null {
-    const raw = form?.dataset.preset;
+    const raw = form.dataset.preset;
     if (!raw) return null;
     try {
       const parsed: unknown = JSON.parse(raw);
