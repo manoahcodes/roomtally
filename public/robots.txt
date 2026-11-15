@@ -1,0 +1,7 @@
+# Allow all crawlers; no blocked paths (TDD §H.58).
+# BEFORE LAUNCH: change the host below to the real production domain (the value of
+# PUBLIC_SITE_URL). This file is static, so it cannot read the variable itself.
+User-agent: *
+Allow: /
+
+Sitemap: https://roomtally.example/sitemap-index.xml
