@@ -46,12 +46,15 @@ function fillRoomFields(form: HTMLFormElement): void {
 }
 
 function makeStore() {
-  return createProjectStore({
+  const store = createProjectStore({
     storage: null,
     now: () => FIXED_TIME,
     newId: () => 'room-test',
     debounceMs: 60_000,
   });
+  // The test inputs and assertions use metres; don't inherit the default region's units.
+  store.setSettings({ unitSystem: 'metric' });
+  return store;
 }
 
 describe('bindRoomForm parsing', () => {
