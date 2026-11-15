@@ -1,0 +1,111 @@
+---
+/**
+ * Cookie notice (App_Flow §A.1; PRD Rules 13 and 14). LegalLayout, no ads.
+ * Lists everything Roomtally stores on a device and which consent category it belongs to.
+ * Names match the code: roomtally_consent (consent.ts), roomtally:project:v1 and
+ * roomtally:theme (storage.ts), and the Google cookie names cleared in consent.ts.
+ *
+ * LEGAL REVIEW REQUIRED before launch (Engineering_Plan: agent audit items). Check the
+ * cookie list against what the live site and the ad and analytics providers actually set.
+ */
+import ConsentButton from '../components/common/ConsentButton.astro';
+import { SITE } from '../config/site';
+import LegalLayout from '../layouts/LegalLayout.astro';
+
+const description =
+  'The cookies and browser storage Roomtally uses, what each one is for, and how to change your choices.';
+const { contactEmail } = SITE;
+
+const essential = [
+  {
+    name: 'roomtally_consent',
+    kind: 'Cookie',
+    purpose: 'Remembers your cookie choices.',
+    lasts: 'About six months',
+  },
+  {
+    name: 'roomtally:project:v1',
+    kind: 'Local storage',
+    purpose: 'Saves your rooms, options and prices on your device.',
+    lasts: 'Until you clear it',
+  },
+  {
+    name: 'roomtally:theme',
+    kind: 'Local storage',
+    purpose: 'Remembers light or dark theme.',
+    lasts: 'Until you clear it',
+  },
+];
+---
+
+<LegalLayout title="Cookie notice" description={description} path="/cookies/" updated="2026-11-15">
+  <p class="text-lg">
+    Roomtally works without cookies. This page lists what we store on your device and why. You
+    choose what is allowed beyond the essentials.
+  </p>
+
+  <h2>Essential storage</h2>
+  <p>
+    These items make the site work the way you asked. They never leave your device, and they are not
+    used for tracking.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">What it is for</th>
+        <th scope="col">How long</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        essential.map((item) => (
+          <tr>
+            <td>{item.name}</td>
+            <td>{item.kind}</td>
+            <td>{item.purpose}</td>
+            <td>{item.lasts}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+
+  <h2>Analytics</h2>
+  <p>
+    Off unless you accept. If analytics is switched on, we use Cloudflare Web Analytics to count
+    page visits and measure speed. It is designed to work without cookies.
+  </p>
+
+  <h2>Advertising</h2>
+  <p>
+    Off unless you accept. If advertising is switched on, Google AdSense may set cookies such as
+    __gads, __gpi and _gcl_ on this site. Google decides how long they last.
+  </p>
+  <p>
+    If you accept and later change your mind, save your new choice. The cookie tool then removes
+    those cookies.
+  </p>
+
+  <h2>Change your choices</h2>
+  <p>You can reopen the cookie preferences at any time, here or from the footer on every page.</p>
+  <p><ConsentButton label="Open cookie preferences" /></p>
+  <p>
+    You can also block or delete cookies in your browser settings. The site still works without
+    them, but it will ask for your choice again.
+  </p>
+
+  <h2>More information</h2>
+  <p>
+    The <a href="/privacy/">privacy notice</a> explains what we receive and what we never receive.
+    Questions about cookies? Write to us at
+    {
+      contactEmail ? (
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+      ) : (
+        <span>[contact address to be added before launch]</span>
+      )
+    }.
+  </p>
+</LegalLayout>

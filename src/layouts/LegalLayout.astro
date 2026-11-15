@@ -44,6 +44,8 @@ const crumbs = [
         Last updated <time datetime={updated}>{updated}</time>
       </p>
     </header>
-    <slot />
+    <div class="article-body">
+      <slot />
+    </div>
   </article>
 </BaseLayout>
