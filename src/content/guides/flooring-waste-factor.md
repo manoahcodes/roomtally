@@ -10,7 +10,7 @@ faq:
   - q: Is the waste factor the same as spare boards for repairs?
     a: Not quite. Waste covers cuts and offcuts you cannot use. Many people also keep a few spare boards for future repairs, so you may want to add a little more.
   - q: Do I add waste to every room or to the total?
-    a: Add the areas of all rooms that share the same flooring, apply the waste once, then round up to whole boxes. Rounding each room on its own can leave you with extra boxes.
+    a: Add the areas of all rooms that share the same flooring and apply the waste once. Then round up to whole boxes. Rounding each room on its own can leave you with extra boxes.
 ---
 
 Flooring is never used edge to edge with nothing left over. Boards get cut to fit the walls. Tiles get trimmed at the doorway. Some pieces are marked, chipped or too short to use. The extra you add to cover this is called the waste factor.

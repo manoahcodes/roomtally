@@ -8,7 +8,7 @@ faq:
   - q: How much extra tile should I buy?
     a: Typical allowances are about 10% for a straight lay, 15% for diagonal and 20% for herringbone. Small rooms and tricky cuts may need more. Ask your supplier.
   - q: Does the grout gap change how many tiles I need?
-    a: Slightly. Each tile takes up its own size plus one gap on each side, so a wider gap means fewer tiles for the same area.
+    a: Slightly. Each tile takes up its own size plus one gap on each side. A wider gap means fewer tiles for the same area.
   - q: Why does the list show both tiles and boxes?
     a: Tiles are counted for planning, but you buy whole boxes. The box count is the one to order, and it is always rounded up.
 ---
