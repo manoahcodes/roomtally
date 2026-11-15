@@ -217,6 +217,11 @@ function makeCompletePage(mode: 'project' | 'single' = 'project') {
     form.append(error);
   }
 
+  const lengthLabel = document.createElement('span');
+  lengthLabel.dataset.unitLabel = 'length';
+  lengthLabel.textContent = 'm';
+  form.append(lengthLabel);
+
   const openingsError = document.createElement('p');
   openingsError.dataset.errorFor = 'openings';
   openingsError.hidden = true;
