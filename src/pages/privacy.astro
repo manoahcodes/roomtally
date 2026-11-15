@@ -1,0 +1,134 @@
+---
+/**
+ * Privacy notice (App_Flow §A.1; PRD Rules 9, 13, 14, 15, NV1, NV2). LegalLayout, no ads.
+ * Each statement describes what the code does: project data and theme in localStorage,
+ * one consent cookie, Cloudflare Web Analytics and Google AdSense only after consent.
+ *
+ * LEGAL REVIEW REQUIRED before launch (Engineering_Plan: agent audit items). A qualified
+ * person should check the regional wording (UK GDPR, EU GDPR, CCPA and similar), the
+ * operator's name and address, and the retention and rights sections. Also set
+ * PUBLIC_CONTACT_EMAIL.
+ */
+import ConsentButton from '../components/common/ConsentButton.astro';
+import { SITE } from '../config/site';
+import LegalLayout from '../layouts/LegalLayout.astro';
+
+const description =
+  'What Roomtally stores, what it never sends, and how analytics and advertising work only after you say yes.';
+const { contactEmail } = SITE;
+---
+
+<LegalLayout title="Privacy notice" description={description} path="/privacy/" updated="2026-11-15">
+  <p class="text-lg">
+    Roomtally is built so your rooms stay on your device. This page explains what is stored, what
+    is shared, and the choices you have.
+  </p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li>Your rooms, sizes and prices are saved in your browser. We never receive them.</li>
+    <li>There are no accounts and no sign-up.</li>
+    <li>Analytics and advertising are off until you accept them.</li>
+    <li>You can delete your saved rooms at any time with Clear my data.</li>
+  </ul>
+
+  <h2>What is saved on your device</h2>
+  <p>
+    Your project is saved in your browser's local storage, under one key. It holds the rooms you
+    add, their sizes and openings, and your material options. It also holds any prices you type and
+    your region and unit choice.
+  </p>
+  <p>
+    A second item remembers whether you prefer the light or dark theme. A third, a small cookie
+    named roomtally_consent, remembers your cookie choices for about six months.
+  </p>
+  <p>
+    None of this is sent to us or to anyone else. It stays on your device until you remove it. Clear
+    my data deletes your project. Clearing your browser's site data removes everything.
+  </p>
+
+  <h2>What we receive</h2>
+  <p>
+    Roomtally has no server of its own that stores your data. The site is delivered by Cloudflare.
+    Like any website host, Cloudflare receives your IP address and basic request details when it
+    sends you a page.
+  </p>
+  <p>
+    We do not combine this with your rooms, because we never see your rooms. We do not sell
+    personal information.
+  </p>
+
+  <h2>Analytics, only if you accept</h2>
+  <p>
+    If analytics is switched on and you accept it, we use Cloudflare Web Analytics. It counts page
+    visits and measures how fast pages load. It is designed to work without cookies.
+  </p>
+  <p>
+    We may also count simple actions, such as a list being printed. These counts carry values like
+    your region, your unit system and the number of rooms. They never carry a room name or a
+    measurement.
+  </p>
+
+  <h2>Advertising, only if you accept</h2>
+  <p>
+    Roomtally may show ads from Google AdSense. No ad code is loaded until you accept advertising.
+    If you accept, Google and its partners may set cookies or use identifiers to show and measure
+    ads.
+  </p>
+  <p>
+    Read how Google uses information from sites that use its services at
+    <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">
+      policies.google.com/technologies/partner-sites</a
+    >. Ads never appear in the room form or in your results, and they cannot see your rooms.
+  </p>
+
+  <h2>Shop links</h2>
+  <p>
+    Some links may take you to a shop. If so, they are marked as sponsored. When you follow one,
+    that shop learns you came from Roomtally, and its own privacy policy applies. We do not pass on
+    your measurements.
+  </p>
+
+  <h2>Your choices</h2>
+  <ul>
+    <li>Change your cookie choices at any time with the button below, or from the footer.</li>
+    <li>Delete your saved rooms with Clear my data.</li>
+    <li>Block or delete cookies and site data in your browser settings.</li>
+  </ul>
+  <p><ConsentButton label="Open cookie preferences" /></p>
+  <p>Read more about cookies in the <a href="/cookies/">cookie notice</a>.</p>
+
+  <h2>Your rights</h2>
+  <p>
+    The law where you live may give you rights over personal information. You may be able to ask to
+    see, correct or delete it. We keep no personal information about you, so there is usually nothing
+    for us to give, correct or delete.
+  </p>
+  <p>
+    If you think we hold something about you, write to us and we will look into it.
+  </p>
+
+  <h2>Children</h2>
+  <p>
+    Roomtally is made for adults planning home projects. It is not aimed at children, and we do not
+    knowingly collect information from them.
+  </p>
+
+  <h2>Changes to this notice</h2>
+  <p>
+    If we change how Roomtally handles data, we will update this page and its date. The date at the
+    top shows when it last changed.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about privacy? Write to us at
+    {
+      contactEmail ? (
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+      ) : (
+        <span>[contact address to be added before launch]</span>
+      )
+    }.
+  </p>
+</LegalLayout>
