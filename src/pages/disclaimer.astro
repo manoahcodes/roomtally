@@ -1,0 +1,72 @@
+---
+/**
+ * Disclaimer (App_Flow §A.1; PRD Rules 11, 12, 15). LegalLayout, no ads.
+ * Repeats the accuracy note shown with every result (DisclaimerNote, full variant) and
+ * carries the advertising and affiliate disclosure that PRD Rule 15 requires on the page.
+ *
+ * LEGAL REVIEW REQUIRED before launch (Engineering_Plan: agent audit items). If an
+ * affiliate program is joined, check its rules for required wording. Amazon Associates,
+ * for example, requires its own exact statement about qualifying purchases, and that
+ * wording must be added here and wherever the links appear.
+ */
+import DisclaimerNote from '../components/common/DisclaimerNote.astro';
+import LegalLayout from '../layouts/LegalLayout.astro';
+
+const description =
+  'Roomtally gives estimates, not guarantees. Read how to use the results, and how we handle ads and shop links.';
+---
+
+<LegalLayout title="Disclaimer" description={description} path="/disclaimer/" updated="2026-11-15">
+  <DisclaimerNote variant="full" />
+
+  <h2>Estimates, not guarantees</h2>
+  <p>
+    Roomtally gives estimates. We build them from the sizes you enter and from common coverage,
+    waste and pack-size figures. We cannot see your room, so we cannot promise a result.
+  </p>
+
+  <h2>What affects your real amount</h2>
+  <ul>
+    <li>Rough, porous or uneven surfaces use more paint than smooth ones.</li>
+    <li>Walls that are not square, and cutting around corners, add waste to flooring and tile.</li>
+    <li>Patterns, and the distance before a pattern repeats, change how much wallpaper you use.</li>
+    <li>Different brands cover different areas. Read the label on the product you choose.</li>
+  </ul>
+
+  <h2>Before you buy</h2>
+  <ul>
+    <li>Measure again. A small mistake in a measurement grows through the calculation.</li>
+    <li>Check the coverage and pack size on the product you plan to buy, and change them in the Assumptions panel.</li>
+    <li>Buy everything of one product at the same time, so colour and pattern match.</li>
+    <li>Ask a supplier or a qualified tradesperson if the job is large, unusual or costly.</li>
+  </ul>
+
+  <h2>Not professional advice</h2>
+  <p>
+    Roomtally and its guides are for general information. They are not professional, building,
+    safety or financial advice. Follow the instructions of the product maker and the rules that
+    apply to your home.
+  </p>
+
+  <h2>Costs</h2>
+  <p>
+    A cost appears only when you type a price. It is an estimate made from your price and the
+    quantity to buy. Real shop prices, offers, delivery and tax may differ.
+  </p>
+
+  <h2>Advertising and shop links</h2>
+  <p>
+    Roomtally may be supported by advertising. Ads are labelled Advertisement. They never appear in
+    the room form or in your results.
+  </p>
+  <p>
+    Some links to shops may be affiliate links. If you buy through one, we may earn a commission at
+    no extra cost to you. These links are marked as sponsored. Having a link does not mean we have
+    tested or endorse the product.
+  </p>
+
+  <h2>More</h2>
+  <p>
+    See also the <a href="/terms/">terms of use</a> and the <a href="/privacy/">privacy notice</a>.
+  </p>
+</LegalLayout>
