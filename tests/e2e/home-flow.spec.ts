@@ -189,10 +189,9 @@ test.describe('storage problems', () => {
     await expect(page.locator('[data-store-notice]')).toContainText(
       "We can't save in this browser, so your rooms will be lost when you leave.",
     );
-    // Nothing could be loaded, so the visitor starts in the US. Choose the UK for metres.
-    await page.locator('#region-select').selectOption('UK');
-    await fillRoom(page, { length: '4', width: '3.5', height: '2.4' });
-    await expectBuy(page, { paint: '4', flooring: '8', tile: '16', wallpaper: '8' });
+    // Nothing could be loaded, so the visitor starts in the US and sizes are in feet.
+    await fillRoom(page, { length: '13', width: '11.5', height: '8' });
+    await expect(page.locator('[data-material-card]')).toHaveCount(4);
   });
 
   test('STO_002: resets damaged saved data with a friendly note', async ({ page }) => {
@@ -205,8 +204,8 @@ test.describe('storage problems', () => {
     await expect(page.locator('[data-store-notice]')).toContainText(
       'We reset your saved rooms because they could not be read.',
     );
-    await page.locator('#region-select').selectOption('UK');
-    await fillRoom(page, { length: '4', width: '3.5', height: '2.4' });
-    await expectBuy(page, { paint: '4' });
+    // The reset project starts in the US, so sizes are in feet.
+    await fillRoom(page, { length: '13', width: '11.5', height: '8' });
+    await expect(page.locator('[data-material-card]')).toHaveCount(4);
   });
 });

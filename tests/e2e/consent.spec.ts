@@ -43,6 +43,18 @@ async function consentCookie(page: Page): Promise<string | null> {
   return cookies.find((cookie) => cookie.name === 'beautally_consent')?.value ?? null;
 }
 
+/** The categories the visitor accepted. The cookie also lists rejected ones, so parse it. */
+async function acceptedCategories(page: Page): Promise<string[] | null> {
+  const raw = await consentCookie(page);
+  if (raw === null) return null;
+  try {
+    const parsed = JSON.parse(decodeURIComponent(raw)) as { categories?: unknown };
+    return Array.isArray(parsed.categories) ? (parsed.categories as string[]) : null;
+  } catch {
+    return null;
+  }
+}
+
 test.describe('before any choice', () => {
   test('asks first and loads nothing from ad or analytics hosts', async ({ page }) => {
     const seen = await watchThirdParties(page);
@@ -118,7 +130,7 @@ test.describe('Accept all', () => {
       expect(seen).toEqual([]);
 
       await banner(page).click();
-      await expect.poll(() => consentCookie(page)).toContain('advertisement');
+      await expect.poll(() => acceptedCategories(page)).toContain('advertisement');
 
       if (ADS_BUILT) {
         await expect(page.locator('script[data-beautally-ads]')).toHaveCount(1);
@@ -152,7 +164,7 @@ test.describe('changing the choice later', () => {
     for (const path of ['/', '/paint-calculator/', '/guides/', '/privacy/']) {
       await page.goto(path);
       await page.getByRole('button', { name: 'Reject all' }).first().click();
-      await page.getByRole('button', { name: 'Cookie preferences' }).click();
+      await page.getByRole('button', { name: 'Cookie preferences', exact: true }).click();
       await expect(page.locator('html')).toHaveClass(/show--preferences/);
       await expect(page.getByText('Necessary', { exact: true }).first()).toBeVisible();
       await page.context().clearCookies();
@@ -163,10 +175,10 @@ test.describe('changing the choice later', () => {
     await watchThirdParties(page);
     await page.goto('/');
     await page.getByRole('button', { name: 'Reject all' }).first().click();
-    await expect.poll(() => consentCookie(page)).not.toContain('advertisement');
+    await expect.poll(() => acceptedCategories(page)).toEqual(['necessary']);
 
-    await page.getByRole('button', { name: 'Cookie preferences' }).click();
+    await page.getByRole('button', { name: 'Cookie preferences', exact: true }).click();
     await page.getByRole('button', { name: 'Accept all' }).last().click();
-    await expect.poll(() => consentCookie(page)).toContain('advertisement');
+    await expect.poll(() => acceptedCategories(page)).toContain('advertisement');
   });
 });
