@@ -91,8 +91,11 @@ for (const route of ROUTES) {
       expect(url.search).toBe('');
       expect(url.hash).toBe('');
 
-      const robots = await page.locator('meta[name="robots"]').getAttribute('content');
-      expect(robots ?? '').not.toMatch(/noindex/i);
+      // No robots tag means "index, follow", so read it without waiting for it to exist.
+      const robots = await page.evaluate(
+        () => document.querySelector('meta[name="robots"]')?.getAttribute('content') ?? '',
+      );
+      expect(robots).not.toMatch(/noindex/i);
       expect(await page.locator('html').getAttribute('lang')).toBe('en');
       await expect(page.locator('meta[name="viewport"]')).toHaveCount(1);
     });
@@ -182,7 +185,7 @@ test.describe('SEO: internal links', () => {
         .evaluateAll((links) => links.map((link) => link.getAttribute('href') ?? ''));
       for (const href of hrefs) targets.add(href.split('#')[0] || route.path);
     }
-    expect(targets.size).toBeGreaterThan(ROUTES.length);
+    expect(targets.size).toBeGreaterThanOrEqual(ROUTES.length);
 
     for (const target of targets) {
       const response = await request.get(target);

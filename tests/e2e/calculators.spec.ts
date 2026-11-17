@@ -52,13 +52,14 @@ for (const calculator of calculators) {
     });
 
     test('leaves the saved project alone', async ({ page }) => {
+      const before = await savedProject(page);
       await fillRoom(page, { length: '4', width: '3.5', height: '2.4' });
       await expect(buy(page, calculator.material)).toHaveText(calculator.buy);
 
       await page.goto('/');
       await expect(page.locator('[data-room-count]')).toHaveText('0');
       await expect(page.locator('[data-material-card]')).toHaveCount(0);
-      expect(await savedProject(page)).toBeNull();
+      expect(await savedProject(page)).toBe(before);
     });
   });
 }

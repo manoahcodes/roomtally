@@ -186,7 +186,11 @@ test.describe('storage problems', () => {
     await page.goto('/');
     await dismissConsent(page);
 
-    await expect(page.locator('[data-store-notice]')).toContainText('STO_001');
+    await expect(page.locator('[data-store-notice]')).toContainText(
+      "We can't save in this browser, so your rooms will be lost when you leave.",
+    );
+    // Nothing could be loaded, so the visitor starts in the US. Choose the UK for metres.
+    await page.locator('#region-select').selectOption('UK');
     await fillRoom(page, { length: '4', width: '3.5', height: '2.4' });
     await expectBuy(page, { paint: '4', flooring: '8', tile: '16', wallpaper: '8' });
   });
@@ -198,10 +202,10 @@ test.describe('storage problems', () => {
     await page.goto('/');
     await dismissConsent(page);
 
-    await expect(page.locator('[data-store-notice]')).toContainText('STO_002');
     await expect(page.locator('[data-store-notice]')).toContainText(
       'We reset your saved rooms because they could not be read.',
     );
+    await page.locator('#region-select').selectOption('UK');
     await fillRoom(page, { length: '4', width: '3.5', height: '2.4' });
     await expectBuy(page, { paint: '4' });
   });

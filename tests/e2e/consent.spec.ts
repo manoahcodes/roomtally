@@ -28,6 +28,14 @@ async function watchThirdParties(page: Page): Promise<string[]> {
   return seen;
 }
 
+// The banner library hides itself when navigator.webdriver is true, which it is under
+// Playwright. Report a normal browser so the banner shows, as it does for real visitors.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'webdriver', { get: () => false });
+  });
+});
+
 const banner = (page: Page) => page.getByRole('button', { name: 'Accept all' }).first();
 
 async function consentCookie(page: Page): Promise<string | null> {
