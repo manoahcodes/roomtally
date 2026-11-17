@@ -180,7 +180,8 @@ For a preview of another branch, add `--branch=<branch-name>`.
 ### Continuous integration and deploy
 
 - **CI** (`.github/workflows/ci.yml`) runs on every push and pull request, and weekly. It installs from the lockfile, then runs format, types, unit tests with coverage, build, size budget, SEO scan, `pnpm audit --prod --audit-level=high` and the Playwright specs. Node comes from `.nvmrc` and pnpm from `packageManager`.
-- **Deploy** (`.github/workflows/deploy.yml`) runs only after a CI run on `main` that was started by a push and passed. It builds that same commit and deploys it to the `beautally` Cloudflare Pages project.
+- **Deploy** (`.github/workflows/deploy.yml`) runs only after a CI run on `main` that was started by a push and passed. It builds that same commit, deploys it to the `beautally` Cloudflare Pages project with `--branch=prod`, then fast-forwards the `prod` branch to that commit. `prod` is therefore always the code that is live, and the workflow creates it on the first deploy. Nobody pushes to `prod` by hand.
+- **Cloudflare production branch.** In the Cloudflare dashboard open the Pages project, then Settings, Builds, Production branch, and set it to `prod`. Otherwise Cloudflare treats the deploy as a preview.
 - **Dependabot** (`.github/dependabot.yml`) opens weekly pull requests for npm and GitHub Actions, with minor and patch updates grouped. Review each one by hand.
 
 ### One-time setup
@@ -192,7 +193,7 @@ For a preview of another branch, add `--branch=<branch-name>`.
 
 ### Rolling back
 
-Open the project's Deployments in the Cloudflare dashboard and roll back to the previous good deployment. Or run `git revert <bad-commit>` and push to `main`. Nothing is stored on a server, so no data is lost.
+Open the project's Deployments in the Cloudflare dashboard and roll back to the previous good deployment. Or run `git revert <bad-commit>` and push to `main`; the fix deploys and `prod` follows. Nothing is stored on a server, so no data is lost.
 
 ## Before you launch
 
