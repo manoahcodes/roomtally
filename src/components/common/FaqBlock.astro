@@ -36,7 +36,12 @@ const quiet = variant === 'quiet';
               +
             </span>
           </summary>
-          <p class:list={['text-ink-700 dark:text-dark-muted', quiet ? 'max-w-prose pb-5' : 'px-4 pb-4']}>
+          <p
+            class:list={[
+              'text-ink-700 dark:text-dark-muted',
+              quiet ? 'max-w-prose pb-5' : 'px-4 pb-4',
+            ]}
+          >
             {item.a}
           </p>
         </details>

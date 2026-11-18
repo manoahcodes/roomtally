@@ -1,4 +1,4 @@
-> **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
+> **Doc Info** — Last updated: 2026-11-18 · Reason: "Tally & Rule" redesign — display type, motion tokens, hero sheet, shared calculator nav
 
 # Design_Brief — Beautally
 
@@ -58,14 +58,18 @@ Practical, warm, plain-spoken, dependable, tidy. Beautally feels like a knowledg
 | Monospace | system monospace stack, no download | — | 400 |
 | Level | Size | Line-height | Letter-spacing |
 |---|---|---|---|
-| h1 | 2.5rem (2rem below 640px) | 1.15 | -0.02em |
-| h2 | 2rem | 1.2 | -0.015em |
-| h3 | 1.5rem | 1.25 | -0.01em |
-| h4 | 1.25rem | 1.3 | 0 |
+| display | clamp(2.85rem, 7vw, 5.4rem) | 0.97 | -0.035em |
+| h1 | clamp(2.1rem, 4.4vw, 3.4rem) | 1.04 | -0.028em |
+| h2 | clamp(1.7rem, 3.2vw, 2.5rem) | 1.1 | -0.02em |
+| h3 | clamp(1.3rem, 1.9vw, 1.5rem) | 1.25 | -0.012em |
+| h4 | 1.125rem | 1.35 | -0.005em |
+| body-lead | clamp(1.0625rem, 0.85rem + 0.85vw, 1.25rem) | 1.55 | 0 |
 | body-sm | 0.875rem | 1.5 | 0 |
 | body-base | 1rem | 1.6 | 0 |
-| body-lg | 1.125rem | 1.6 | 0 |
-Fallback stacks: Fraunces → Georgia, serif. Inter → system-ui, sans-serif.
+| body-lg | 1.125rem | 1.65 | 0 |
+| micro | 0.75rem | 1.4 | 0.04em |
+
+Fraunces is imported through `@fontsource-variable/fraunces/standard.css` so the optical-size axis is available; headings use `font-optical-sizing: auto`. Display sizes are fluid and clamp at both ends. Fallback stacks: Fraunces → Georgia, serif. Inter → system-ui, sans-serif.
 
 ### A.5 Design Tokens
 Tokens live in **`src/styles/global.css`** (Tailwind v4 theme section; the dark values sit under the dark-theme selector).
@@ -86,12 +90,15 @@ Tokens live in **`src/styles/global.css`** (Tailwind v4 theme section; the dark 
 | color-dark-text / muted | #F3EBDD / #B9AB97 | dark theme text |
 | color-dark-clay / sage | #E8896A / #9DB99A | dark theme primary and secondary |
 | font-heading / font-body / font-mono | Fraunces / Inter / system mono | typography |
-| text-h1 … text-lg | sizes per A.4 | type scale |
+| text-display / text-h1 … text-micro | sizes per A.4 | fluid type scale |
 | space-1 / 2 / 3 / 4 / 6 / 8 / 12 / 16 | 0.25 / 0.5 / 0.75 / 1 / 1.5 / 2 / 3 / 4 rem | spacing steps |
-| radius-sm / md / lg | 6px / 12px / 20px | inputs, cards, panels |
+| radius-sm / md / lg | 6px / 12px / 20px | inputs, cards, panels (mostly radius-sm) |
 | shadow-sm / md | 0 1px 2px rgba(42,34,27,0.08) / 0 4px 12px rgba(42,34,27,0.12) | cards, popovers (none in dark mode; use borders) |
-| duration-fast / base | 150ms / 200ms | transitions |
-| ease-standard | ease-out | transitions |
+| shadow-paper | 0 1px 0 rgba(42,34,27,0.05), 0 26px 48px -28px rgba(42,34,27,0.4) | the one hero sheet (none in dark mode) |
+| duration-fast / base / slow / reveal | 140ms / 220ms / 460ms / 620ms | feedback, state change, surfaces, scroll reveal |
+| ease-standard | cubic-bezier(0.2, 0.7, 0.2, 1) | hovers, state changes |
+| ease-out-expo / ease-spring | cubic-bezier(0.16, 1, 0.3, 1) / cubic-bezier(0.34, 1.3, 0.64, 1) | entrances / the hero stamp |
+| rule / sheet-bg / sheet-ink / page-bg | aliases to the palette stops above | paper surfaces, in both themes |
 
 ### A.6 Logo
 Concept: wordmark "Beautally" in Fraunces 700 with a tally-mark glyph (four upright strokes crossed by one diagonal) in Clay. Usage rules: minimum wordmark width 96 px, minimum glyph size 24 px; clear space equal to the height of the "R". Variants: full colour (Clay on Cream), reversed (Cream on Clay or on dark background), monochrome (Ink 900). Forbidden: stretching or skewing; recolouring outside the palette; adding shadows, gradients or outlines; placing on busy photos; rotating; swapping the typeface. Formats: SVG master, PNG fallbacks.
@@ -103,7 +110,7 @@ Concept: wordmark "Beautally" in Fraunces 700 with a tally-mark glyph (four upri
 v1 has no in-page photos. Future illustration: simple line drawings of rooms in Clay and Sage strokes on Cream. Avoid: staged showroom photos, before/after beauty shots, 3D renders, stock-photo people.
 
 ### A.9 Animation & Motion Principles
-Calm and minimal: 150–200 ms, ease-out, used for focus, expand/collapse and result updates only. No auto-playing motion. Everything stops under `prefers-reduced-motion`.
+Measured and editorial, not decorative. One orchestrated moment per page: on the home hero the tally marks draw, the rows settle and the "Estimate" stamp lands once (about one second in total). Everything else is quieter: 140 ms feedback, 220 ms state changes, 460 ms surface moves, 620 ms one-time scroll reveals. Ease-out-expo for arrivals, spring only for the stamp. Motion must express a cause and effect (a row being added, a disclosure opening, a link responding), never play on a loop. No parallax, no carousels, no autoplay. Static content is visible without JavaScript; `prefers-reduced-motion` renders every element in its final state.
 
 ### A.10 Brand Do's and Don'ts
 | Do | Why |
@@ -122,7 +129,7 @@ Calm and minimal: 150–200 ms, ease-out, used for focus, expand/collapse and re
 None. Tailwind utility classes plus the in-house components below. Theming through the CSS tokens in A.5.
 
 ### B.12 Layout Patterns
-Page shell in `BaseLayout.astro`: header, main (max width 72rem, centred), footer. Calculator pages are two columns from 1024px (form left, results right) and one column below. Breakpoints 640 / 768 / 1024 / 1280 px. Header nav collapses to a simple menu button below 768px.
+Page shell in `BaseLayout.astro`: sticky header, main (max width 72rem, centred, 20 px gutters on mobile and 32 px from 640 px), footer. The home page runs hero (7/5 columns from 1024 px) → material index → estimator → how it works → why the list adds up → calculators → FAQ, with ads only outside the form and results. Calculator pages: ruled page head with a material stamp, shared calculator nav, then form and results in two columns from 1024 px. Guides and legal pages use a 48 rem reading measure. Breakpoints 640 / 768 / 1024 / 1280 px. Header nav collapses to a native `<details>` panel below 1024 px, with a second region/unit switch inside it. No horizontal scroll at any width.
 
 ### B.13 Key Reusable Components
 | Component | Props (name: type) | Purpose | Used on | File |
@@ -134,6 +141,9 @@ Page shell in `BaseLayout.astro`: header, main (max width 72rem, centred), foote
 | ConsentButton | label?: string | reopen consent centre | Footer, cookies page | `src/components/common/ConsentButton.astro` |
 | Footer | none | legal links, disclosure | BaseLayout | `src/components/layout/Footer.astro` |
 | Breadcrumbs | items: {name: string, href: string}[] | breadcrumb trail | all but home | `src/components/common/Breadcrumbs.astro` |
+| MaterialIcon | name: "paint"…"check", class?: string, size?: number | one 1.5 px icon family | home, calculators, footer | `src/components/common/MaterialIcon.astro` |
+| CalculatorNav | current?: string | shared four-material navigation | calculator pages | `src/components/calculators/CalculatorNav.astro` |
+| HeroSheet | none | the animated example shopping list | home | `src/components/home/HeroSheet.astro` |
 | FaqBlock | items: {q: string, a: string}[] | FAQ accordion | calculators, guides, home | `src/components/common/FaqBlock.astro` |
 | DisclaimerNote | variant: "short" or "full" | accuracy note | results, calculator pages | `src/components/common/DisclaimerNote.astro` |
 | OpeningsFieldset | none | door/window rows | RoomForm | `src/components/room/OpeningsFieldset.astro` |
@@ -153,7 +163,7 @@ Progressive enhancement. 1) The server-built page contains the form and empty re
 Light is the default for everyone, regardless of system setting. The toggle sets `data-theme` on the html element and saves `beautally:theme`. A tiny inline script in `BaseLayout.astro` applies the saved theme before first paint to prevent a flash. Dark values are the tokens in A.3 and A.5.
 
 ### B.16 Interaction & Animation Guidelines
-Transitions 150–200 ms ease-out (A.9). Hover darkens Clay to Clay 700. Focus: 3px Clay ring with 2px offset, always visible. Results update in place with no layout jump; ad containers keep their reserved height.
+Hover darkens Clay to Clay 700; list rows tint and their arrow advances 5 px. Buttons press to 0.985 scale without moving layout. Focus is always a 3 px Clay ring with a 2 px offset. Results update in place, keyed by material, so a price field keeps its value and focus; newly inserted rows settle with `@starting-style`. Scroll reveals are one-time and only on static sections, never on the form or results. Ad containers keep their reserved height. All motion stops under `prefers-reduced-motion`, and `html.reveal-ready` is the only thing that hides a reveal element, so blocked scripts cannot hide content.
 
 ### B.17 Accessibility Standards
 Target WCAG 2.2 AA. Every input has a visible label; errors are linked with `aria-describedby`; results container uses `aria-live="polite"`; full keyboard operation; touch targets ≥ 44 px; colour never the only signal; reduced-motion respected.

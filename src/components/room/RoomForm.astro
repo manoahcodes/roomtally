@@ -134,7 +134,7 @@ const describedBy = (id: string, hint?: string): string =>
   hint ? `${id}-hint ${id}-error` : `${id}-error`;
 ---
 
-<section aria-labelledby="room-form-heading" class="space-y-3">
+<section aria-labelledby="room-form-heading" class="no-print scroll-mt-24 space-y-3">
   <h2 id="room-form-heading" class="text-h3">
     Your room
   </h2>
@@ -161,9 +161,14 @@ const describedBy = (id: string, hint?: string): string =>
     data-preset={preset ? JSON.stringify(preset) : undefined}
     novalidate
     aria-labelledby="room-form-heading"
-    class="card space-y-5"
+    class="worksheet space-y-5"
   >
     <input type="hidden" data-room-id />
+
+    <div class="worksheet-head">
+      <p>Room details</p>
+      <p>All sizes in your chosen units</p>
+    </div>
 
     <div>
       <label for="room-name" class="field-label">
@@ -245,7 +250,7 @@ const describedBy = (id: string, hint?: string): string =>
     <OpeningsFieldset />
 
     {visible.map((key) => (
-      <details class={mode === 'project' ? 'options-quiet' : 'card'} open={mode === 'single'}>
+      <details class="options-quiet" open={mode === 'single'}>
         <summary class="touch-target flex cursor-pointer list-none items-center font-medium">
           {groups[key].title}
         </summary>
@@ -316,11 +321,11 @@ const describedBy = (id: string, hint?: string): string =>
     <p data-form-status role="status" class="text-sm text-ink-700 dark:text-dark-muted"></p>
 
     <div class="flex flex-wrap gap-3">
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-primary w-full px-5 sm:w-auto">
         Calculate my list
       </button>
       {mode === 'project' && (
-        <button type="button" data-add-room class="btn btn-secondary">
+        <button type="button" data-add-room class="btn btn-secondary w-full sm:w-auto">
           Add another room
         </button>
       )}

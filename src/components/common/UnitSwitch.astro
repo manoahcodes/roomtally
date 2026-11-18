@@ -2,27 +2,40 @@
 /**
  * Region and unit switch (PRD Rules 10 and 17). Region sets default units, currency and
  * wording; it never changes the maths. Wired by the script below through unitToggle.ts.
- * Hooks: [data-region-select], [data-unit-select]
+ *
+ * Two instances can exist on one page (header and mobile menu), so labels and ids are
+ * prefixed by the caller and the script binds every [data-unit-switch] root.
+ * Hooks: [data-unit-switch], [data-region-select], [data-unit-select]
  */
 import { REGION_CODES, REGIONS } from '../../data/regions';
+
+export interface Props {
+  /** Unique per instance, so label/for pairs stay valid. */
+  idPrefix?: string;
+  class?: string;
+}
+
+const { idPrefix = 'header', class: className } = Astro.props;
+const regionId = `${idPrefix}-region-select`;
+const unitId = `${idPrefix}-unit-select`;
 ---
 
-<div class="flex flex-wrap items-center gap-2" data-unit-switch>
+<div class:list={['flex flex-wrap items-center gap-2', className]} data-unit-switch>
   <div>
-    <label for="region-select" class="sr-only">
+    <label for={regionId} class="sr-only">
       Region
     </label>
-    <select id="region-select" data-region-select class="field-input w-auto py-1 text-sm">
+    <select id={regionId} data-region-select class="field-input w-auto py-1 text-sm">
       {REGION_CODES.map((code) => (
         <option value={code}>{REGIONS[code].label}</option>
       ))}
     </select>
   </div>
   <div>
-    <label for="unit-select" class="sr-only">
+    <label for={unitId} class="sr-only">
       Units
     </label>
-    <select id="unit-select" data-unit-select class="field-input w-auto py-1 text-sm">
+    <select id={unitId} data-unit-select class="field-input w-auto py-1 text-sm">
       <option value="metric">Metric (m, L)</option>
       <option value="imperial">Imperial (ft, gal)</option>
     </select>
@@ -35,23 +48,31 @@ import { REGION_CODES, REGIONS } from '../../data/regions';
   import type { Region, UnitSystem } from '../../types/project';
 
   const store = getProjectStore();
-  const region = document.querySelector<HTMLSelectElement>('[data-region-select]');
-  const unit = document.querySelector<HTMLSelectElement>('[data-unit-select]');
+  const roots = Array.from(document.querySelectorAll<HTMLElement>('[data-unit-switch]'));
 
   function sync(): void {
     const { settings } = store.getState();
-    if (region) region.value = settings.region;
-    if (unit) unit.value = settings.unitSystem;
+    for (const root of roots) {
+      const region = root.querySelector<HTMLSelectElement>('[data-region-select]');
+      const unit = root.querySelector<HTMLSelectElement>('[data-unit-select]');
+      if (region) region.value = settings.region;
+      if (unit) unit.value = settings.unitSystem;
+    }
   }
 
-  region?.addEventListener('change', () => {
-    applyRegion(store, region.value as Region);
-    sync();
-  });
-  unit?.addEventListener('change', () => {
-    applyUnitSystem(store, unit.value as UnitSystem);
-    sync();
-  });
+  for (const root of roots) {
+    const region = root.querySelector<HTMLSelectElement>('[data-region-select]');
+    const unit = root.querySelector<HTMLSelectElement>('[data-unit-select]');
+
+    region?.addEventListener('change', () => {
+      applyRegion(store, region.value as Region);
+      sync();
+    });
+    unit?.addEventListener('change', () => {
+      applyUnitSystem(store, unit.value as UnitSystem);
+      sync();
+    });
+  }
 
   store.subscribe(sync);
   sync();

@@ -38,5 +38,7 @@ const isoDate = (date: Date): string => date.toISOString().slice(0, 10);
   <div class="article-body">
     <Content />
   </div>
-  <FaqBlock slot="after" items={faq} />
+  <div slot="after" class="mt-12">
+    <FaqBlock items={faq} />
+  </div>
 </GuideLayout>

@@ -3,6 +3,7 @@
  * Plain layout for legal pages: privacy, cookies, terms and disclaimer (PRD Rule 12).
  * There is no AdSlot anywhere in it, and it sets data-no-ads on <body> through BaseLayout
  * so ads.ts will not load ads here even if advertising consent was given elsewhere.
+ * Reading measure stays narrow and the page head carries the same rule as the guides.
  */
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/common/Breadcrumbs.astro';
@@ -36,16 +37,18 @@ const crumbs = [
   jsonLd={[breadcrumbSchema(crumbs)]}
   noAds
 >
-  <Breadcrumbs items={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))} />
-  <article class="mx-auto max-w-3xl space-y-4">
-    <header class="space-y-2">
-      <h1>{title}</h1>
-      <p class="text-sm text-ink-500 dark:text-dark-muted">
-        Last updated <time datetime={updated}>{updated}</time>
-      </p>
-    </header>
-    <div class="article-body">
-      <slot />
-    </div>
-  </article>
+  <div class="mx-auto max-w-3xl">
+    <Breadcrumbs items={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))} />
+    <article>
+      <header class="page-head mb-8 space-y-3">
+        <h1>{title}</h1>
+        <p class="text-sm text-ink-500 dark:text-dark-muted">
+          Last updated <time datetime={updated}>{updated}</time>
+        </p>
+      </header>
+      <div class="article-body">
+        <slot />
+      </div>
+    </article>
+  </div>
 </BaseLayout>

@@ -1,4 +1,4 @@
-> **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
+> **Doc Info** — Last updated: 2026-11-18 · Reason: "Tally & Rule" redesign updated the home and guides index structure
 
 # App_Flow — Beautally
 
@@ -7,7 +7,7 @@
 ### A.1 Public Pages
 | URL | Page | Purpose | Key elements | SEO priority |
 |---|---|---|---|---|
-| / | Home estimator | whole-project tool | hero (PRD §12), RoomForm, RoomList, ShoppingList, FAQ, 2 ad slots | High |
+| / | Home estimator | whole-project tool | hero (PRD §12) with animated example sheet, material index, RoomForm, RoomList, ShoppingList, how it works, why the list adds up, calculator index, FAQ, 2 ad slots | High |
 | /paint-calculator/ | Paint calculator | single-material page | CalculatorShell, assumptions, FAQ, 2 ad slots | High |
 | /paint-calculator/bedroom/ | Bedroom paint | long-tail page | preset 4×3.5 m room, copy, FAQ | High |
 | /paint-calculator/living-room/ | Living room paint | long-tail page | preset room, copy, FAQ | High |
@@ -16,7 +16,7 @@
 | /flooring-calculator/ | Flooring calculator | single-material page | lay-pattern choice, box size, FAQ | High |
 | /tile-calculator/ | Tile calculator | single-material page | tile size, grout gap, surface choice, FAQ | High |
 | /wallpaper-calculator/ | Wallpaper calculator | single-material page | roll size, pattern repeat, FAQ | Medium |
-| /guides/ | Guides index | hub for guides | four guide cards | Medium |
+| /guides/ | Guides index | hub for guides | four ruled guide rows with dates | Medium |
 | /guides/how-much-paint-for-a-room/ | Guide | evergreen article | worked example, link to calculator, 2 ad slots, FAQ | High |
 | /guides/flooring-waste-factor/ | Guide | evergreen article | same pattern | High |
 | /guides/how-to-measure-a-room/ | Guide | evergreen article | same pattern | Medium |

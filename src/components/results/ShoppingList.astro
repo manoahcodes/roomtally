@@ -31,20 +31,16 @@ const partners = AFFILIATE_PARTNERS.filter((partner) => partner.enabled);
 const showWhereToBuy = FEATURES.affiliates && partners.length > 0;
 ---
 
-<section
-  data-results
-  aria-labelledby="results-heading"
-  class:list={['space-y-4', mode === 'project' && 'results-sheet']}
->
+<section data-results aria-labelledby="results-heading" class="results-sheet space-y-4">
   <h2 id="results-heading" class="text-h3">
     Your shopping list
   </h2>
 
   <div aria-live="polite" class="space-y-4">
-    <p data-results-empty class="card text-ink-700 dark:text-dark-muted">
+    <p data-results-empty class="sheet-empty">
       Enter your room and choose Calculate my list. Your list appears here.
     </p>
-    <p data-results-invalid class="card text-error dark:text-dark-clay" hidden>
+    <p data-results-invalid class="sheet-empty text-error dark:text-dark-clay" hidden>
       Fix the highlighted fields to see your list.
     </p>
 

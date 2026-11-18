@@ -1,36 +1,92 @@
 ---
 /**
- * Footer: legal links, the ad and affiliate disclosure line, and the cookie preferences
- * button, on every page (PRD Rules 14-15).
+ * Footer as a colophon: wordmark, tagline, the two navigation groups, the ad and
+ * affiliate disclosure and the cookie preferences button, on every page
+ * (PRD Rules 14-15). No animation here; it is the quiet end of the page.
  */
-import { LEGAL_LINKS, SITE } from '../../config/site';
+import MaterialIcon from '../common/MaterialIcon.astro';
 import ConsentButton from '../common/ConsentButton.astro';
+import { LEGAL_LINKS, NAV_ITEMS, SITE } from '../../config/site';
 
 const year = new Date().getFullYear();
+const calculateLinks = [{ label: 'Home estimator', href: '/' }, ...NAV_ITEMS];
 ---
 
-<footer class="no-print mt-16 border-t border-cream-300 bg-cream-100 dark:border-dark-border dark:bg-dark-surface">
-  <div class="mx-auto max-w-6xl space-y-4 px-4 py-8">
-    <nav aria-label="Legal">
-      <ul class="flex flex-wrap items-center gap-x-6 gap-y-1">
-        {LEGAL_LINKS.map((link) => (
+<footer class="no-print mt-20 border-t-2 border-ink-900 bg-cream-100 dark:border-dark-border dark:bg-dark-surface">
+  <div class="mx-auto max-w-6xl px-5 py-12 sm:px-8">
+    <div class="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
+      <div class="space-y-4">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2.5 text-ink-900 no-underline hover:text-ink-900 dark:text-dark-text dark:hover:text-dark-text"
+          aria-label="Beautally home"
+        >
+          <span class="grid size-9 place-items-center rounded-sm bg-clay-600 text-cream-50 dark:bg-dark-clay dark:text-dark-bg">
+            <svg
+              class="size-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <path d="M5 4v16M9 4v16M13 4v16M17 4v16M2 17 20 7"></path>
+            </svg>
+          </span>
+          <span class="font-heading text-h4 font-semibold tracking-tight">Beautally</span>
+        </a>
+        <p class="max-w-sm font-heading text-h3 leading-tight">{SITE.tagline}</p>
+        <p class="max-w-sm text-sm text-ink-700 dark:text-dark-muted">
+          Free and private. Your rooms stay in your browser. We may earn money from ads and from
+          links marked as sponsored. <a href="/disclaimer/">Read the disclosure</a>.
+        </p>
+      </div>
+
+      <nav aria-label="Calculate">
+        <p class="mb-3 text-sm font-medium text-ink-500 dark:text-dark-muted">Calculate</p>
+        <ul class="space-y-1">
+          {calculateLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="touch-target inline-flex items-center gap-2 text-sm text-ink-700 no-underline hover:text-clay-700 dark:text-dark-text dark:hover:text-dark-clay"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav aria-label="About">
+        <p class="mb-3 text-sm font-medium text-ink-500 dark:text-dark-muted">About</p>
+        <ul class="space-y-1">
+          {LEGAL_LINKS.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="touch-target inline-flex items-center gap-2 text-sm text-ink-700 no-underline hover:text-clay-700 dark:text-dark-text dark:hover:text-dark-clay"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
           <li>
-            <a href={link.href} class="touch-target inline-flex items-center">
-              {link.label}
-            </a>
+            <ConsentButton label="Cookie preferences" />
           </li>
-        ))}
-        <li>
-          <ConsentButton />
-        </li>
-      </ul>
-    </nav>
-    <p class="max-w-prose text-sm text-ink-700 dark:text-dark-muted">
-      {SITE.name} is free and private. Your rooms stay in your browser. We may earn money from ads
-      and from links marked as sponsored. <a href="/disclaimer/">Read the disclosure</a>.
-    </p>
-    <p class="text-sm text-ink-500 dark:text-dark-muted">
-      © {year} {SITE.name}. Results are estimates only.
-    </p>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-cream-300 pt-5 text-sm text-ink-500 dark:border-dark-border dark:text-dark-muted">
+      <p>
+        © {year} {SITE.name}. Results are estimates only.
+      </p>
+      <p class="inline-flex items-center gap-2">
+        <MaterialIcon name="ruler" class="size-4" />
+        Measure once. Buy right.
+      </p>
+    </div>
   </div>
 </footer>

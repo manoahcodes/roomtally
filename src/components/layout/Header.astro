@@ -1,10 +1,12 @@
 ---
 /**
  * Site header: skip link, logo, navigation, region/unit switch and theme toggle
- * (App_Flow §A, Design_Brief §B.12). Below 768px the navigation is a native <details>
- * menu, so it works without JavaScript.
+ * (App_Flow §A, Design_Brief §B.12). Sticky, one rule, no blur.
+ * Below 768px the navigation is a native <details> panel, so it works without
+ * JavaScript; a second UnitSwitch lives in that panel with its own id prefix.
  */
 import { NAV_ITEMS } from '../../config/site';
+import MaterialIcon from '../common/MaterialIcon.astro';
 import UnitSwitch from '../common/UnitSwitch.astro';
 import ThemeToggle from './ThemeToggle.astro';
 
@@ -18,34 +20,37 @@ const isCurrent = (href: string): boolean => path === href || path.startsWith(hr
 >
   Skip to main content
 </a>
-<header class="no-print border-b border-cream-300 bg-cream-50 dark:border-dark-border dark:bg-dark-bg">
-  <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3">
+
+<header class="site-header no-print sticky top-0 z-40">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-2.5 sm:px-8">
     <a
       href="/"
-      class="flex items-center gap-2 text-ink-900 no-underline hover:text-ink-900 dark:text-dark-text dark:hover:text-dark-text"
+      class="flex items-center gap-2.5 text-ink-900 no-underline hover:text-ink-900 dark:text-dark-text dark:hover:text-dark-text"
       aria-label="Beautally home"
     >
-      <svg
-        class="size-6 text-clay-600 dark:text-dark-clay"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.2"
-        stroke-linecap="round"
-        aria-hidden="true"
-      >
-        <path d="M5 4v16M9 4v16M13 4v16M17 4v16M2 17 20 7"></path>
-      </svg>
-      <span class="font-heading text-h4 font-bold">Beautally</span>
+      <span class="grid size-10 place-items-center rounded-sm bg-clay-600 text-cream-50 dark:bg-dark-clay dark:text-dark-bg">
+        <svg
+          class="size-6"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M5 4v16M9 4v16M13 4v16M17 4v16M2 17 20 7"></path>
+        </svg>
+      </span>
+      <span class="font-heading text-[1.3rem] font-semibold tracking-tight">Beautally</span>
     </a>
 
-    <nav aria-label="Main" class="hidden md:block">
+    <nav aria-label="Main" class="hidden lg:block">
       <ul class="flex items-center gap-1">
         {NAV_ITEMS.map((item) => (
           <li>
             <a
               href={item.href}
-              class="touch-target inline-flex items-center rounded-md px-3 text-ink-700 no-underline hover:text-clay-700 dark:text-dark-muted dark:hover:text-dark-clay"
+              class="nav-link touch-target inline-flex items-center rounded-sm px-3 text-sm font-medium"
               aria-current={isCurrent(item.href) ? 'page' : undefined}
             >
               {item.label}
@@ -55,28 +60,67 @@ const isCurrent = (href: string): boolean => path === href || path.startsWith(hr
       </ul>
     </nav>
 
-    <div class="flex items-center gap-2">
-      <UnitSwitch />
+    <div class="flex items-center gap-1.5 sm:gap-2">
+      <div class="hidden lg:block">
+        <UnitSwitch idPrefix="header" />
+      </div>
       <ThemeToggle />
-    </div>
 
-    <details class="w-full md:hidden">
-      <summary class="btn btn-secondary w-full list-none">Menu</summary>
-      <nav aria-label="Main (menu)" class="mt-2">
-        <ul class="card space-y-1">
-          {NAV_ITEMS.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class="touch-target flex items-center rounded-md px-3 text-ink-900 no-underline dark:text-dark-text"
-                aria-current={isCurrent(item.href) ? 'page' : undefined}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </details>
+      <details class="group lg:hidden">
+        <summary class="touch-target flex cursor-pointer list-none items-center gap-2 rounded-sm border border-cream-300 px-3 text-sm font-medium text-ink-700 transition-colors duration-150 ease-standard hover:border-ink-500 dark:border-dark-border dark:text-dark-text dark:hover:border-dark-muted">
+          <span class="group-open:hidden">Menu</span>
+          <span class="hidden group-open:inline">Close</span>
+          <svg
+            class="size-5 group-open:hidden"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+          <svg
+            class="hidden size-5 group-open:block"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </summary>
+
+        <div class="menu-panel absolute inset-x-0 top-full max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-b border-cream-300 bg-cream-50 px-5 pb-5 pt-1 shadow-md dark:border-dark-border dark:bg-dark-bg dark:shadow-none">
+          <nav aria-label="Main (menu)">
+            <ul class="divide-y divide-cream-300 dark:divide-dark-border">
+              {NAV_ITEMS.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class="touch-target flex items-center justify-between gap-3 py-3 text-base font-medium text-ink-900 no-underline dark:text-dark-text"
+                    aria-current={isCurrent(item.href) ? 'page' : undefined}
+                  >
+                    <span
+                      class={isCurrent(item.href) ? 'text-clay-700 dark:text-dark-clay' : undefined}
+                    >
+                      {item.label}
+                    </span>
+                    <MaterialIcon name="arrow" class="size-4 text-clay-600 dark:text-dark-clay" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div class="mt-4 border-t border-cream-300 pt-4 dark:border-dark-border">
+            <p class="mb-2 text-sm text-ink-500 dark:text-dark-muted">Region and units</p>
+            <UnitSwitch idPrefix="menu" class="w-full" />
+          </div>
+        </div>
+      </details>
+    </div>
   </div>
 </header>

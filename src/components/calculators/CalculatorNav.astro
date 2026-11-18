@@ -1,0 +1,38 @@
+---
+/**
+ * The four single-material calculators as one shared sub-navigation, so moving
+ * between them never feels like leaving the site (Design_Brief §B.12).
+ * Icons are decorative; every link has its text label. Hidden in print.
+ */
+import MaterialIcon from '../common/MaterialIcon.astro';
+
+export interface Props {
+  /** Material key of the current page, for aria-current. */
+  current?: string;
+}
+
+const { current } = Astro.props;
+const items = [
+  { key: 'paint', label: 'Paint', href: '/paint-calculator/' },
+  { key: 'flooring', label: 'Flooring', href: '/flooring-calculator/' },
+  { key: 'tile', label: 'Tile', href: '/tile-calculator/' },
+  { key: 'wallpaper', label: 'Wallpaper', href: '/wallpaper-calculator/' },
+] as const;
+---
+
+<nav aria-label="Calculators" class="calc-nav no-print">
+  <ul class="grid grid-cols-2 sm:grid-cols-4">
+    {items.map((item) => (
+      <li>
+        <a
+          href={item.href}
+          aria-current={current === item.key ? 'page' : undefined}
+          class="touch-target flex items-center gap-2 px-3 py-2 text-sm font-medium"
+        >
+          <MaterialIcon name={item.key} class="size-5" />
+          <span>{item.label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

@@ -1,11 +1,18 @@
 /*
- * Beautally design tokens (Design_Brief §A.3-A.5, §B.15-B.17).
+ * Beautally design tokens and shared styles (Design_Brief §A.3-A.5, §B.15-B.17).
+ *
+ * Redesigned 2026-11-18 as "Tally & Rule": the site behaves like a well-made paper
+ * estimator. Cream stock, ink rules, clay for action, sage for annotation and ochre
+ * only as a decorative highlight. The palette, typefaces and spacing scale are the
+ * approved ones; the optics, motion and surface treatment are the redesign.
+ *
  * Tailwind v4: tokens live in @theme. Light is the default for everyone; dark applies
  * only when <html data-theme="dark"> is set by the theme toggle.
  * Adapted from the structure of onwidget/astrowind src/assets/styles/tailwind.css (MIT).
  */
 @import 'tailwindcss';
-@import '@fontsource-variable/fraunces';
+/* "standard" exposes the optical-size axis as well as weight, for display sizes. */
+@import '@fontsource-variable/fraunces/standard.css';
 @import '@fontsource-variable/inter';
 
 /* Dark mode is driven by the data-theme attribute, not by the system setting. */
@@ -45,24 +52,32 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
 
   --text-*: initial;
-  --text-h1: 2.5rem;
-  --text-h1--line-height: 1.15;
-  --text-h1--letter-spacing: -0.02em;
-  --text-h2: 2rem;
-  --text-h2--line-height: 1.2;
-  --text-h2--letter-spacing: -0.015em;
-  --text-h3: 1.5rem;
+  --text-display: clamp(2.85rem, 7vw, 5.4rem);
+  --text-display--line-height: 0.97;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.1rem, 4.4vw, 3.4rem);
+  --text-h1--line-height: 1.04;
+  --text-h1--letter-spacing: -0.028em;
+  --text-h2: clamp(1.7rem, 3.2vw, 2.5rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: clamp(1.3rem, 1.9vw, 1.5rem);
   --text-h3--line-height: 1.25;
-  --text-h3--letter-spacing: -0.01em;
-  --text-h4: 1.25rem;
-  --text-h4--line-height: 1.3;
-  --text-h4--letter-spacing: 0;
+  --text-h3--letter-spacing: -0.012em;
+  --text-h4: 1.125rem;
+  --text-h4--line-height: 1.35;
+  --text-h4--letter-spacing: -0.005em;
+  --text-lead: clamp(1.0625rem, 0.85rem + 0.85vw, 1.25rem);
+  --text-lead--line-height: 1.55;
   --text-sm: 0.875rem;
   --text-sm--line-height: 1.5;
   --text-base: 1rem;
   --text-base--line-height: 1.6;
   --text-lg: 1.125rem;
-  --text-lg--line-height: 1.6;
+  --text-lg--line-height: 1.65;
+  --text-micro: 0.75rem;
+  --text-micro--line-height: 1.4;
+  --text-micro--letter-spacing: 0.04em;
 
   /* Spacing: space-1 ... space-16 are 0.25rem steps (p-1 = 0.25rem, p-16 = 4rem). */
   --spacing: 0.25rem;
@@ -76,14 +91,27 @@
   --shadow-*: initial;
   --shadow-sm: 0 1px 2px rgba(42, 34, 27, 0.08);
   --shadow-md: 0 4px 12px rgba(42, 34, 27, 0.12);
+  --shadow-paper: 0 1px 0 rgba(42, 34, 27, 0.05), 0 26px 48px -28px rgba(42, 34, 27, 0.4);
 
   --ease-*: initial;
-  --ease-standard: ease-out;
+  --ease-standard: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
 :root {
-  --duration-fast: 150ms;
-  --duration-base: 200ms;
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
+  --duration-slow: 460ms;
+  --duration-reveal: 620ms;
+
+  /* Surface rules, kept as variables so plain CSS and Tailwind agree. */
+  --rule: color-mix(in srgb, var(--color-cream-300) 92%, transparent);
+  --rule-strong: var(--color-cream-300);
+  --sheet-bg: var(--color-cream-100);
+  --sheet-ink: var(--color-ink-900);
+  --page-bg: var(--color-cream-50);
+
   /* Reserved heights so ads never move the page (PRD Rule 12). */
   --ad-height-inarticle: 280px;
   --ad-height-bottom: 120px;
@@ -91,21 +119,31 @@
 }
 
 :root[data-theme='dark'] {
+  --rule: color-mix(in srgb, var(--color-dark-border) 82%, transparent);
+  --rule-strong: var(--color-dark-border);
+  --sheet-bg: var(--color-dark-surface);
+  --sheet-ink: var(--color-dark-text);
+  --page-bg: var(--color-dark-bg);
   color-scheme: dark;
 }
 
 @layer base {
   html {
-    background-color: var(--color-cream-50);
+    background-color: var(--page-bg);
     color: var(--color-ink-900);
     font-family: var(--font-body);
     font-size: 100%;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
   }
   html[data-theme='dark'] {
-    background-color: var(--color-dark-bg);
     color: var(--color-dark-text);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   /* Scrollbars use the page tokens, for the page and for inner scrollers such as tables.
@@ -139,9 +177,12 @@
   }
 
   body {
-    min-height: 100vh;
+    min-height: 100dvh;
     font-size: var(--text-base);
     line-height: var(--text-base--line-height);
+    text-rendering: optimizeLegibility;
+    /* No horizontal scroll, ever; decorative layers are clipped instead. */
+    overflow-x: clip;
   }
 
   h1,
@@ -151,17 +192,13 @@
     font-family: var(--font-heading);
     font-weight: 600;
     text-wrap: balance;
+    font-optical-sizing: auto;
   }
   h1 {
-    font-size: 2rem;
+    font-size: var(--text-h1);
     line-height: var(--text-h1--line-height);
     letter-spacing: var(--text-h1--letter-spacing);
-    font-weight: 700;
-  }
-  @media (min-width: 640px) {
-    h1 {
-      font-size: var(--text-h1);
-    }
+    font-weight: 600;
   }
   h2 {
     font-size: var(--text-h2);
@@ -176,12 +213,17 @@
   h4 {
     font-size: var(--text-h4);
     line-height: var(--text-h4--line-height);
+    letter-spacing: var(--text-h4--letter-spacing);
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   a {
     color: var(--color-clay-600);
     text-decoration-thickness: 1px;
-    text-underline-offset: 0.2em;
+    text-underline-offset: 0.22em;
     transition: color var(--duration-fast) var(--ease-standard);
   }
   a:hover {
@@ -207,6 +249,13 @@
     background-color: var(--color-ochre-400);
     color: var(--color-ink-900);
   }
+
+  ::marker {
+    color: var(--color-clay-600);
+  }
+  html[data-theme='dark'] ::marker {
+    color: var(--color-dark-clay);
+  }
 }
 
 /*
@@ -215,10 +264,13 @@
  */
 @layer components {
   .card {
-    @apply rounded-md border border-cream-300 bg-cream-100 p-4 shadow-sm dark:border-dark-border dark:bg-dark-surface;
+    @apply rounded-sm border border-cream-300 bg-cream-100 p-5 shadow-sm dark:border-dark-border dark:bg-dark-surface;
   }
   .btn {
-    @apply touch-target inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-2 text-base font-medium transition-colors duration-150 ease-standard disabled:cursor-not-allowed disabled:opacity-50;
+    @apply touch-target inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm px-4 py-2 text-base font-medium transition-[color,background-color,border-color,transform] duration-150 ease-standard disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn:active:not(:disabled) {
+    transform: scale(0.985);
   }
   .btn-primary {
     @apply bg-clay-600 text-cream-50 hover:bg-clay-700 hover:text-cream-50 dark:bg-dark-clay dark:text-dark-bg dark:hover:bg-dark-text dark:hover:text-dark-bg;
@@ -230,37 +282,46 @@
     @apply bg-transparent text-ink-700 hover:text-clay-700 dark:text-dark-muted dark:hover:text-dark-clay;
   }
   .field-label {
-    @apply mb-1 block text-sm font-medium text-ink-700 dark:text-dark-text;
+    @apply mb-1.5 block text-sm font-medium text-ink-700 dark:text-dark-text;
   }
   .field-input {
-    @apply touch-target w-full rounded-sm border border-ink-500 bg-cream-50 px-3 py-2 text-base text-ink-900 dark:border-dark-muted dark:bg-dark-bg dark:text-dark-text;
+    @apply touch-target w-full rounded-sm border border-ink-500 bg-cream-50 px-3 py-2 text-base text-ink-900 transition-colors duration-150 ease-standard placeholder:text-ink-500/70 hover:border-ink-700 dark:border-dark-muted dark:bg-dark-bg dark:text-dark-text dark:placeholder:text-dark-muted/70 dark:hover:border-dark-text;
   }
   .field-input[aria-invalid='true'] {
     @apply border-2 border-error dark:border-dark-clay;
   }
   .field-hint {
-    @apply mt-1 text-sm text-ink-500 dark:text-dark-muted;
+    @apply mt-1.5 text-sm text-ink-500 dark:text-dark-muted;
   }
   .field-error {
-    @apply mt-1 text-sm font-medium text-error dark:text-dark-clay;
+    @apply mt-1.5 text-sm font-medium text-error dark:text-dark-clay;
   }
 
-  /* Rendered Markdown in guides. No typography plugin is installed, so lists, tables and
-     spacing are set here from the same tokens. */
+  /* Rendered Markdown in guides and legal pages. No typography plugin is installed, so
+     lists, tables and spacing are set here from the same tokens. */
   .article-body {
     @apply space-y-4 text-lg leading-relaxed;
   }
+  .article-body > p:first-child {
+    @apply text-lead text-ink-700 dark:text-dark-muted;
+  }
   .article-body h2 {
-    @apply mt-8;
+    @apply mt-10 border-t border-cream-300 pt-6 dark:border-dark-border;
   }
   .article-body h3 {
-    @apply mt-6;
+    @apply mt-8;
   }
   .article-body ul {
-    @apply list-disc space-y-1 pl-6;
+    @apply list-disc space-y-1.5 pl-6;
   }
   .article-body ol {
-    @apply list-decimal space-y-1 pl-6;
+    @apply list-decimal space-y-1.5 pl-6;
+  }
+  .article-body li::marker {
+    color: var(--color-clay-600);
+  }
+  html[data-theme='dark'] .article-body li::marker {
+    color: var(--color-dark-clay);
   }
   .article-body table {
     @apply block w-full overflow-x-auto text-base;
@@ -275,18 +336,114 @@
   .article-body a {
     @apply underline;
   }
+  .article-body blockquote {
+    @apply border-l-2 border-clay-600 pl-4 font-heading text-h4 text-ink-700 dark:border-dark-clay dark:text-dark-muted;
+  }
 }
 
-/*
- * Landing page. The shopping list is one ruled sheet, like a till receipt. Only this sheet
- * and the room form are boxed; everything else sits on the cream. These rules are outside
- * @layer so they beat the Tailwind utilities on the same elements (space-y-*, text-h2).
- */
-.results-sheet {
-  border: 1px solid var(--color-cream-300);
-  border-top: 4px solid var(--color-ink-900);
+/* ------------------------------------------------------------------ */
+/* Tally & Rule: surfaces, rules and the paper sheet                   */
+/* ------------------------------------------------------------------ */
+
+/* A quiet ruled-paper field behind the hero. Masked so it never shouts. */
+.hero-ruled {
+  position: relative;
+  isolation: isolate;
+}
+.hero-ruled::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2.5rem,
+    var(--rule) 2.5rem,
+    var(--rule) calc(2.5rem + 1px)
+  );
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+  opacity: 0.6;
+}
+
+/* Section furniture: a rule and a short sentence, never an all-caps eyebrow. */
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  border-top: 2px solid var(--sheet-ink);
+  padding-top: 1rem;
+}
+.section-head > p {
+  max-width: 34rem;
+  color: var(--color-ink-700);
+  font-size: var(--text-lead);
+}
+html[data-theme='dark'] .section-head > p {
+  color: var(--color-dark-muted);
+}
+
+/* The room form is a worksheet: a paper panel with a clay tab, not another card. */
+.worksheet {
+  position: relative;
+  border: 1px solid var(--rule-strong);
   border-radius: var(--radius-sm);
-  background-color: var(--color-cream-100);
+  background-color: var(--sheet-bg);
+  box-shadow: var(--shadow-sm);
+  padding: 1.25rem;
+}
+@media (min-width: 640px) {
+  .worksheet {
+    padding: 1.5rem;
+  }
+}
+.worksheet::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 1.25rem;
+  width: 4.5rem;
+  height: 4px;
+  background-color: var(--color-clay-600);
+}
+html[data-theme='dark'] .worksheet {
+  box-shadow: none;
+}
+html[data-theme='dark'] .worksheet::before {
+  background-color: var(--color-dark-clay);
+}
+.worksheet-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.75rem;
+}
+.worksheet-head > p:first-child {
+  font-family: var(--font-heading);
+  font-size: var(--text-h4);
+  font-weight: 600;
+}
+.worksheet-head > p:last-child {
+  color: var(--color-ink-500);
+  font-size: var(--text-sm);
+}
+html[data-theme='dark'] .worksheet-head > p:last-child {
+  color: var(--color-dark-muted);
+}
+
+/* The results are one ruled sheet, like a till receipt. */
+.results-sheet {
+  border: 1px solid var(--rule-strong);
+  border-top: 4px solid var(--sheet-ink);
+  border-radius: var(--radius-sm);
+  background-color: var(--sheet-bg);
   padding: 1.25rem;
 }
 @media (min-width: 640px) {
@@ -308,32 +465,35 @@ html[data-theme='dark'] .results-sheet {
   box-shadow: none;
 }
 .results-sheet [data-total] {
-  border-top: 2px solid var(--color-ink-900);
+  border-top: 2px solid var(--sheet-ink);
   padding-top: 0.75rem;
 }
 .results-sheet details.card {
-  border-top: 1px solid var(--color-cream-300);
+  border-top: 1px solid var(--rule);
   padding-top: 0.75rem;
 }
-html[data-theme='dark'] .results-sheet [data-total] {
-  border-top-color: var(--color-dark-text);
+/* A blank sheet before the first result, rather than a generic card. */
+.sheet-empty {
+  border: 1px dashed var(--rule-strong);
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--color-cream-50) 60%, transparent);
+  padding: 1rem;
+  color: var(--color-ink-700);
+  font-size: var(--text-sm);
 }
-html[data-theme='dark'] .results-sheet details.card {
-  border-top-color: var(--color-dark-border);
+html[data-theme='dark'] .sheet-empty {
+  background-color: color-mix(in srgb, var(--color-dark-bg) 55%, transparent);
+  color: var(--color-dark-muted);
 }
 
 /* One row per material: name and exact need on the left, the number to buy on the right. */
 .sheet-rows > li {
   padding-block: 1.25rem;
+  border-top: 1px solid var(--rule);
 }
 .sheet-rows > li:first-child {
+  border-top: 0;
   padding-top: 0.5rem;
-}
-.sheet-rows > li + li {
-  border-top: 1px solid var(--color-cream-300);
-}
-html[data-theme='dark'] .sheet-rows > li + li {
-  border-top-color: var(--color-dark-border);
 }
 .sheet-rows [data-material-card] {
   display: grid;
@@ -348,8 +508,19 @@ html[data-theme='dark'] .sheet-rows > li + li {
 }
 .sheet-rows [data-material-card] > div:first-of-type {
   grid-column: 2;
-  grid-row: 1 / span 3;
+  grid-row: 1;
   text-align: right;
+}
+/* The pack breakdown and tile count read as one quiet line under the pair. */
+.sheet-rows [data-pack-line],
+.sheet-rows [data-tiles] {
+  grid-column: 1 / -1;
+}
+/* On phones the exact need gets the full row, so it never wraps under the buy figure. */
+@media (max-width: 639px) {
+  .sheet-rows [data-exact-line] {
+    grid-column: 1 / -1;
+  }
 }
 /* The optional price: one compact line, label on the left and a short field on the right. */
 .sheet-rows [data-material-card] > div:last-of-type {
@@ -383,21 +554,46 @@ html[data-theme='dark'] .sheet-rows [data-price-label] {
 
 /* Form options: a divider and a summary, not a second box inside the form card. */
 .options-quiet {
-  border-top: 1px solid var(--color-cream-300);
+  border-top: 1px solid var(--rule);
   padding-top: 0.75rem;
 }
-html[data-theme='dark'] .options-quiet {
-  border-top-color: var(--color-dark-border);
+.options-quiet > summary,
+[data-assumptions] > summary {
+  position: relative;
+  padding-right: 2rem;
+}
+.options-quiet > summary::after,
+[data-assumptions] > summary::after {
+  content: '+';
+  position: absolute;
+  top: 50%;
+  right: 0.25rem;
+  translate: 0 -50%;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--color-clay-600);
+  transition: rotate var(--duration-base) var(--ease-standard);
+}
+.options-quiet[open] > summary::after,
+[data-assumptions][open] > summary::after {
+  rotate: 45deg;
+}
+html[data-theme='dark'] .options-quiet > summary::after,
+html[data-theme='dark'] [data-assumptions] > summary::after {
+  color: var(--color-dark-clay);
 }
 
 /* A list row that is one big link: the whole row is clickable and shows one focus ring. */
 .row-link {
   position: relative;
-  border-bottom: 1px solid var(--color-cream-300);
-  transition: background-color var(--duration-fast) var(--ease-standard);
+  border-bottom: 1px solid var(--rule);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
 }
 .row-link:hover {
-  background-color: var(--color-cream-100);
+  background-color: color-mix(in srgb, var(--color-cream-100) 70%, transparent);
 }
 .row-link a {
   text-decoration: none;
@@ -407,6 +603,13 @@ html[data-theme='dark'] .options-quiet {
   position: absolute;
   inset: 0;
 }
+.row-link .row-arrow {
+  transition: translate var(--duration-base) var(--ease-spring);
+}
+.row-link:hover .row-arrow,
+.row-link:focus-within .row-arrow {
+  translate: 5px 0;
+}
 .row-link:has(a:focus-visible) {
   outline: 3px solid var(--color-clay-600);
   outline-offset: 2px;
@@ -414,11 +617,8 @@ html[data-theme='dark'] .options-quiet {
 .row-link a:focus-visible {
   outline: none;
 }
-html[data-theme='dark'] .row-link {
-  border-bottom-color: var(--color-dark-border);
-}
 html[data-theme='dark'] .row-link:hover {
-  background-color: var(--color-dark-surface);
+  background-color: color-mix(in srgb, var(--color-dark-surface) 70%, transparent);
 }
 html[data-theme='dark'] .row-link:has(a:focus-visible) {
   outline-color: var(--color-dark-clay);
@@ -426,16 +626,548 @@ html[data-theme='dark'] .row-link:has(a:focus-visible) {
 
 /* FAQ as ruled rows. */
 .faq-quiet {
-  border-top: 1px solid var(--color-cream-300);
+  border-top: 1px solid var(--rule);
 }
 .faq-row {
-  border-bottom: 1px solid var(--color-cream-300);
+  border-bottom: 1px solid var(--rule);
 }
-html[data-theme='dark'] .faq-quiet {
-  border-top-color: var(--color-dark-border);
+.faq-row > summary span:last-child,
+details.card > summary span:last-child {
+  transition: rotate var(--duration-base) var(--ease-standard);
 }
-html[data-theme='dark'] .faq-row {
-  border-bottom-color: var(--color-dark-border);
+details[open] > summary span:last-child {
+  rotate: 45deg;
+}
+details[open] > p,
+details[open] > div {
+  animation: content-in var(--duration-base) var(--ease-out-expo);
+}
+
+/* The material index and calculator rows share one icon idiom (1.5px strokes). */
+.icon-box {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-sm);
+  color: var(--color-clay-600);
+  background-color: color-mix(in srgb, var(--color-cream-50) 55%, transparent);
+}
+html[data-theme='dark'] .icon-box {
+  color: var(--color-dark-clay);
+  background-color: color-mix(in srgb, var(--color-dark-bg) 45%, transparent);
+}
+
+/* The four materials as one ruled index, not four cards. */
+.material-strip {
+  border-block: 1px solid var(--rule);
+}
+.material-strip ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 640px) {
+  .material-strip ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.material-strip a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+.material-strip li + li a {
+  border-left: 1px solid var(--rule);
+}
+@media (max-width: 639px) {
+  .material-strip li:nth-child(odd) a {
+    border-left: 0;
+  }
+  .material-strip li:nth-child(n + 3) a {
+    border-top: 1px solid var(--rule);
+  }
+}
+.material-strip a:hover {
+  background-color: color-mix(in srgb, var(--color-cream-100) 65%, transparent);
+}
+.material-strip a:hover .icon-box {
+  border-color: var(--color-clay-600);
+}
+html[data-theme='dark'] .material-strip a:hover {
+  background-color: color-mix(in srgb, var(--color-dark-surface) 65%, transparent);
+}
+html[data-theme='dark'] .material-strip a:hover .icon-box {
+  border-color: var(--color-dark-clay);
+}
+.material-name {
+  display: block;
+  color: var(--color-ink-900);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.material-unit {
+  display: block;
+  color: var(--color-ink-500);
+  font-size: var(--text-micro);
+}
+html[data-theme='dark'] .material-name {
+  color: var(--color-dark-text);
+}
+html[data-theme='dark'] .material-unit {
+  color: var(--color-dark-muted);
+}
+
+/* Steps are a real sequence, so the marker is one, two and three tally strokes. */
+.step-ticks {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  height: 1.75rem;
+}
+.step-ticks .tick {
+  display: block;
+  width: 2px;
+  height: 1.5rem;
+  background-color: var(--color-clay-600);
+  transform: rotate(3deg);
+}
+.step-ticks .tick:nth-child(2n) {
+  transform: rotate(-2deg);
+}
+html[data-theme='dark'] .step-ticks .tick {
+  background-color: var(--color-dark-clay);
+}
+
+/* Calculator page furniture. */
+.page-head {
+  border-top: 4px solid var(--sheet-ink);
+  padding-top: 1.25rem;
+}
+.page-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-ink-500);
+  font-size: var(--text-sm);
+}
+html[data-theme='dark'] .page-kicker {
+  color: var(--color-dark-muted);
+}
+.material-stamp {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .material-stamp {
+    display: grid;
+    width: 7.5rem;
+    height: 7.5rem;
+    place-items: center;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius-sm);
+    color: var(--color-clay-600);
+    background-color: color-mix(in srgb, var(--color-cream-100) 70%, transparent);
+  }
+  html[data-theme='dark'] .material-stamp {
+    color: var(--color-dark-clay);
+    background-color: color-mix(in srgb, var(--color-dark-surface) 70%, transparent);
+  }
+}
+.calc-nav {
+  border-block: 1px solid var(--rule);
+}
+.calc-nav a {
+  text-decoration: none;
+  color: var(--color-ink-700);
+}
+.calc-nav a:hover {
+  color: var(--color-clay-700);
+  background-color: color-mix(in srgb, var(--color-cream-100) 60%, transparent);
+}
+.calc-nav a[aria-current='page'] {
+  color: var(--color-clay-700);
+  box-shadow: inset 0 -2px 0 var(--color-clay-600);
+}
+html[data-theme='dark'] .calc-nav a {
+  color: var(--color-dark-muted);
+}
+html[data-theme='dark'] .calc-nav a:hover,
+html[data-theme='dark'] .calc-nav a[aria-current='page'] {
+  color: var(--color-dark-clay);
+  background-color: color-mix(in srgb, var(--color-dark-surface) 60%, transparent);
+}
+html[data-theme='dark'] .calc-nav a[aria-current='page'] {
+  box-shadow: inset 0 -2px 0 var(--color-dark-clay);
+}
+
+/* The site header and footer share the paper language. */
+.site-header {
+  border-bottom: 1px solid var(--rule);
+  background-color: var(--page-bg);
+}
+.nav-link {
+  position: relative;
+  color: var(--color-ink-700);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+.nav-link:hover {
+  color: var(--color-clay-700);
+}
+.nav-link[aria-current='page'] {
+  color: var(--color-clay-700);
+}
+.nav-link[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.35rem;
+  height: 2px;
+  background-color: var(--color-clay-600);
+}
+html[data-theme='dark'] .nav-link {
+  color: var(--color-dark-muted);
+}
+html[data-theme='dark'] .nav-link:hover,
+html[data-theme='dark'] .nav-link[aria-current='page'] {
+  color: var(--color-dark-clay);
+}
+html[data-theme='dark'] .nav-link[aria-current='page']::after {
+  background-color: var(--color-dark-clay);
+}
+
+/* ------------------------------------------------------------------ */
+/* The hero sheet: one orchestrated moment, then a quiet object         */
+/* ------------------------------------------------------------------ */
+
+.hero-sheet {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  margin-inline: auto;
+}
+.sheet-paper {
+  position: relative;
+  rotate: -1.4deg;
+  border: 1px solid var(--rule-strong);
+  border-top: 5px solid var(--sheet-ink);
+  border-radius: var(--radius-sm);
+  background-color: var(--sheet-bg);
+  box-shadow: var(--shadow-paper);
+  padding: 1.25rem 1.25rem 1rem;
+  transition:
+    rotate var(--duration-slow) var(--ease-out-expo),
+    translate var(--duration-slow) var(--ease-out-expo);
+  animation: sheet-in 760ms var(--ease-out-expo) 120ms backwards;
+}
+.hero-sheet:hover .sheet-paper,
+.hero-sheet:focus-within .sheet-paper {
+  rotate: 0deg;
+  translate: 0 -3px;
+}
+html[data-theme='dark'] .sheet-paper {
+  box-shadow: none;
+  border-color: var(--color-dark-border);
+  border-top-color: var(--color-dark-text);
+  background-color: var(--color-dark-surface);
+}
+.sheet-brand {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.sheet-number {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-500);
+}
+html[data-theme='dark'] .sheet-number {
+  color: var(--color-dark-muted);
+}
+.sheet-title {
+  margin-top: 0.4rem;
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+.sheet-meta {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--color-ink-500);
+}
+html[data-theme='dark'] .sheet-meta {
+  color: var(--color-dark-muted);
+}
+.sheet-lines {
+  margin-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+.sheet-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  padding-block: 0.7rem;
+  animation: line-in 520ms var(--ease-out-expo) backwards;
+}
+.sheet-line:nth-child(1) {
+  animation-delay: 260ms;
+}
+.sheet-line:nth-child(2) {
+  animation-delay: 340ms;
+}
+.sheet-line:nth-child(3) {
+  animation-delay: 420ms;
+}
+.sheet-line:nth-child(4) {
+  animation-delay: 500ms;
+}
+.sheet-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.sheet-need {
+  font-size: 0.7rem;
+  color: var(--color-ink-500);
+}
+html[data-theme='dark'] .sheet-need {
+  color: var(--color-dark-muted);
+}
+.sheet-buy {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.sheet-buy small {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-ink-700);
+}
+html[data-theme='dark'] .sheet-buy small {
+  color: var(--color-dark-muted);
+}
+.sheet-tally {
+  color: var(--color-clay-600);
+}
+html[data-theme='dark'] .sheet-tally {
+  color: var(--color-dark-clay);
+}
+.sheet-tally path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-tick 520ms var(--ease-out-expo) forwards;
+}
+.sheet-line:nth-child(1) .sheet-tally path {
+  animation-delay: 420ms;
+}
+.sheet-line:nth-child(2) .sheet-tally path {
+  animation-delay: 500ms;
+}
+.sheet-line:nth-child(3) .sheet-tally path {
+  animation-delay: 580ms;
+}
+.sheet-line:nth-child(4) .sheet-tally path {
+  animation-delay: 660ms;
+}
+.sheet-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.9rem;
+}
+.sheet-foot p {
+  font-size: 0.7rem;
+  color: var(--color-ink-500);
+}
+html[data-theme='dark'] .sheet-foot p {
+  color: var(--color-dark-muted);
+}
+.sheet-stamp {
+  flex: none;
+  rotate: -7deg;
+  border: 2px solid var(--color-ochre-400);
+  border-radius: 3px;
+  padding: 0.15rem 0.45rem;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-900);
+  background-color: color-mix(in srgb, var(--color-ochre-400) 16%, transparent);
+  animation: stamp-in 420ms var(--ease-spring) 980ms backwards;
+}
+html[data-theme='dark'] .sheet-stamp {
+  color: var(--color-dark-text);
+}
+.sheet-caption {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-ink-500);
+}
+html[data-theme='dark'] .sheet-caption {
+  color: var(--color-dark-muted);
+}
+/* A perforated tear line above the footer. */
+.sheet-perf {
+  margin-top: 0.9rem;
+  border-top: 1px dashed var(--rule-strong);
+}
+
+/* Hero copy enters once, in order. */
+.hero-copy > * {
+  animation: rise-in 640ms var(--ease-out-expo) backwards;
+}
+.hero-copy > *:nth-child(1) {
+  animation-delay: 40ms;
+}
+.hero-copy > *:nth-child(2) {
+  animation-delay: 120ms;
+}
+.hero-copy > *:nth-child(3) {
+  animation-delay: 200ms;
+}
+.hero-copy > *:nth-child(4) {
+  animation-delay: 280ms;
+}
+.hero-copy > *:nth-child(5) {
+  animation-delay: 360ms;
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion: scroll reveals and keyframes                                */
+/* ------------------------------------------------------------------ */
+
+/* Elements stay visible unless the head script has confirmed support and no
+   reduced-motion preference, so a failed script never hides content. */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  translate: 0 20px;
+}
+.reveal-ready [data-reveal].is-in {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity var(--duration-reveal) var(--ease-out-expo) var(--reveal-delay, 0ms),
+    translate var(--duration-reveal) var(--ease-out-expo) var(--reveal-delay, 0ms);
+}
+.reveal-ready [data-reveal-group] > [data-reveal]:nth-child(2) {
+  --reveal-delay: 70ms;
+}
+.reveal-ready [data-reveal-group] > [data-reveal]:nth-child(3) {
+  --reveal-delay: 140ms;
+}
+.reveal-ready [data-reveal-group] > [data-reveal]:nth-child(4) {
+  --reveal-delay: 210ms;
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    translate: 0 22px;
+    rotate: -1.4deg;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    rotate: -1.4deg;
+  }
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes line-in {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes draw-tick {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    scale: 1.4;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes content-in {
+  from {
+    opacity: 0;
+    translate: 0 -4px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    translate: 0 -6px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* Newly inserted result rows settle in without re-animating rows already on screen. */
+@supports (transition-behavior: allow-discrete) {
+  .sheet-rows > li,
+  [data-room-items] > li {
+    transition:
+      opacity var(--duration-base) var(--ease-out-expo),
+      translate var(--duration-base) var(--ease-out-expo);
+  }
+  @starting-style {
+    .sheet-rows > li,
+    [data-room-items] > li {
+      opacity: 0;
+      translate: 0 8px;
+    }
+  }
+}
+
+/* Mobile menu panel. */
+.menu-panel {
+  animation: menu-in var(--duration-base) var(--ease-out-expo);
 }
 
 /* Touch targets are at least 44 px (Design_Brief §B.17). */
@@ -446,7 +1178,8 @@ html[data-theme='dark'] .faq-row {
 
 /* Dark mode: borders instead of shadows (Design_Brief §A.5). */
 html[data-theme='dark'] .shadow-sm,
-html[data-theme='dark'] .shadow-md {
+html[data-theme='dark'] .shadow-md,
+html[data-theme='dark'] .shadow-paper {
   box-shadow: none;
 }
 
@@ -456,13 +1189,15 @@ html[data-theme='dark'] .shadow-md {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }
 
-/* Print: a one-page shopping list (PRD Rule 16). Only the results are printed. */
+/* Print: a one-page shopping list (PRD Rule 16). Only the results are printed.
+   Pages mark their non-result sections with .no-print. */
 @media print {
   html,
   html[data-theme='dark'] {
@@ -488,8 +1223,16 @@ html[data-theme='dark'] .shadow-md {
     text-decoration: none;
   }
   .shadow-sm,
-  .shadow-md {
+  .shadow-md,
+  .shadow-paper,
+  .results-sheet {
     box-shadow: none;
+  }
+  .results-sheet {
+    border: 0;
+    border-top: 3px solid var(--color-ink-900);
+    background: none;
+    padding: 0;
   }
   * {
     background-color: transparent !important;

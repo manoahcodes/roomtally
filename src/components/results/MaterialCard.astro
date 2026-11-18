@@ -25,17 +25,17 @@ const { material, title } = Astro.props;
   </h3>
 
   <div>
-    <p class="text-sm font-medium text-ink-500 dark:text-dark-muted">Buy</p>
+    <p class="text-sm font-medium tracking-wide text-ink-500 dark:text-dark-muted">Buy</p>
     <p class="buy-figure font-heading text-h2 font-bold tabular-nums">
       <span data-buy-value></span>
       <span data-buy-unit class="text-h4 font-semibold"></span>
     </p>
-    <p data-pack-line class="text-sm text-ink-700 dark:text-dark-muted"></p>
   </div>
 
-  <p class="text-ink-700 dark:text-dark-muted">
+  <p data-exact-line class="text-ink-700 dark:text-dark-muted">
     Exact need: <span data-exact class="font-medium text-ink-900 dark:text-dark-text"></span>
   </p>
+  <p data-pack-line class="text-sm text-ink-700 dark:text-dark-muted"></p>
   <p data-tiles class="text-sm text-ink-700 dark:text-dark-muted" hidden></p>
 
   <div class="space-y-2 border-t border-cream-300 pt-3 dark:border-dark-border">

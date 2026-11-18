@@ -1,0 +1,71 @@
+---
+/**
+ * The hero's one memorable object: a paper shopping list that draws its own tally
+ * marks (Design_Brief §A.9, §B.16). The figures are the product's real output for an
+ * example 4 m × 3.5 m × 2.4 m room, matching the calculator tests. It is illustrative,
+ * never interactive, and the arrow is decorative; the text is fully readable.
+ *
+ * Motion: one load sequence defined in global.css. Everything stops under
+ * prefers-reduced-motion, and the sheet is still complete without it.
+ */
+// The first visit defaults to US units, so the example speaks the same language.
+const lines = [
+  { name: 'Paint', need: 'exact 2.35 US gal', buy: '4', unit: 'cans' },
+  { name: 'Flooring', need: 'exact 164.45 sq ft', buy: '9', unit: 'boxes' },
+  { name: 'Tile', need: 'exact 161.08 sq ft', buy: '17', unit: 'boxes' },
+  { name: 'Wallpaper', need: 'exact 7.98 rolls', buy: '8', unit: 'rolls' },
+] as const;
+---
+
+<figure class="hero-sheet">
+  <div class="sheet-paper">
+    <div class="flex items-baseline justify-between gap-3">
+      <span class="sheet-brand">Beautally</span>
+      <span class="sheet-number">No. 0042</span>
+    </div>
+
+    <p class="sheet-title">Shopping list</p>
+    <p class="sheet-meta">Example: 13 × 11.5 × 8 ft room</p>
+
+    <ul class="sheet-lines">
+      {lines.map((line) => (
+        <li class="sheet-line">
+          <div class="min-w-0">
+            <p class="sheet-name">{line.name}</p>
+            <p class="sheet-need">{line.need}</p>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <svg
+              class="sheet-tally"
+              width="26"
+              height="14"
+              viewBox="0 0 26 14"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <path pathLength="1" d="M3 1v12" />
+              <path pathLength="1" d="M8 1v12" />
+              <path pathLength="1" d="M13 1v12" />
+              <path pathLength="1" d="M18 1v12" />
+              <path pathLength="1" d="M1 11 20 2" />
+            </svg>
+            <p class="sheet-buy">
+              {line.buy}
+              <small>{line.unit}</small>
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <div class="sheet-perf"></div>
+    <div class="sheet-foot">
+      <p>4 materials · rounded once</p>
+      <span class="sheet-stamp">Estimate</span>
+    </div>
+  </div>
+  <figcaption class="sheet-caption">An example list. Yours follows the room you enter.</figcaption>
+</figure>

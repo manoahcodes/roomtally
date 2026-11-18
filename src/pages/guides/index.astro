@@ -1,11 +1,12 @@
 ---
 /**
- * Guides index (App_Flow §A.1): a card for each guide, lowest `order` first. Reads the
- * guides collection at build time, so a new Markdown file appears here by itself.
- * No ads here: the page is a short list of links.
+ * Guides index (App_Flow §A.1): one ruled row for each guide, lowest `order` first.
+ * Reads the guides collection at build time, so a new Markdown file appears here by
+ * itself. No ads here: the page is a short list of links.
  */
 import { getCollection } from 'astro:content';
 import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import MaterialIcon from '../../components/common/MaterialIcon.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { guideMeta } from '../../lib/seo/meta';
 import { breadcrumbSchema } from '../../lib/seo/schema';
@@ -43,35 +44,47 @@ const longDate = (date: Date): string =>
   ogImage={meta.ogImage}
   jsonLd={[breadcrumbSchema(crumbs)]}
 >
-  <Breadcrumbs items={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))} />
-  <section aria-labelledby="guides-heading" class="mx-auto max-w-3xl space-y-6">
-    <header class="space-y-2">
+  <div class="mx-auto max-w-4xl">
+    <Breadcrumbs items={crumbs.map((crumb) => ({ name: crumb.name, href: crumb.path }))} />
+    <header class="page-head space-y-3">
       <h1 id="guides-heading">Guides</h1>
-      <p class="text-lg text-ink-700 dark:text-dark-muted">
+      <p class="max-w-prose text-lead text-ink-700 dark:text-dark-muted">
         Short, practical guides with a worked example in each. Every figure is an estimate, so check
         the label on what you buy.
       </p>
     </header>
 
-    <ul class="grid gap-4 sm:grid-cols-2">
+    <ul class="mt-10 border-t border-cream-300 dark:border-dark-border">
       {guides.map((guide) => (
-        <li class="card flex flex-col gap-2">
-          <h2 class="text-h4">
-            <a href={`/guides/${guide.id}/`}>{guide.data.title}</a>
-          </h2>
-          <p class="text-ink-700 dark:text-dark-muted">{guide.data.description}</p>
-          <p class="mt-auto text-sm text-ink-500 dark:text-dark-muted">
-            Updated{' '}
-            <time datetime={guide.data.updated.toISOString().slice(0, 10)}>
-              {longDate(guide.data.updated)}
-            </time>
-          </p>
+        <li class="row-link">
+          <div class="grid grid-cols-[1fr_auto] items-baseline gap-4 px-1 py-5">
+            <div class="min-w-0">
+              <h2 class="text-h3">
+                <a href={`/guides/${guide.id}/`}>{guide.data.title}</a>
+              </h2>
+              <p class="mt-1 max-w-prose text-ink-700 dark:text-dark-muted">
+                {guide.data.description}
+              </p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm text-ink-500 dark:text-dark-muted">
+                Updated{' '}
+                <time datetime={guide.data.updated.toISOString().slice(0, 10)}>
+                  {longDate(guide.data.updated)}
+                </time>
+              </p>
+              <MaterialIcon
+                name="arrow"
+                class="row-arrow ml-auto mt-2 size-5 text-clay-600 dark:text-dark-clay"
+              />
+            </div>
+          </div>
         </li>
       ))}
     </ul>
 
-    <p>
+    <p class="mt-8 text-ink-700 dark:text-dark-muted">
       Ready to work out your own list? Try the <a href="/">whole-project estimator</a>.
     </p>
-  </section>
+  </div>
 </BaseLayout>

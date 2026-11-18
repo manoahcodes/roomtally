@@ -53,18 +53,26 @@ const { title, description, canonical, ogImage, jsonLd, noAds = false } = Astro.
           if (localStorage.getItem('beautally:theme') === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
           }
+          // Scroll reveals only arm when motion is welcome and the API exists.
+          // Without this class, every [data-reveal] element stays visible.
+          var reduce = window.matchMedia
+            ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            : true;
+          if (!reduce && 'IntersectionObserver' in window) {
+            document.documentElement.classList.add('reveal-ready');
+          }
         } catch (e) {
-          /* storage blocked: stay on the light default */
+          /* storage or matchMedia blocked: stay on the light, fully visible default */
         }
       })();
     </script>
   </head>
   <body
-    class="min-h-screen bg-cream-50 font-body text-ink-900 dark:bg-dark-bg dark:text-dark-text"
+    class="min-h-dvh bg-cream-50 font-body text-ink-900 dark:bg-dark-bg dark:text-dark-text"
     data-no-ads={noAds ? '' : undefined}
   >
     <Header />
-    <main id="main" class="mx-auto w-full max-w-6xl px-4 py-8">
+    <main id="main" class="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
       <slot />
     </main>
     <Footer />
@@ -73,8 +81,10 @@ const { title, description, canonical, ogImage, jsonLd, noAds = false } = Astro.
       import { initConsent } from '../lib/ui/consent';
       import { initAnalytics } from '../lib/ui/analytics';
       import { initAds } from '../lib/ui/ads';
+      import { initReveal } from '../lib/ui/reveal';
 
       installGlobalErrorHandler();
+      initReveal();
       // Subscribe first so a saved choice restored by the banner is picked up.
       initAnalytics();
       initAds();

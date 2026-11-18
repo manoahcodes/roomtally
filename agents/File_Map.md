@@ -1,4 +1,4 @@
-> **Doc Info** — Last updated: 2026-11-18 · Reason: frontend-design skill moved to a global install
+> **Doc Info** — Last updated: 2026-11-18 · Reason: "Tally & Rule" redesign added MaterialIcon, CalculatorNav, HeroSheet and reveal.ts
 
 # File_Map — Beautally
 
@@ -50,13 +50,17 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
 │   │   │   ├── AdSlot.astro
 │   │   │   └── AffiliateLink.astro
 │   │   ├── calculators/
+│   │   │   ├── CalculatorNav.astro
 │   │   │   └── CalculatorShell.astro
 │   │   ├── common/
 │   │   │   ├── Breadcrumbs.astro
 │   │   │   ├── ConsentButton.astro
 │   │   │   ├── DisclaimerNote.astro
 │   │   │   ├── FaqBlock.astro
+│   │   │   ├── MaterialIcon.astro
 │   │   │   └── UnitSwitch.astro
+│   │   ├── home/
+│   │   │   └── HeroSheet.astro
 │   │   ├── layout/
 │   │   │   ├── Footer.astro
 │   │   │   ├── Header.astro
@@ -118,6 +122,7 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
 │   │       ├── dom.ts
 │   │       ├── printList.ts
 │   │       ├── renderResults.ts
+│   │       ├── reveal.ts
 │   │       └── unitToggle.ts
 │   ├── pages/   # routes
 │   │   ├── 404.astro
@@ -368,7 +373,7 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
 
 ### Styles and tokens
 
-`src/styles/global.css` [design-token file: Tailwind import, theme tokens, dark mode values, print rules, reduced-motion], (imported by BaseLayout.astro)
+`src/styles/global.css` [design-token file: Tailwind import, theme tokens, Tally & Rule surfaces, hero sheet and motion, dark mode values, print rules, reduced-motion], (imported by BaseLayout.astro)
   Layer: 4 · Depends on: `astro.config.ts` · Implements: Design_Brief §A.5 · Built by: Batch 26
   Model after: onwidget/astrowind (MIT; also published as arthelokyo/astrowind):src/assets/styles/tailwind.css — adapt
 
@@ -390,11 +395,17 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
 `src/components/ads/AffiliateLink.astro` [affiliate link with sponsored/nofollow rel and disclosure marker], (used by ShoppingList.astro and guides)
   Layer: 5 · Depends on: `src/data/affiliates.ts`, `src/config/features.ts` · Implements: PRD Rule 15 · Built by: Batch 49
 
-`src/components/calculators/CalculatorShell.astro` [shared wrapper for each single-material calculator page], (used by the four calculator pages)
-  Layer: 5 · Depends on: `src/components/room/RoomForm.astro`, `src/components/results/ShoppingList.astro`, `src/components/common/FaqBlock.astro`, `src/components/common/Breadcrumbs.astro` · Implements: App_Flow §A.1 · Built by: Batch 51
+`src/components/calculators/CalculatorShell.astro` [shared wrapper for each single-material calculator page: ruled page head, material stamp, form and results], (used by the four calculator pages)
+  Layer: 5 · Depends on: `src/components/room/RoomForm.astro`, `src/components/results/ShoppingList.astro`, `src/components/common/FaqBlock.astro`, `src/components/common/Breadcrumbs.astro`, `src/components/common/MaterialIcon.astro`, `src/components/calculators/CalculatorNav.astro` · Implements: App_Flow §A.1 · Built by: Batch 51
+
+`src/components/calculators/CalculatorNav.astro` [shared four-material sub-navigation with aria-current], (used by CalculatorShell)
+  Layer: 5 · Depends on: `src/components/common/MaterialIcon.astro` · Implements: Design_Brief §B.12 · Built by: Batch 51 (redesign)
 
 `src/components/common/Breadcrumbs.astro` [visible breadcrumb trail matching BreadcrumbList JSON-LD], (used by calculator, guide and legal pages)
   Layer: 5 · Depends on: `src/config/site.ts` · Implements: TDD §H.59 · Built by: Batch 40
+
+`src/components/common/MaterialIcon.astro` [one 1.5 px stroke icon family: paint, flooring, tile, wallpaper, ruler, lock, printer, arrow, check], (used by the home material index, CalculatorNav, CalculatorShell and Footer)
+  Layer: 5 · Depends on: — · Implements: Design_Brief §A.8, §B.13 · Built by: Batch 58 (redesign)
 
 `src/components/common/ConsentButton.astro` [button that reopens the cookie preference centre], (used by Footer.astro and the cookies page)
   Layer: 5 · Depends on: `src/lib/ui/consent.ts` · Implements: PRD Rule 14 · Built by: Batch 38
@@ -421,6 +432,9 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
   Layer: 5 · Depends on: `src/lib/state/storage.ts` · Implements: Design_Brief §B.15 · Built by: Batch 35
   Model after: onwidget/astrowind (MIT; also published as arthelokyo/astrowind):src/components/CustomStyles.astro — adapt
 
+`src/components/home/HeroSheet.astro` [the hero's example paper shopping list: tally marks draw once, rows settle, Estimate stamp lands; static text and decorative SVG only], (used by index.astro)
+  Layer: 5 · Depends on: — · Implements: Design_Brief §A.9, §B.13, §B.16 · Built by: Batch 58 (redesign)
+
 `src/components/results/AssumptionsPanel.astro` [expandable panel showing every default and override used], (used by ShoppingList.astro and calculator pages)
   Layer: 5 · Depends on: `src/data/materials.ts` · Implements: PRD Rule 5, NV5 · Built by: Batch 46
 
@@ -442,7 +456,7 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
 
 ### Layouts
 
-`src/layouts/BaseLayout.astro` [page shell: head, Seo, Header, slot, Footer, global.css import, consent init script], (wraps every page)
+`src/layouts/BaseLayout.astro` [page shell: head, Seo, Header, slot, Footer, global.css import, reveal bootstrap, consent init script], (wraps every page)
   Layer: 6 · Depends on: `src/components/layout/Seo.astro`, `src/components/layout/Header.astro`, `src/components/layout/Footer.astro`, `src/styles/global.css` · Implements: Design_Brief §B.12 · Built by: Batch 52
   Model after: onwidget/astrowind (MIT; also published as arthelokyo/astrowind):src/layouts/PageLayout.astro — adapt
 
@@ -471,6 +485,9 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
 `src/lib/ui/unitToggle.ts` [applies region and unit changes to the store and re-renders values], (imported by the Header script)
   Layer: 4 · Depends on: `src/lib/state/projectStore.ts`, `src/data/regions.ts` · Implements: PRD Rule 10, 17 · Built by: Batch 30
 
+`src/lib/ui/reveal.ts` [one-time IntersectionObserver reveals for static sections; inert without JS and under reduced motion], (imported by the BaseLayout script)
+  Layer: 4 · Depends on: — · Implements: Design_Brief §A.9, §B.16 · Built by: Batch 52 (redesign)
+
 `src/lib/ui/bindRoomForm.ts` [connects the room form to the store, validates, shows field errors, triggers results], (imported by the page script on home and calculator pages)
   Layer: 7 · Depends on: `src/lib/state/projectStore.ts`, `src/lib/ui/renderResults.ts`, `src/lib/ui/dom.ts` · Implements: PRD Rule 1, 8 · Built by: Batch 56
 
@@ -489,7 +506,7 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
 `src/pages/flooring-calculator/index.astro` [flooring calculator page], (route /flooring-calculator/)
   Layer: 8 · Depends on: `src/components/calculators/CalculatorShell.astro` · Implements: App_Flow §A.1 · Built by: Batch 61
 
-`src/pages/index.astro` [home page: hero, whole-project estimator, results, intro copy, FAQ, ad slots], (route /)
+`src/pages/index.astro` [home page: hero with animated example sheet, material index, whole-project estimator, how it works, why the list adds up, calculator index, FAQ, ad slots], (route /)
   Layer: 8 · Depends on: `src/layouts/BaseLayout.astro`, `src/components/room/RoomForm.astro`, `src/components/room/RoomList.astro`, `src/components/results/ShoppingList.astro` · Implements: App_Flow §A.1 · Built by: Batch 58
 
 `src/pages/paint-calculator/[room].astro` [generates the four room-type paint pages from src/data/rooms.ts], (routes /paint-calculator/bedroom/, /living-room/, /kitchen/, /bathroom/)

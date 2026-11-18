@@ -1,14 +1,20 @@
 ---
 /**
  * Home page: the whole-project estimator (App_Flow §A.1).
- * Hero (PRD §12), room form and room list, shopping list, how it works, the four
- * single-material calculators, FAQ and two ad slots. The ad slots sit outside the form and
- * results (PRD Rule 12). FaqBlock emits the page's FAQPage JSON-LD, so the questions are
- * not passed to BaseLayout as well. Copy follows PRD §13: short sentences, "estimate",
- * never a promise of accuracy.
+ * Story order: hero with a live example sheet, the four materials as one index, the
+ * estimator itself, how it works, why the list adds up, the single-material
+ * calculators, FAQ and two ad slots. Ads sit outside the form and results
+ * (PRD Rule 12). FaqBlock emits the page's FAQPage JSON-LD, so the questions are
+ * not passed to BaseLayout as well. Copy follows PRD §13: short sentences,
+ * "estimate", never a promise of accuracy.
+ *
+ * Motion: the hero sheet is the one orchestrated moment. Static sections use
+ * [data-reveal], which is inert without JavaScript and under reduced motion.
  */
 import AdSlot from '../components/ads/AdSlot.astro';
 import FaqBlock from '../components/common/FaqBlock.astro';
+import MaterialIcon from '../components/common/MaterialIcon.astro';
+import HeroSheet from '../components/home/HeroSheet.astro';
 import RoomForm from '../components/room/RoomForm.astro';
 import RoomList from '../components/room/RoomList.astro';
 import ShoppingList from '../components/results/ShoppingList.astro';
@@ -19,10 +25,17 @@ import { webApplicationSchema, websiteSchema } from '../lib/seo/schema';
 const meta = homeMeta();
 
 const proofPoints = [
-  'One measurement powers all four calculators.',
-  'Rounds up to real cans, boxes and rolls.',
-  'Private: nothing leaves your browser, no sign-up.',
-];
+  { icon: 'ruler', text: 'One measurement powers all four calculators.' },
+  { icon: 'check', text: 'Rounds up to real cans, boxes and rolls.' },
+  { icon: 'lock', text: 'Private: nothing leaves your browser, no sign-up.' },
+] as const;
+
+const materials = [
+  { key: 'paint', name: 'Paint', unit: 'Cans', href: '/paint-calculator/' },
+  { key: 'flooring', name: 'Flooring', unit: 'Boxes', href: '/flooring-calculator/' },
+  { key: 'tile', name: 'Tile', unit: 'Tiles and boxes', href: '/tile-calculator/' },
+  { key: 'wallpaper', name: 'Wallpaper', unit: 'Rolls', href: '/wallpaper-calculator/' },
+] as const;
 
 const steps = [
   {
@@ -39,28 +52,47 @@ const steps = [
   },
 ];
 
+const principles = [
+  {
+    title: 'Rooms first',
+    text: 'We add every room together, then round up once. It often means fewer packs and less left over.',
+  },
+  {
+    title: 'Assumptions shown',
+    text: 'Coverage, waste and pack sizes sit in the Assumptions panel. You can change any of them.',
+  },
+  {
+    title: 'Buy before need',
+    text: 'The number to buy is the big one. The unrounded need sits quietly beside it.',
+  },
+];
+
 const calculators = [
   {
+    key: 'paint',
     href: '/paint-calculator/',
     name: 'Paint calculator',
     text: 'Cans of paint for walls, ceiling and primer.',
   },
   {
+    key: 'flooring',
     href: '/flooring-calculator/',
     name: 'Flooring calculator',
     text: 'Boxes of flooring with waste included.',
   },
   {
+    key: 'tile',
     href: '/tile-calculator/',
     name: 'Tile calculator',
     text: 'Tiles and boxes for a floor or a wall.',
   },
   {
+    key: 'wallpaper',
     href: '/wallpaper-calculator/',
     name: 'Wallpaper calculator',
     text: 'Rolls of wallpaper, with pattern repeat.',
   },
-];
+] as const;
 
 const faq = [
   {
@@ -101,64 +133,150 @@ const faq = [
   ]}
 >
   <div class="space-y-16 sm:space-y-24">
-    <section aria-labelledby="hero-heading" class="space-y-6 pt-2 sm:pt-8">
-      <h1 id="hero-heading" class="max-w-3xl">
-        Enter your room once and get everything you need to buy.
-      </h1>
-      <p class="max-w-prose text-lg text-ink-700 dark:text-dark-muted">
-        Paint, flooring, tile and wallpaper in one shopping list, with pack sizes and waste built
-        in.
-      </p>
-      <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
-        <a href="#room-form-heading" class="btn btn-primary">
-          Calculate my list
-        </a>
-        <ul class="flex flex-wrap gap-x-6 gap-y-1 text-sm text-ink-700 dark:text-dark-muted">
+    <section
+      aria-labelledby="hero-heading"
+      class="hero-ruled grid gap-12 pb-14 pt-4 lg:grid-cols-12 lg:items-center lg:gap-8 lg:pb-24 lg:pt-10"
+    >
+      <div class="hero-copy lg:col-span-7">
+        <p class="text-sm font-medium text-clay-700 dark:text-dark-clay">
+          Free, private, and ready before you reach the shop.
+        </p>
+        <h1 id="hero-heading" class="mt-4 max-w-[18ch] text-display">
+          Enter your room once and get everything you need to buy.
+        </h1>
+        <p class="mt-5 max-w-prose text-lead text-ink-700 dark:text-dark-muted">
+          Paint, flooring, tile and wallpaper in one shopping list, with pack sizes and waste built
+          in.
+        </p>
+        <div class="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <a href="#room-form-heading" class="btn btn-primary px-5 py-3">
+            Calculate my list
+          </a>
+          <a href="#how-heading" class="text-sm font-medium underline">
+            See how it works
+          </a>
+        </div>
+        <ul class="mt-8 space-y-2.5 border-t border-cream-300 pt-5 dark:border-dark-border">
           {proofPoints.map((point) => (
-            <li>{point}</li>
+            <li class="flex items-start gap-2.5 text-sm text-ink-700 dark:text-dark-muted">
+              <MaterialIcon
+                name={point.icon}
+                class="mt-0.5 size-4 flex-none text-clay-600 dark:text-dark-clay"
+              />
+              <span>{point.text}</span>
+            </li>
           ))}
         </ul>
       </div>
+      <div class="lg:col-span-5 lg:justify-self-end">
+        <HeroSheet />
+      </div>
     </section>
 
-    <div class="grid items-start gap-12 lg:grid-cols-2 lg:gap-10">
-      <div class="space-y-10">
-        <RoomForm mode="project" />
-        <RoomList />
-      </div>
-      <ShoppingList mode="project" />
-    </div>
+    <section aria-label="What Beautally estimates" class="material-strip no-print">
+      <ul>
+        {materials.map((material) => (
+          <li>
+            <a href={material.href}>
+              <span class="icon-box">
+                <MaterialIcon name={material.key} class="size-5" />
+              </span>
+              <span>
+                <span class="material-name">{material.name}</span>
+                <span class="material-unit">{material.unit}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
 
-    <section aria-labelledby="how-heading" class="space-y-8">
-      <h2 id="how-heading">How it works</h2>
-      <ol class="grid gap-8 md:grid-cols-3">
+    <section aria-label="Room estimator" class="scroll-mt-24">
+      <div class="section-head no-print">
+        <h2>The estimator</h2>
+        <p>Enter a room. The list updates for every material.</p>
+      </div>
+      <div class="mt-8 grid items-start gap-10 lg:grid-cols-2 lg:gap-8">
+        <div class="min-w-0 space-y-10">
+          <RoomForm mode="project" />
+          <RoomList />
+        </div>
+        <ShoppingList mode="project" />
+      </div>
+    </section>
+
+    <AdSlot slotKey="inarticle" />
+
+    <section aria-labelledby="how-heading" class="no-print space-y-8">
+      <div class="section-head" data-reveal>
+        <h2 id="how-heading">How it works</h2>
+        <p>Three steps, then one list you can take to the shop.</p>
+      </div>
+      <ol class="grid gap-8 md:grid-cols-3" data-reveal-group>
         {steps.map((step, index) => (
-          <li class="space-y-2 border-t-2 border-ink-900 pt-4 dark:border-dark-text">
-            <p class="font-heading text-h3 font-bold text-clay-600 dark:text-dark-clay">
-              {index + 1}
+          <li class="space-y-3 border-t border-cream-300 pt-5 dark:border-dark-border" data-reveal>
+            <p class="step-ticks" aria-hidden="true">
+              {Array.from({ length: index + 1 }).map(() => (
+                <span class="tick" />
+              ))}
             </p>
-            <h3 class="text-h4">{step.title}</h3>
+            <h3>{step.title}</h3>
             <p class="text-ink-700 dark:text-dark-muted">{step.text}</p>
           </li>
         ))}
       </ol>
     </section>
 
-    <AdSlot slotKey="inarticle" />
+    <section aria-labelledby="why-heading" class="no-print grid gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-4" data-reveal>
+        <h2 id="why-heading">Why the list adds up</h2>
+        <p class="mt-3 max-w-sm text-ink-700 dark:text-dark-muted">
+          The arithmetic is ordinary. The order we do it in is what saves you a second trip.
+        </p>
+      </div>
+      <ol class="lg:col-span-7 lg:col-start-6" data-reveal-group>
+        {principles.map((principle) => (
+          <li
+            class="grid gap-1 border-t border-cream-300 py-5 sm:grid-cols-[9rem_1fr] sm:gap-6 dark:border-dark-border"
+            data-reveal
+          >
+            <p class="font-heading text-h4 font-semibold text-clay-700 dark:text-dark-clay">
+              {principle.title}
+            </p>
+            <p class="text-ink-700 dark:text-dark-muted">{principle.text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
 
-    <section aria-labelledby="calculators-heading" class="space-y-6">
-      <h2 id="calculators-heading">Need just one material?</h2>
-      <ul class="border-t border-cream-300 dark:border-dark-border">
+    <section aria-labelledby="calculators-heading" class="no-print space-y-6">
+      <div class="section-head" data-reveal>
+        <h2 id="calculators-heading">Need just one material?</h2>
+        <p>Four focused calculators, all using the same room form.</p>
+      </div>
+      <ul class="border-t border-cream-300 dark:border-dark-border" data-reveal-group>
         {calculators.map((calculator) => (
-          <li class="row-link grid gap-1 px-1 py-4 sm:grid-cols-[16rem_1fr] sm:gap-6">
-            <h3 class="text-h4">
-              <a href={calculator.href}>{calculator.name}</a>
-            </h3>
-            <p class="text-ink-700 dark:text-dark-muted">{calculator.text}</p>
+          <li
+            class="row-link grid grid-cols-[auto_1fr_auto] items-center gap-4 px-1 py-4"
+            data-reveal
+          >
+            <span class="icon-box">
+              <MaterialIcon name={calculator.key} class="size-5" />
+            </span>
+            <div class="min-w-0">
+              <h3 class="text-h4">
+                <a href={calculator.href}>{calculator.name}</a>
+              </h3>
+              <p class="mt-0.5 text-sm text-ink-700 dark:text-dark-muted">{calculator.text}</p>
+            </div>
+            <MaterialIcon
+              name="arrow"
+              class="row-arrow size-5 flex-none text-clay-600 dark:text-dark-clay"
+            />
           </li>
         ))}
       </ul>
-      <p>
+      <p class="text-ink-700 dark:text-dark-muted">
         New to measuring? Read <a href="/guides/how-to-measure-a-room/">how to measure a room</a>,
         or browse <a href="/guides/">all guides</a>.
       </p>
