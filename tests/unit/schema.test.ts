@@ -21,8 +21,10 @@ import {
   roomMeta,
 } from '../../src/lib/seo/meta';
 import { ROOM_TYPES } from '../../src/data/rooms';
+import { SITE } from '../../src/config/site';
 
-const ORIGIN = 'https://beautally.example';
+// The origin comes from PUBLIC_SITE_URL, which CI and deploys set, so never hardcode it here.
+const ORIGIN = SITE.url;
 
 describe('websiteSchema', () => {
   it('has the required fields', () => {
