@@ -7,6 +7,11 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
 ## 1. Project Directory Tree
 
 ```
+├── .claude/   # agent tooling
+│   └── skills/
+│       └── frontend-design/
+│           ├── LICENSE.txt
+│           └── SKILL.md
 ├── .env.example
 ├── .github/   # CI/CD
 │   ├── dependabot.yml
@@ -602,6 +607,15 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
 
 `.github/workflows/deploy.yml` [deploys dist/ to Cloudflare Pages after CI passes on main], (runs on push to main)
   Layer: 12 · Depends on: `.github/workflows/ci.yml`, `wrangler.toml` · Implements: Engineering_Plan §B.14 · Built by: Batch 86
+
+
+### Agent tooling
+
+`.claude/skills/frontend-design/SKILL.md` [frontend-design skill: guidance for distinctive, intentional UI design; read before building components, layouts and pages], (loaded by Claude Code from .claude/skills; complements Design_Brief tokens, which still win on any conflict)
+  Layer: 0 · Depends on: — · Implements: — · Built by: Not a numbered batch; added outside the build order
+
+`.claude/skills/frontend-design/LICENSE.txt` [licence terms for the frontend-design skill, kept alongside it], (referenced by SKILL.md)
+  Layer: 0 · Depends on: `.claude/skills/frontend-design/SKILL.md` · Implements: — · Built by: Not a numbered batch; added outside the build order
 
 
 ### Documentation (provided)
