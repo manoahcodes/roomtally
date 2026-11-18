@@ -1,4 +1,4 @@
-> **Doc Info** — Last updated: 2026-11-12 · Reason: Switched package manager from npm to pnpm
+> **Doc Info** — Last updated: 2026-11-18 · Reason: frontend-design skill moved to a global install
 
 # File_Map — Beautally
 
@@ -7,11 +7,6 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
 ## 1. Project Directory Tree
 
 ```
-├── .claude/   # agent tooling
-│   └── skills/
-│       └── frontend-design/
-│           ├── LICENSE.txt
-│           └── SKILL.md
 ├── .env.example
 ├── .github/   # CI/CD
 │   ├── dependabot.yml
@@ -611,11 +606,7 @@ Every file the finished project needs. Entry format: `path` [goal], (connections
 
 ### Agent tooling
 
-`.claude/skills/frontend-design/SKILL.md` [frontend-design skill: guidance for distinctive, intentional UI design; read before building components, layouts and pages], (loaded by Claude Code from .claude/skills; complements Design_Brief tokens, which still win on any conflict)
-  Layer: 0 · Depends on: — · Implements: — · Built by: Not a numbered batch; added outside the build order
-
-`.claude/skills/frontend-design/LICENSE.txt` [licence terms for the frontend-design skill, kept alongside it], (referenced by SKILL.md)
-  Layer: 0 · Depends on: `.claude/skills/frontend-design/SKILL.md` · Implements: — · Built by: Not a numbered batch; added outside the build order
+The frontend-design skill (SKILL.md + LICENSE.txt) is installed globally at `~/.claude/skills/frontend-design/`, not in this repository. Claude Code loads it for every project; it complements Design_Brief tokens, which still win on any conflict.
 
 
 ### Documentation (provided)
