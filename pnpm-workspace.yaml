@@ -1,3 +1,12 @@
 allowBuilds:
   esbuild: true
   workerd: true
+
+# Security audit exceptions. Keep each one short-lived and explained.
+audit:
+  ignore:
+    # picomatch ReDoS through repeated extglobs (<=4.0.7, no patched release yet). Only
+    # build tools (Astro, Vite) use it, with our own fixed patterns. No untrusted glob ever
+    # reaches it, and nothing from it ships in the static site. Remove once picomatch has a
+    # fixed release and the lockfile has been updated.
+    - GHSA-fc5q-39xc-vjpf
