@@ -277,6 +277,167 @@
   }
 }
 
+/*
+ * Landing page. The shopping list is one ruled sheet, like a till receipt. Only this sheet
+ * and the room form are boxed; everything else sits on the cream. These rules are outside
+ * @layer so they beat the Tailwind utilities on the same elements (space-y-*, text-h2).
+ */
+.results-sheet {
+  border: 1px solid var(--color-cream-300);
+  border-top: 4px solid var(--color-ink-900);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-cream-100);
+  padding: 1.25rem;
+}
+@media (min-width: 640px) {
+  .results-sheet {
+    padding: 1.5rem;
+  }
+}
+html[data-theme='dark'] .results-sheet {
+  border-color: var(--color-dark-border);
+  border-top-color: var(--color-dark-text);
+  background-color: var(--color-dark-surface);
+}
+/* Inside the sheet, boxes become plain text so nothing is a card inside a card. */
+.results-sheet .card {
+  border-width: 0;
+  border-radius: 0;
+  background-color: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+.results-sheet [data-total] {
+  border-top: 2px solid var(--color-ink-900);
+  padding-top: 0.75rem;
+}
+.results-sheet details.card {
+  border-top: 1px solid var(--color-cream-300);
+  padding-top: 0.75rem;
+}
+html[data-theme='dark'] .results-sheet [data-total] {
+  border-top-color: var(--color-dark-text);
+}
+html[data-theme='dark'] .results-sheet details.card {
+  border-top-color: var(--color-dark-border);
+}
+
+/* One row per material: name and exact need on the left, the number to buy on the right. */
+.sheet-rows > li {
+  padding-block: 1.25rem;
+}
+.sheet-rows > li:first-child {
+  padding-top: 0.5rem;
+}
+.sheet-rows > li + li {
+  border-top: 1px solid var(--color-cream-300);
+}
+html[data-theme='dark'] .sheet-rows > li + li {
+  border-top-color: var(--color-dark-border);
+}
+.sheet-rows [data-material-card] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 1.5rem;
+  row-gap: 0.25rem;
+  align-items: start;
+}
+.sheet-rows [data-material-card] > * {
+  grid-column: 1;
+  margin: 0;
+}
+.sheet-rows [data-material-card] > div:first-of-type {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  text-align: right;
+}
+/* The optional price: one compact line, label on the left and a short field on the right. */
+.sheet-rows [data-material-card] > div:last-of-type {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+  border-top-width: 0;
+  padding-top: 0;
+}
+.sheet-rows [data-material-card] > div:last-of-type label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.sheet-rows [data-price-label] {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--color-ink-700);
+}
+.sheet-rows [data-price-input] {
+  width: 7rem;
+}
+html[data-theme='dark'] .sheet-rows [data-price-label] {
+  color: var(--color-dark-muted);
+}
+.sheet-rows .buy-figure {
+  font-size: var(--text-h1);
+  line-height: 1;
+}
+
+/* Form options: a divider and a summary, not a second box inside the form card. */
+.options-quiet {
+  border-top: 1px solid var(--color-cream-300);
+  padding-top: 0.75rem;
+}
+html[data-theme='dark'] .options-quiet {
+  border-top-color: var(--color-dark-border);
+}
+
+/* A list row that is one big link: the whole row is clickable and shows one focus ring. */
+.row-link {
+  position: relative;
+  border-bottom: 1px solid var(--color-cream-300);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+.row-link:hover {
+  background-color: var(--color-cream-100);
+}
+.row-link a {
+  text-decoration: none;
+}
+.row-link a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.row-link:has(a:focus-visible) {
+  outline: 3px solid var(--color-clay-600);
+  outline-offset: 2px;
+}
+.row-link a:focus-visible {
+  outline: none;
+}
+html[data-theme='dark'] .row-link {
+  border-bottom-color: var(--color-dark-border);
+}
+html[data-theme='dark'] .row-link:hover {
+  background-color: var(--color-dark-surface);
+}
+html[data-theme='dark'] .row-link:has(a:focus-visible) {
+  outline-color: var(--color-dark-clay);
+}
+
+/* FAQ as ruled rows. */
+.faq-quiet {
+  border-top: 1px solid var(--color-cream-300);
+}
+.faq-row {
+  border-bottom: 1px solid var(--color-cream-300);
+}
+html[data-theme='dark'] .faq-quiet {
+  border-top-color: var(--color-dark-border);
+}
+html[data-theme='dark'] .faq-row {
+  border-bottom-color: var(--color-dark-border);
+}
+
 /* Touch targets are at least 44 px (Design_Brief §B.17). */
 @utility touch-target {
   min-height: 2.75rem;

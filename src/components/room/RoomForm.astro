@@ -245,7 +245,7 @@ const describedBy = (id: string, hint?: string): string =>
     <OpeningsFieldset />
 
     {visible.map((key) => (
-      <details class="card" open={mode === 'single'}>
+      <details class={mode === 'project' ? 'options-quiet' : 'card'} open={mode === 'single'}>
         <summary class="touch-target flex cursor-pointer list-none items-center font-medium">
           {groups[key].title}
         </summary>

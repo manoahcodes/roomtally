@@ -8,18 +8,26 @@ import { faqSchema, toJsonLd } from '../../lib/seo/schema';
 
 export interface Props {
   items: { q: string; a: string }[];
+  /** "cards" boxes each question (guides, calculators). "quiet" uses ruled rows. */
+  variant?: 'cards' | 'quiet';
 }
 
-const { items } = Astro.props;
+const { items, variant = 'cards' } = Astro.props;
+const quiet = variant === 'quiet';
 ---
 
 {items.length > 0 && (
   <section aria-labelledby="faq-heading" class="space-y-3">
     <h2 id="faq-heading">Common questions</h2>
-    <div class="space-y-2">
+    <div class:list={[quiet ? 'faq-quiet' : 'space-y-2']}>
       {items.map((item) => (
-        <details class="card group p-0">
-          <summary class="touch-target flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-medium">
+        <details class:list={['group', quiet ? 'faq-row' : 'card p-0']}>
+          <summary
+            class:list={[
+              'touch-target flex cursor-pointer list-none items-center justify-between gap-4 font-medium',
+              quiet ? 'py-4' : 'px-4 py-3',
+            ]}
+          >
             <span>{item.q}</span>
             <span
               aria-hidden="true"
@@ -28,7 +36,9 @@ const { items } = Astro.props;
               +
             </span>
           </summary>
-          <p class="px-4 pb-4 text-ink-700 dark:text-dark-muted">{item.a}</p>
+          <p class:list={['text-ink-700 dark:text-dark-muted', quiet ? 'max-w-prose pb-5' : 'px-4 pb-4']}>
+            {item.a}
+          </p>
         </details>
       ))}
     </div>

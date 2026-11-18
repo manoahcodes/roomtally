@@ -31,7 +31,11 @@ const partners = AFFILIATE_PARTNERS.filter((partner) => partner.enabled);
 const showWhereToBuy = FEATURES.affiliates && partners.length > 0;
 ---
 
-<section data-results aria-labelledby="results-heading" class="space-y-4">
+<section
+  data-results
+  aria-labelledby="results-heading"
+  class:list={['space-y-4', mode === 'project' && 'results-sheet']}
+>
   <h2 id="results-heading" class="text-h3">
     Your shopping list
   </h2>
@@ -49,7 +53,7 @@ const showWhereToBuy = FEATURES.affiliates && partners.length > 0;
         Totals for <span data-result-room-count>1</span> room(s). We add the rooms together first,
         then round up once to whole packs.
       </p>
-      <ul data-card-list class="space-y-4"></ul>
+      <ul data-card-list class:list={[mode === 'project' ? 'sheet-rows' : 'space-y-4']}></ul>
       <p data-total class="card text-lg" hidden>
         Total cost: <span data-total-value class="font-semibold"></span>
         <span class="text-sm text-ink-500 dark:text-dark-muted">(estimate)</span>

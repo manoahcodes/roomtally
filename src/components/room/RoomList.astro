@@ -17,10 +17,13 @@ import { LIMITS } from '../../lib/calc/validation';
   <p data-room-empty class="text-ink-700 dark:text-dark-muted">
     No rooms yet. Enter a room above and choose Calculate my list.
   </p>
-  <ul data-room-items class="space-y-2"></ul>
+  <ul data-room-items></ul>
 
   <template data-room-item-template>
-    <li data-room-item class="card flex flex-wrap items-center justify-between gap-3">
+    <li
+      data-room-item
+      class="flex flex-wrap items-center justify-between gap-3 border-b border-cream-300 py-3 first:border-t dark:border-dark-border"
+    >
       <div>
         <p data-room-name class="font-medium"></p>
         <p data-room-size class="text-sm text-ink-700 dark:text-dark-muted"></p>

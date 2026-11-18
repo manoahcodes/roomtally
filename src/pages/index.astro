@@ -100,8 +100,8 @@ const faq = [
     webApplicationSchema('Beautally', meta.description, '/'),
   ]}
 >
-  <div class="space-y-12">
-    <section aria-labelledby="hero-heading" class="space-y-5">
+  <div class="space-y-16 sm:space-y-24">
+    <section aria-labelledby="hero-heading" class="space-y-6 pt-2 sm:pt-8">
       <h1 id="hero-heading" class="max-w-3xl">
         Enter your room once and get everything you need to buy.
       </h1>
@@ -109,30 +109,34 @@ const faq = [
         Paint, flooring, tile and wallpaper in one shopping list, with pack sizes and waste built
         in.
       </p>
-      <ul class="grid gap-2 sm:grid-cols-3">
-        {proofPoints.map((point) => (
-          <li class="card text-sm">{point}</li>
-        ))}
-      </ul>
-      <a href="#room-form-heading" class="btn btn-primary">
-        Calculate my list
-      </a>
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+        <a href="#room-form-heading" class="btn btn-primary">
+          Calculate my list
+        </a>
+        <ul class="flex flex-wrap gap-x-6 gap-y-1 text-sm text-ink-700 dark:text-dark-muted">
+          {proofPoints.map((point) => (
+            <li>{point}</li>
+          ))}
+        </ul>
+      </div>
     </section>
 
-    <div class="grid items-start gap-8 lg:grid-cols-2">
-      <div class="space-y-8">
+    <div class="grid items-start gap-12 lg:grid-cols-2 lg:gap-10">
+      <div class="space-y-10">
         <RoomForm mode="project" />
         <RoomList />
       </div>
       <ShoppingList mode="project" />
     </div>
 
-    <section aria-labelledby="how-heading" class="space-y-4">
+    <section aria-labelledby="how-heading" class="space-y-8">
       <h2 id="how-heading">How it works</h2>
-      <ol class="grid gap-4 md:grid-cols-3">
+      <ol class="grid gap-8 md:grid-cols-3">
         {steps.map((step, index) => (
-          <li class="card space-y-1">
-            <p class="text-sm font-medium text-ink-500 dark:text-dark-muted">Step {index + 1}</p>
+          <li class="space-y-2 border-t-2 border-ink-900 pt-4 dark:border-dark-text">
+            <p class="font-heading text-h3 font-bold text-clay-600 dark:text-dark-clay">
+              {index + 1}
+            </p>
             <h3 class="text-h4">{step.title}</h3>
             <p class="text-ink-700 dark:text-dark-muted">{step.text}</p>
           </li>
@@ -142,11 +146,11 @@ const faq = [
 
     <AdSlot slotKey="inarticle" />
 
-    <section aria-labelledby="calculators-heading" class="space-y-4">
+    <section aria-labelledby="calculators-heading" class="space-y-6">
       <h2 id="calculators-heading">Need just one material?</h2>
-      <ul class="grid gap-4 sm:grid-cols-2">
+      <ul class="border-t border-cream-300 dark:border-dark-border">
         {calculators.map((calculator) => (
-          <li class="card space-y-1">
+          <li class="row-link grid gap-1 px-1 py-4 sm:grid-cols-[16rem_1fr] sm:gap-6">
             <h3 class="text-h4">
               <a href={calculator.href}>{calculator.name}</a>
             </h3>
@@ -160,7 +164,7 @@ const faq = [
       </p>
     </section>
 
-    <FaqBlock items={faq} />
+    <FaqBlock items={faq} variant="quiet" />
 
     <AdSlot slotKey="bottom" />
   </div>
